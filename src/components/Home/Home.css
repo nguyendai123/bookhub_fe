@@ -1,0 +1,339 @@
+@media screen and (min-width: 786px) {
+  .books-responsive-btn-sm {
+    display: none;
+  }
+}
+.home-page-container {
+  min-height: calc(100vh - 12vh - 95px);
+  padding: 0 200px;
+  display: flex;
+  background-color: #f5f7fa;
+}
+.input-home-add-post {
+  background-color: #e9ecef;
+}
+.home-add-newpost {
+  width: 94%;
+}
+
+.home-page-left-container {
+  flex-direction: row;
+  padding-top: 20px;
+  width: 1200px;
+  flex-grow: grow;
+  margin-right: 50px;
+}
+.input-home {
+  width: 100%;
+}
+
+.home-find-books-btn {
+  background-color: #0284c7;
+  color: white;
+  height: 30px;
+  width: 90px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: none;
+}
+
+@media screen and (max-width: 786px) {
+  .books-responsive-btn-lg {
+    display: none;
+  }
+
+  .top-rated-heading {
+    font-size: 15px;
+  }
+}
+
+.top-rated-home-image {
+  height: 30vh;
+  width: 20vw;
+}
+
+@media screen and (max-width: 787px) {
+  .top-rated-home-image {
+    max-height: 20vh;
+    width: 25vw;
+    margin-top: 5px;
+    align-items: center;
+  }
+}
+
+.top-rated-home-name {
+  font-size: 15px;
+  font-family: inter;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
+.top-rated-books-failure-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-rated-books-failure-btn {
+  border: none;
+  background-color: rgb(0, 119, 255);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+.top-rated-books-failure-image {
+  width: 90%;
+}
+.post-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 20px;
+  width: 94%;
+}
+.author-des {
+  display: flex;
+  justify-content: space-between;
+}
+.avatar {
+  display: flex;
+}
+.avatar-images {
+  border-radius: 50%;
+}
+.author-des-post {
+  margin-left: 10px;
+}
+.author-name {
+  margin: 0;
+  font-weight: bold;
+}
+.post-createat {
+  font-size: 14px;
+}
+.post-content {
+  margin-top: 0.75rem;
+}
+.number-like-comment {
+  display: flex;
+  justify-content: space-between;
+}
+.comment-number {
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+.post-content-body {
+  display: flex;
+  height: 200px;
+  margin-top: 2.75rem;
+  margin-bottom: 2.75rem;
+  gap: 1.5rem;
+}
+.post-content-image-user-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.post-content-image-user-add-1 {
+  max-width: 100%;
+  max-height: 700px;
+  object-fit: cover;
+}
+.post-content-image {
+  width: 150px;
+  height: 225px;
+  border-radius: 5px;
+}
+.btn-post-content-body {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  background-color: #0284c7;
+  font-size: 20px;
+}
+.btn-post-content-body-des {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+.post__comment {
+  margin-top: 0.75rem;
+}
+.like-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comment {
+}
+.comment-item {
+  margin-top: 20px;
+}
+.comment-bar {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 10px 0;
+}
+.dropdown-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.commentitem {
+  display: flex;
+  align-items: center;
+}
+.comment-image {
+  border-radius: 50%;
+  width: 100%;
+}
+.comment-text {
+  padding: 0.75rem;
+  border-radius: 5px;
+  width: 100%;
+}
+.comment-author {
+  display: flex;
+  justify-content: end;
+}
+.comment-author-name {
+  font-weight: bold;
+  margin: 0;
+}
+.comment-des-body {
+  margin: 10px 0;
+  font-size: 14px;
+  background-color: #f0f2f5;
+  padding: 0.5rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+.comment-author-add {
+  margin-top: 20px;
+  display: flex;
+  align-item: center;
+  gap: 0.5rem;
+}
+.comment-input-add {
+  background-color: #f0f2f5;
+  border-radius: 16px;
+  border: 0;
+  padding: 10px 10px;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+}
+.home-page-right-container {
+  padding-top: 20px;
+  width: 30%;
+}
+@media screen and (max-width: 1280px) {
+  .home-page-right-container {
+    display: none;
+  }
+}
+.home-top-rated-container {
+  padding-left: 35px;
+  padding-right: 35px;
+  flex-direction: row;
+  align-items: center;
+
+  background-color: white;
+  border-radius: 5px;
+  padding-bottom: 35px;
+
+  position: sticky;
+  top: 0px;
+}
+.home-rating-book {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.top-rated-heading-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  align-items: center;
+}
+.rating-book-item {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+}
+.number-book-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-blue-gray-700, #334155);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px; /* 133.333% */
+}
+.home-book-image-rating {
+  border-radius: 4px;
+  background: lightgray 0px -322.801px / 100% 261.011% no-repeat;
+}
+.home-book-rating-content {
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.home-book-rating-des {
+}
+.home-book-rating-name {
+  color: var(--light-blue-gray-700, #334155);
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  width: 150px;
+}
+.home-book-rating-author {
+  color: var(--light-blue-gray-600, #475569);
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 114.286% */
+}
+.home-book-rating-star {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  border-radius: 35px;
+  height: 36px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.star-rating {
+}

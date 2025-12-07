@@ -1,0 +1,15 @@
+.top-rated-card-btn {
+  border: none;
+  border-radius: 10px;
+}
+.top-rated-book-item-container {
+  width: 250px !important;
+}
+.slick-slide .slick-active {
+  width: 250px !important;
+}
+.home-book-image-rating {
+}
+.top-rated-book-image {
+  border-radius: 10px 10px 0 0 !important;
+}

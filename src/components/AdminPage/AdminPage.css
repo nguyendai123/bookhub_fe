@@ -1,0 +1,52 @@
+.app-layout {
+  min-height: 100vh;
+}
+.sider-header {
+  padding: 20px;
+  align-items: center;
+  margin: auto;
+  display: flex;
+  line-height: 0;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.content-header {
+  color: black;
+  padding: 10px;
+  align-items: center;
+  background-color: white;
+  display: flex;
+  line-height: 0;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.content {
+  margin: 16px;
+  padding: 16px;
+}
+div.ant-layout-sider-children {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.footer {
+  background-color: white;
+  text-align: center;
+  color: gray;
+}
+.avatar-header {
+  background-color: #87d068;
+}
+.avatar-sider-container {
+  text-align: center;
+  padding: 20px;
+}
+.avatar-sider {
+  background-color: #87d068;
+}
+.search-input {
+  max-width: 200px;
+}
+/* Collapse Button */
+button.ant-btn.css-dev-only-do-not-override-fpg3f5.ant-btn-text.ant-btn-icon-only.collapse-button {
+  font-size: 15px;
+}

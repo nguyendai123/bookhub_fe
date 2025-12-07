@@ -1,0 +1,25 @@
+.group-item-joined {
+  margin: 10px 0;
+}
+.img-group-item-joined {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.group-item-joined-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.joined-content-title {
+  color: #2d2c42;
+  font-weight: 600;
+  font-size: 16px;
+}
+.joined-content-body {
+}
+.joined-content-newcomment {
+}
+.joined-content-time-active {
+}

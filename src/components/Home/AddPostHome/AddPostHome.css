@@ -1,0 +1,37 @@
+.model-content-acount-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+.model-content-add {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.add-post-book {
+  border-radius: 50%;
+  background-color: #eff0f6;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.model-content-btn-submit {
+  margin-top: 20px;
+  background-color: #d9dbe9;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.rec-arrow-right {
+}
+.ibdAiA,
+.bTosVK {
+  line-height: 0px !important;
+  justify-content: flex-end;
+  min-width: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 10px !important;
+}

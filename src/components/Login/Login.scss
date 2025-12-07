@@ -1,0 +1,231 @@
+.login-page {
+    background-color: #c6ceda;
+}
+
+.login-form-container {
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    align-items     : center;
+    height          : calc(100vh - 150px);
+    width           : 100%;
+    margin          : auto;
+    background-color: #dadde1;
+
+}
+
+@media screen and (min-width: 992px) {
+    .login-form-container {
+        flex-direction : row;
+        justify-content: space-around;
+        align-items    : center;
+    }
+}
+
+.login-website-logo-mobile-image {
+    width        : 165px;
+    margin-top   : 50px;
+    margin-bottom: 35px;
+    border-radius: 50%;
+}
+
+@media screen and (min-width: 992px) {
+    .login-website-logo-mobile-image {
+        display      : none;
+        border-radius: none;
+    }
+}
+
+.login-image {
+    width      : 200px;
+    margin-left: 50px;
+}
+
+@media screen and (min-width: 992px) {
+    .login-image {
+        width : 50vw;
+        height: 90vh;
+    }
+}
+
+.form-main-container {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    width          : 500px !important;
+}
+
+@media screen and (max-width: 991px) {
+    .form-main-container {
+        width : 500px;
+        margin: 0 10px 0 10px;
+
+    }
+}
+
+.left-content-login {
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+    text-align     : center;
+}
+
+.login-website-logo-desktop-image {
+
+    width        : 185px;
+    margin       : auto;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 991px) {
+    .login-website-logo-desktop-image {
+        margin-top   : 100px;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .login-image {
+        display: none;
+    }
+
+}
+
+.bookhub-des-login {
+    width    : 400px;
+    font-size: 20px;
+}
+
+.form-container {
+    display         : flex;
+    flex-direction  : column;
+    align-items     : center;
+    padding         : 20px;
+    height          : 400px;
+    border-radius   : 8px;
+    width           : 500px;
+    background-color: #ffffff;
+}
+
+@media screen and (max-width: 992px) {
+    .form-container {
+        width       : 450px;
+        margin-top  : 20px;
+        height      : 400px;
+        flex-shrink : 0;
+        box-shadow  : 0px 8px 40px rgba(7, 7, 7, 0.08);
+        padding     : 12px 48px 44px 48px;
+        justify-self: center;
+    }
+}
+
+.input-container {
+    width         : 300px;
+    height        : 50px;
+    display       : flex;
+    flex-direction: column;
+    margin-top    : 20px;
+    width         : 100%;
+}
+
+.input-label {
+    width        : 85px;
+    height       : 20px;
+    margin-bottom: 0px;
+    font-family  : 'Roboto';
+    font-weight  : bold;
+    line-height  : 16px;
+    color        : #475569;
+}
+
+.input-field {
+    font-size       : 14px;
+    height          : 40px;
+    border          : 1px solid #d7dfe9;
+    background-color: #e2e8f0;
+    color           : #64748b;
+    border-radius   : 2px;
+    margin-top      : 5px;
+    padding         : 8px 16px 8px 16px;
+    outline         : none;
+}
+
+.login-button {
+    padding         : 10px 0;
+    font-family     : 'Roboto';
+    font-weight     : bold;
+    font-size       : 14px;
+    height          : 50px;
+    width           : 100%;
+    margin-top      : 40px;
+    margin-bottom   : 2px;
+    background-color: #0b69ff;
+    border-radius   : 8px;
+    color           : #ffffff;
+    border          : none;
+    outline         : none;
+    cursor          : pointer;
+}
+
+.forgot-pw {
+    margin: 20px 0;
+
+}
+
+.space-login {
+    height          : 1px;
+    width           : 100%;
+    background-color: #dadde1;
+
+}
+
+.register-button {
+    font-family     : 'Roboto';
+    font-weight     : bold;
+    padding         : 10px 0;
+    font-size       : 14px;
+    height          : 50px;
+    width           : 50%;
+    margin-top      : 70px;
+    margin-bottom   : 2px;
+    background-color: #42B72A;
+    border-radius   : 8px;
+    color           : #ffffff;
+    border          : none;
+    outline         : none;
+    cursor          : pointer;
+}
+
+@media screen and (max-width: 991px) {
+    .register-button {
+        margin-top: 0px;
+    }
+}
+
+.error-message {
+    align-self   : flex-start;
+    font-size    : 12px;
+    font-family  : 'Roboto';
+    margin-top   : 3px;
+    margin-bottom: 0px;
+    color        : #ff0b37;
+    line-height  : 16px;
+}
+
+.footer-login {
+    display        : flex;
+    height         : 110px;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : center;
+    gap            : 40px;
+    margin-top     : 40px;
+
+}
+
+.tran-login {
+
+    display        : flex;
+    gap            : 40px;
+    justify-content: center;
+}

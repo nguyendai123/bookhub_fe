@@ -1,0 +1,74 @@
+.group-container {
+  min-height: calc(100vh - 12vh - 95px);
+  margin: 0 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.group-header {
+}
+.group-retry-home {
+  bacground-color: #d9d9d9;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.group-title {
+}
+.group-search {
+  margin: 10px 200px 30px 200px;
+  width: 1370px;
+}
+.group-body {
+  display: flex;
+  gap: 20px;
+}
+.group-body-left {
+  width: 270px;
+}
+@media (max-width: 1300px) {
+  .group-body-left {
+    display: none;
+  }
+}
+.group-body-right {
+  flex: 1;
+}
+.group-search {
+  display: flex;
+}
+.group-create-btn {
+  bacground-color: #42b72a;
+}
+.card-des-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.group-name {
+  color: #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.number-member-group {
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.number-post-day-group {
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
