@@ -110,11 +110,13 @@ const Home = () => {
                 </h1>
 
                 <p className="home-paragraph">
-                  Bạn đã đến đúng nơi rồi. Hãy cho chúng tôi biết những tựa sách hoặc thể loại bạn yêu thích trước đây,
-                  và chúng tôi sẽ đưa ra cho bạn những gợi ý sâu sắc đến bất ngờ.
+                  Bạn đã đến đúng nơi rồi. Hãy cho chúng tôi biết những tựa sách
+                  hoặc thể loại bạn yêu thích trước đây, và chúng tôi sẽ đưa ra
+                  cho bạn những gợi ý sâu sắc đến bất ngờ.
                 </p>
 
                 <AddPostHome load={load} setLoad={setLoad} />
+                <div>vfgds</div>
 
                 <PostCard data={data} load={load} setLoad={setLoad} />
               </div>
@@ -133,7 +135,6 @@ const Home = () => {
                 <RatingBookItem />
               </Card>
             </Col>
-
           </Row>
         </Content>
       </Layout>

@@ -68,7 +68,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
   };
   const handleClickLikePost = (postID) => {
     setUserLike(!userLike);
-    const url = `http://localhost:8080/api/posts/${postID}/like`;
+    const url = `http://localhost:8080/api/like`;
   };
   return (
     <>
@@ -321,7 +321,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
       {console.log("item123 ", data)}
       {data?.content?.map((item) => (
         <div key={"id" + item.postID}>
-          {console.log("item123 ", item)}
+          {console.log("item1234* ", item)}
           <PostCardItem
             isError={isError}
             isLoading={isLoading}
@@ -336,7 +336,6 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
           />
         </div>
       ))}
-
     </>
   );
 }

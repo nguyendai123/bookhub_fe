@@ -203,7 +203,7 @@ const Books = () => {
   };
 
   const cancelbook = (book) => {
-    fetch(`http://localhost:8080/api/books/${book.bookID}`, {
+    fetch(`http://localhost:8080/api/books/${book.bookId}`, {
       method: "DELETE",
     })
       .then((response) => {

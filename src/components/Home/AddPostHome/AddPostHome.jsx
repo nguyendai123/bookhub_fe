@@ -44,7 +44,9 @@ const AddPostHome = ({ load, setLoad }) => {
   const [baseImage, setBaseImage] = useState("");
   const [pageProgressStatus, setPageProgressStatus] = useState(0);
   const username = Cookies.get("user_name");
-  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
+  const avatarUrl = `http://localhost:8080${localStorage.getItem(
+    "data_avatar"
+  )}`;
   const {
     data: dataBooks,
     isLoadingBooks,
@@ -98,9 +100,9 @@ const AddPostHome = ({ load, setLoad }) => {
           pageProgressStatus < pageBook
             ? "In Progress"
             : pageProgressStatus == pageBook
-              ? "Completed"
-              : "want to read";
-        const urlProgress = "http://localhost:8080/api/progresses/create";
+            ? "Completed"
+            : "want to read";
+        const urlProgress = "http://localhost:8080/api/reading/add";
 
         const response1 = await axios.post(urlProgress, {
           book: {

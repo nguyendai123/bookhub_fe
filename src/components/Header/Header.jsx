@@ -69,7 +69,9 @@ const AppHeader = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const currentKey = location.pathname;
-  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
+  const avatarUrl = `http://localhost:8080${localStorage.getItem(
+    "data_avatar"
+  )}`;
   console.log("onClick ", currentKey);
   let navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -86,7 +88,6 @@ const AppHeader = () => {
     <>
       {/* DESKTOP HEADER */}
       <Header className="main-header">
-
         {/* LEFT LOGO */}
         <div className="header-left">
           <Link to="/">
@@ -100,7 +101,10 @@ const AppHeader = () => {
 
         {/* CENTER (ẩn trên mobile) */}
         {!isMobile && (
-          <div className="header-center" style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+          <div
+            className="header-center"
+            style={{ display: "flex", justifyContent: "center", marginTop: 20 }}
+          >
             <Space.Compact
               // style={{ width: 400 }}
               size="large"
@@ -111,10 +115,7 @@ const AppHeader = () => {
                 prefix={<SearchOutlined />}
                 style={{ height: 40, borderRadius: "20px 0 0 20px" }}
               />
-              <Button
-                type="primary"
-                style={{ borderRadius: "0 20px 20px 0" }}
-              >
+              <Button type="primary" style={{ borderRadius: "0 20px 20px 0" }}>
                 Tìm kiếm
               </Button>
               <Menu
@@ -126,17 +127,12 @@ const AppHeader = () => {
                 onClick={(e) => setCurrent(e.key)}
               />
             </Space.Compact>
-
-
           </div>
         )}
-
 
         {/* RIGHT (ẩn trên mobile) */}
         {!isMobile && (
           <div className="header-right">
-
-
             <Profile
               username={Cookies.get("user_name")}
               token={Cookies.get("jwt_token")}
@@ -154,7 +150,6 @@ const AppHeader = () => {
         {isMobile && (
           <FiMenu className="mobile-menu-icon" onClick={() => setOpen(true)} />
         )}
-
       </Header>
 
       {/* MOBILE DRAWER */}

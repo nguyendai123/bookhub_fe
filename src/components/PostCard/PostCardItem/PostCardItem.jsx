@@ -52,11 +52,17 @@ const PostCardItem = ({
   const [userLike, setUserLike] = useState(false);
   const [progress, setProgress] = useState({});
   const [dataCommentPost, setDataCommentPost] = useState();
-  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
+  const avatarUrl = `http://localhost:8080${localStorage.getItem(
+    "data_avatar"
+  )}`;
+  const jwtToken = Cookies.get("jwt_token");
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`,
+  };
   const handleClickComment = async (postID) => {
     const _opencomment = !openComment;
     if (_opencomment) {
-      const urlComment = `http://localhost:8080/api/comment/post/${postID}`;
+      const urlComment = `http://localhost:8080/api/comments/post/${postID}`;
       // Get request using axios with error handling
       await axios
         .get(urlComment)
@@ -127,10 +133,11 @@ const PostCardItem = ({
 
   useEffect(() => {
     async function fetchData() {
-      const url = `http://localhost:8080/api/progresses/${item.user.userID}/${item.book.bookID}`;
+      console.log("book id", item);
+      const url = `http://localhost:8080/api/reading/${item.bookId}`;
 
       await axios
-        .get(url)
+        .get(url, { headers })
         .then((response) => {
           console.log("trang sach", response.data);
           setProgress(response.data);
@@ -144,10 +151,8 @@ const PostCardItem = ({
     fetchData();
   }, []);
   const handleClickLikePost = async (postID) => {
-    const url = `http://localhost:8080/api/posts/${postID}/like`;
-    const urlDislike = `http://localhost:8080/api/posts/${postID}/${Cookies.get(
-      "user_id"
-    )}/dislike`;
+    const url = `http://localhost:8080/api/like`;
+    const urlDislike = `http://localhost:8080/api/unlike`;
 
     try {
       const updatedUserLike = !userLike;
@@ -359,9 +364,7 @@ const PostCardItem = ({
                         {/* create comment */}
                         <form className="comment-author-add">
                           {/* avatar */}
-                          <Avatar
-                            srcImage={avatarUrl}
-                          />
+                          <Avatar srcImage={avatarUrl} />
                           {/* input */}
                           <input
                             type="text"

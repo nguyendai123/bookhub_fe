@@ -69,12 +69,12 @@ const BookShelves = () => {
 
     const booksApi = `http://localhost:8080/api/books`;
 
-    // const jwtToken = Cookies.get("jwt_token");
+    const headers = {
+      Authorization: `Bearer ${Cookies.get("jwt_token")}`,
+    };
     const options = {
       method: "GET",
-      headers: {
-        Authorization: `Bearer`,
-      },
+      headers: { headers },
     };
     const response = await fetch(booksApi, options);
     if (response.ok === true) {
