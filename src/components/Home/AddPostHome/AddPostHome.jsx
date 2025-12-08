@@ -43,7 +43,8 @@ const AddPostHome = ({ load, setLoad }) => {
   const [isBookAddPost, setIsBookAddPost] = useState(false);
   const [baseImage, setBaseImage] = useState("");
   const [pageProgressStatus, setPageProgressStatus] = useState(0);
-  const user_Id = Cookies.get("user_id");
+  const username = Cookies.get("user_name");
+  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
   const {
     data: dataBooks,
     isLoadingBooks,
@@ -97,8 +98,8 @@ const AddPostHome = ({ load, setLoad }) => {
           pageProgressStatus < pageBook
             ? "In Progress"
             : pageProgressStatus == pageBook
-            ? "Completed"
-            : "want to read";
+              ? "Completed"
+              : "want to read";
         const urlProgress = "http://localhost:8080/api/progresses/create";
 
         const response1 = await axios.post(urlProgress, {
@@ -147,20 +148,13 @@ const AddPostHome = ({ load, setLoad }) => {
     <div className="home-add-newpost bg-white p-3 mt-3 rounded border shadow mb-3">
       {/* avatar */}
       <div className="d-flex" type="button">
-        <div className="p-1">
-          <Avatar srcImage={localStorage.getItem("data_avatar")} />
-        </div>
-        <button
-          className="form-control rounded-pill border-0 pointer pe-auto"
+        <Input
+          readOnly
           onClick={() => setOpen(true)}
-        >
-          <input
-            type="text"
-            role="button"
-            className="input-home-add-post form-control rounded-pill border-0 bg-gray pointer pe-auto"
-            placeholder="What's on your mind, John dai?"
-          />
-        </button>
+          prefix={<Avatar srcImage={avatarUrl} size={32} />}
+          placeholder={`Bạn đang nghĩ gì, ${username}?`}
+          style={{ borderRadius: "50px" }}
+        />
         <Modal
           title={
             <Space

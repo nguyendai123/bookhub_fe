@@ -4,7 +4,7 @@ import { useNavigate, redirect } from "react-router-dom";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
 
-import Header from "../Header/Header";
+import AppHeader from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 import { TailSpin } from "react-loader-spinner";
@@ -201,15 +201,13 @@ const BookPage = () => {
 
   return (
     <>
-      <Header />
+      <AppHeader />
       <div className="book-page-bg-container">
         <h1 className="book-heading" key="title">
-          Find Your Next Favorite Books?
+          Tìm cuốn sách yêu thích tiếp theo của bạn?
         </h1>
         <p className="book-paragraph">
-          You are in the right place. Tell us what titles or genres you have
-          enjoyed in the past, and we will give you surprisingly insightful
-          recommendations.
+          Bạn đã đến đúng nơi rồi. Hãy cho chúng tôi biết những tựa sách hoặc thể loại bạn yêu thích trước đây, và chúng tôi sẽ đưa ra cho bạn những gợi ý sâu sắc đến bất ngờ.
         </p>
         <button
           className="book-find-books-btn books-responsive-btn-sm"

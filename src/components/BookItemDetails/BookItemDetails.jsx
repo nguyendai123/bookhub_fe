@@ -4,7 +4,7 @@ import { BsFillStarFill, BsFillHeartFill } from "react-icons/bs";
 import { TailSpin } from "react-loader-spinner";
 
 import FavoriteContext from "../../Context/FavoriteContext";
-import Header from "../Header/Header";
+import AppHeader from "../Header/Header";
 import Footer from "../Footer/Footer";
 import "./BookItemDetails.css";
 import { useEffect, useState } from "react";
@@ -200,7 +200,7 @@ const BookItemDetails = () => {
 
   return (
     <>
-      <Header />
+      <AppHeader />
       <div className="book-details-bg-container">{renderBookDetails()}</div>
       <Footer />
     </>

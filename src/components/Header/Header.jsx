@@ -3,79 +3,76 @@ import Cookies from "js-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { RiCloseCircleFill } from "react-icons/ri";
-import { Input, Menu, Space, Button } from "antd";
-const { Search } = Input;
+import { Layout, Menu, Input, Button, Drawer, Space } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+const { Header } = Layout;
 import "./Header.css";
 import { useState } from "react";
 import Profile from "../Profile/Profile";
-const items = [
-  {
-    label: (
-      <Link className="link" to="/">
-        Home
-      </Link>
-    ),
-    key: "/",
-  },
-  {
-    label: (
-      <Link className="link" to="/ratings">
-        Ratings
-      </Link>
-    ),
-    key: "/ratings",
-  },
-  {
-    label: (
-      <Link className="link" to="/shelf">
-        Bookshelves
-      </Link>
-    ),
-    key: "/shelf",
-  },
-  {
-    label: (
-      <Link className="link" to="/genres">
-        Genres
-      </Link>
-    ),
-    key: "/genres",
-  },
+import useIsMobile from "../customize/useIsMobile ";
 
-  {
-    label: (
-      <Link className="link" to="/authors">
-        Authors
-      </Link>
-    ),
-    key: "/authors",
-  },
-  {
-    label: (
-      <Link className="link" to="/groups">
-        Group
-      </Link>
-    ),
-    key: "/groups",
-  },
-];
 // eslint-disable-next-line react/prop-types
-const Header = () => {
-  const [displayNavbar, setDisplayNavbar] = useState(false);
+const AppHeader = () => {
+  const items = [
+    {
+      label: (
+        <Link className="link" to="/">
+          Home
+        </Link>
+      ),
+      key: "/",
+    },
+    {
+      label: (
+        <Link className="link" to="/ratings">
+          Ratings
+        </Link>
+      ),
+      key: "/ratings",
+    },
+    {
+      label: (
+        <Link className="link" to="/shelf">
+          Bookshelves
+        </Link>
+      ),
+      key: "/shelf",
+    },
+    {
+      label: (
+        <Link className="link" to="/genres">
+          Genres
+        </Link>
+      ),
+      key: "/genres",
+    },
+
+    {
+      label: (
+        <Link className="link" to="/authors">
+          Authors
+        </Link>
+      ),
+      key: "/authors",
+    },
+    {
+      label: (
+        <Link className="link" to="/groups">
+          Group
+        </Link>
+      ),
+      key: "/groups",
+    },
+  ];
   const [, setCurrent] = useState("home");
   const [, setUser] = useState("");
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const currentKey = location.pathname;
-
+  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
   console.log("onClick ", currentKey);
   let navigate = useNavigate();
-  const onClickMenu = () => {
-    setDisplayNavbar(!displayNavbar);
-  };
-
-  const onClickCross = () => {
-    setDisplayNavbar(false);
-  };
+  const isMobile = useIsMobile();
 
   const onClickLogout = () => {
     console.log("logout");
@@ -83,109 +80,104 @@ const Header = () => {
     return navigate("/login");
   };
 
-  const onClickWebSiteLogo = () => {
-    return navigate("/");
-  };
-
   // eslint-disable-next-line react/prop-types
 
   return (
-    <div>
-      <div
-        className="header-container"
-        style={{ display: "flex", alignItems: "center" }}
-      >
-        <div className="header-website-logo1">
-          <Link to="/">
-            <>
-              <img
-                className="header-website-logo"
-                src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
-                alt="website logo"
-                onClick={() => onClickWebSiteLogo()}
-              />
-            </>
-          </Link>
-        </div>
-        <Space.Compact>
-          <Input placeholder="Tìm kiếm..." allowClear style={{ width: 300 }} />
-          <Button type="primary" onClick={() => console.log("Search clicked")}>
-            Search
-          </Button>
-        </Space.Compact>
+    <>
+      {/* DESKTOP HEADER */}
+      <Header className="main-header">
 
-        <Menu
-          style={{
-            height: "35px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onClick={(e) => setCurrent(e.key)}
-          defaultSelectedKeys={["home"]}
-          selectedKeys={[currentKey]}
-          mode="horizontal"
-          items={items}
-        />
-        <Profile
-          token={Cookies.get("jwt_token")}
-          setUser={setUser}
-          userImage={localStorage.getItem("data_avatar")}
-        />
-
-        <button onClick={onClickLogout} className="logout-btn" type="button">
-          Logout
-        </button>
-      </div>
-      <div className="header-navbar-responsive-container">
-        <div className="header-nav-container">
+        {/* LEFT LOGO */}
+        <div className="header-left">
           <Link to="/">
             <img
-              className="header-nav-bar-website-logo"
               src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
-              alt="website logo"
-              onClick={onClickWebSiteLogo}
+              alt="logo"
+              className="header-logo"
             />
           </Link>
-          <button
-            onClick={onClickMenu}
-            className="cross-icon-btn"
-            type="button"
-          >
-            <FiMenu className="menu-icon" />
-          </button>
         </div>
-        {displayNavbar && (
-          <>
-            <div className="header-navbar-tabs-container">
-              <Link className="link" to="/">
-                <p className={`list-item home-tab`}>Home</p>
-              </Link>
-              <Link className="link" to="/shelf">
-                <p className={`bookshelves-tab`}>BookShelves</p>
-              </Link>
-            </div>
-            <div className="header-navbar-tabs-container">
-              <button
-                onClick={onClickLogout}
-                className="logout-btn"
-                type="button"
+
+        {/* CENTER (ẩn trên mobile) */}
+        {!isMobile && (
+          <div className="header-center" style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+            <Space.Compact
+              // style={{ width: 400 }}
+              size="large"
+            >
+              <Input
+                placeholder="Tìm kiếm..."
+                allowClear
+                prefix={<SearchOutlined />}
+                style={{ height: 40, borderRadius: "20px 0 0 20px" }}
+              />
+              <Button
+                type="primary"
+                style={{ borderRadius: "0 20px 20px 0" }}
               >
-                Logout
-              </button>
-              <button
-                onClick={onClickCross}
-                className="cross-icon-btn"
-                type="button"
-              >
-                <RiCloseCircleFill className="cross-icon" />
-              </button>
-            </div>
-          </>
+                Tìm kiếm
+              </Button>
+              <Menu
+                height="30px"
+                mode="horizontal"
+                style={{ marginTop: -10 }}
+                selectedKeys={[currentKey]}
+                items={items}
+                onClick={(e) => setCurrent(e.key)}
+              />
+            </Space.Compact>
+
+
+          </div>
         )}
-      </div>
-    </div>
+
+
+        {/* RIGHT (ẩn trên mobile) */}
+        {!isMobile && (
+          <div className="header-right">
+
+
+            <Profile
+              username={Cookies.get("user_name")}
+              token={Cookies.get("jwt_token")}
+              setUser={setUser}
+              userImage={avatarUrl}
+            />
+
+            <Button className="logout-btn" onClick={onClickLogout}>
+              Logout
+            </Button>
+          </div>
+        )}
+
+        {/* MOBILE ICON */}
+        {isMobile && (
+          <FiMenu className="mobile-menu-icon" onClick={() => setOpen(true)} />
+        )}
+
+      </Header>
+
+      {/* MOBILE DRAWER */}
+      <Drawer
+        title="Menu"
+        placement="left"
+        onClose={() => setOpen(false)}
+        open={open}
+        closeIcon={<RiCloseCircleFill size={24} />}
+      >
+        <Menu
+          mode="vertical"
+          selectedKeys={[currentKey]}
+          items={items}
+          onClick={(e) => setCurrent(e.key)}
+        />
+
+        <Button danger style={{ marginTop: 20 }} onClick={onClickLogout}>
+          Logout
+        </Button>
+      </Drawer>
+    </>
   );
 };
 
-export default Header;
+export default AppHeader;

@@ -29,7 +29,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
   const handleClickComment = () => {
     setOpenComment(!openComment);
   };
-  console.log("dât", data);
+  console.log("dât123", data);
 
   const handleClickEditSave = (postID) => {
     // Assuming the postID, updatedPost, and result are defined and available
@@ -318,24 +318,25 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
           </div>
         </div>
       </Modal>
-      {Array.isArray(data) &&
-        data?.map((item) => (
-          <div key={"id" + item.postID}>
-            {console.log("item123 ", item)}
-            <PostCardItem
-              isError={isError}
-              isLoading={isLoading}
-              data={data}
-              item={item}
-              load={load}
-              setLoad={setLoad}
-              setOpen={setOpen}
-              setValue={setValue}
-              setCurrentValue={setCurrentValue}
-              setPost={setPost}
-            />
-          </div>
-        ))}
+      {console.log("item123 ", data)}
+      {data?.content?.map((item) => (
+        <div key={"id" + item.postID}>
+          {console.log("item123 ", item)}
+          <PostCardItem
+            isError={isError}
+            isLoading={isLoading}
+            data={data}
+            item={item}
+            load={load}
+            setLoad={setLoad}
+            setOpen={setOpen}
+            setValue={setValue}
+            setCurrentValue={setCurrentValue}
+            setPost={setPost}
+          />
+        </div>
+      ))}
+
     </>
   );
 }

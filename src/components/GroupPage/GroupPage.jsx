@@ -1,5 +1,5 @@
 import "./GroupPage.css";
-import Header from "../Header/Header";
+import AppHeader from "../Header/Header";
 import retryHome from "../../assets/retry-home.svg";
 import { SearchOutlined, AudioOutlined } from "@ant-design/icons";
 import { Space, Input } from "antd";
@@ -31,7 +31,7 @@ const GroupPage = () => {
   };
   return (
     <>
-      <Header />
+      <AppHeader />
       <div className="group-container">
         <Space>
           <Space className="group-header">

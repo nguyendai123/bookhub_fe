@@ -49,7 +49,7 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }, // ❗Không cần Authorization khi login
+      },
       body: JSON.stringify(userDetails),
     };
 
@@ -61,7 +61,7 @@ const Login = () => {
       Cookies.set("jwt_token", data.token, { expires: 30, path: "/" });
       Cookies.set("user_id", data.userId, { expires: 30, path: "/" });
       Cookies.set("user_roles", data.roles, { expires: 30, path: "/" });
-
+      Cookies.set("user_name", data.username, { expires: 30, path: "/" });
       localStorage.setItem("data_avatar", data.avatar);
 
       onSubmitSuccess();

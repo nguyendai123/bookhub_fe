@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { TailSpin } from "react-loader-spinner";
 import { BsSearch } from "react-icons/bs";
 
-import Header from "../Header/Header";
+import AppHeader from "../Header/Header";
 
 import Footer from "../Footer/Footer";
 import BookItem from "../BookItem";
@@ -197,7 +197,7 @@ const BookShelves = () => {
 
   return (
     <>
-      <Header />
+      <AppHeader />
       <div>
         <div className="book-shelves-bg-container-lg">
           <div className="book-shelves-filter-container">

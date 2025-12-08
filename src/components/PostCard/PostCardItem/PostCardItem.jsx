@@ -52,6 +52,7 @@ const PostCardItem = ({
   const [userLike, setUserLike] = useState(false);
   const [progress, setProgress] = useState({});
   const [dataCommentPost, setDataCommentPost] = useState();
+  const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
   const handleClickComment = async (postID) => {
     const _opencomment = !openComment;
     if (_opencomment) {
@@ -69,7 +70,7 @@ const PostCardItem = ({
     }
     setOpenComment(_opencomment);
   };
-  console.log("dât", data);
+  console.log("dât111", data);
   console.log("item pót item", item);
   const menu = (
     <Menu>
@@ -359,7 +360,7 @@ const PostCardItem = ({
                         <form className="comment-author-add">
                           {/* avatar */}
                           <Avatar
-                            srcImage={localStorage.getItem("data_avatar")}
+                            srcImage={avatarUrl}
                           />
                           {/* input */}
                           <input
