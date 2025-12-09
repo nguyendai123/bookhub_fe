@@ -98,7 +98,7 @@ const PostCardItem = ({
   const handleClickEditSave = (postID) => {
     // Assuming the postID, updatedPost, and result are defined and available
 
-    const url = `http://localhost:8080/api/posts/update/${postID}`;
+    const url = `http://localhost:8080/api/posts/${postID}`;
 
     // Check for validation errors
     // The request payload and headers
@@ -119,7 +119,7 @@ const PostCardItem = ({
     setLoad(!load);
   };
   const handleDeletePost = (postID) => {
-    const url = `http://localhost:8080/api/posts/delete/${postID}`;
+    const url = `http://localhost:8080/api/posts/${postID}`;
 
     // DELETE request using axios with error handling
     axios
