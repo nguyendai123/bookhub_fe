@@ -178,13 +178,16 @@ const PostCardItem = ({
     }
   };
   return (
-    <div>
+    <>
+      {console.log("data post card", data, "dfjs", item, "progress", progress, isError, isLoading, data.length)}
+
       {!isError && !isLoading && data && data.length > 0 && (
         <div className="post-card">
           {/* author */}
           <div className="author-des">
             {/* avatar */}
-            <Avatar item={item} srcImage={item.user.avatar} />
+
+            <Avatar item={item} srcImage={item.userAvatar} />
             <Dropdown
               overlay={menu}
               trigger={["click"]}
@@ -361,7 +364,7 @@ const PostCardItem = ({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

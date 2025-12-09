@@ -11,7 +11,7 @@ const Avatar = ({ item, srcImage }) => {
       />
 
       <div className="author-des-post">
-        <p className="author-name">{item?.user.username}</p>
+        <p className="author-name">{item?.userName}</p>
         <span className="post-createat">
           {item &&
             moment(item?.createDate).format("dddd, MMMM Do YYYY, h:mm:ss a")}

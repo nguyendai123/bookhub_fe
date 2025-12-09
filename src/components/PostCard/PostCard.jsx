@@ -325,7 +325,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
           <PostCardItem
             isError={isError}
             isLoading={isLoading}
-            data={data}
+            data={data?.content}
             item={item}
             load={load}
             setLoad={setLoad}
