@@ -8,7 +8,7 @@ import BookItemDetails from "./components/BookItemDetails/BookItemDetails";
 import BookPage from "./components/BookPage/BookPage";
 import GroupPage from "./components/GroupPage/GroupPage";
 import AdminPage from "./components/AdminPage/AdminPage";
-import BookShelves from "./components/BookShelves";
+import BookShelves from "./components/BookShelves/BookShelves";
 
 const App = () => {
   return (

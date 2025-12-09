@@ -185,28 +185,6 @@ const PostCardItem = ({
           <div className="author-des">
             {/* avatar */}
             <Avatar item={item} srcImage={item.user.avatar} />
-
-            {/* <div className="avatar">
-              <img
-                src="https://source.unsplash.com/collection/happy-people"
-                alt="avatar"
-                className="avatar-images"
-                style={{ width: 38, height: 38, objectFit: "cover" }}
-              />
-
-              <div className="author-des-post">
-                <p className="author-name">{item.user.username}</p>
-                <span className="post-createat">
-                  {moment(item.createDate).format(
-                    "dddd, MMMM Do YYYY, h:mm:ss a"
-                  )}
-                </span>
-              </div>
-            </div> */}
-            {/* edit */}
-
-            {/* edit menu */}
-
             <Dropdown
               overlay={menu}
               trigger={["click"]}
@@ -243,7 +221,7 @@ const PostCardItem = ({
             </div>
 
             {/* likes & comments */}
-            <div className="post__comment">
+            <div className="post_comment">
               {/* likes */}
               <div
                 className="number-like-comment"

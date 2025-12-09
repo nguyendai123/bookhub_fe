@@ -1,7 +1,7 @@
 import { BsFillStarFill } from "react-icons/bs";
 import FavoriteContext from "../../Context/FavoriteContext";
 import { useNavigate } from "react-router-dom";
-import "./index.css";
+import "./BookItem.css";
 
 const BookItem = (props) => {
   let navigate = useNavigate();

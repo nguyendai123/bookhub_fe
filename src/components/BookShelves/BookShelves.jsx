@@ -5,9 +5,9 @@ import { BsSearch } from "react-icons/bs";
 import AppHeader from "../Header/Header";
 
 import Footer from "../Footer/Footer";
-import BookItem from "../BookItem";
+import BookItem from "../BookItem/BookItem";
 
-import "./index.css";
+import "./BookShelves.css";
 import { useEffect, useState } from "react";
 import { Button, Input, Space } from "antd";
 
