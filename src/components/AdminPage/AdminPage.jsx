@@ -38,11 +38,6 @@ const { Header, Content, Footer, Sider } = Layout;
 
 const AdminPage = () => {
   const [collapsed, setCollapsed] = useState(false);
-  // const [token, setToken] = useState(null);
-  // const pathname = window.location.pathname;
-  // if ((!token || !token.length) && pathname !== "/login") {
-  //   window.location.href = "/login";
-  // }
 
   function getItem(label, key, icon, children, type) {
     return {
@@ -83,25 +78,8 @@ const AdminPage = () => {
     },
   ];
 
-  // const handleSubmit = async (username, password) => {
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:8080/api/auth/login",
-  //       {
-  //         username,
-  //         password,
-  //       }
-  //     );
-  //     const { token } = response.data;
-  //     setToken(token);
-  //   } catch (error) {
-  //     console.error("Error occurred during login:", error);
-  //   }
-  // };
-
   return (
     <>
-      {/* {token ? ( */}
       <Layout className="app-layout">
         <Sider
           className="sider"
@@ -193,19 +171,11 @@ const AdminPage = () => {
             </Routes>
           </Content>
           <Footer className="footer">
-            BookHub <CopyrightOutlined /> 2023 By F1
+            BookHub <CopyrightOutlined /> 2023 By
           </Footer>
           <FloatButton.BackTop visibilityHeight={0} />
         </Layout>
       </Layout>
-      {/* ) : (
-      <Routes>
-        <Route
-          path="/login"
-          element={<LoginForm onSubmit={handleSubmit} />}
-        ></Route>
-      </Routes>
-      )} */}
     </>
   );
 };

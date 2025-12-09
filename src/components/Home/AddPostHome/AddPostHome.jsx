@@ -47,6 +47,12 @@ const AddPostHome = ({ load, setLoad }) => {
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar"
   )}`;
+
+  const jwtToken = Cookies.get("jwt_token");
+
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`,
+  };
   const {
     data: dataBooks,
     isLoadingBooks,
@@ -92,7 +98,7 @@ const AddPostHome = ({ load, setLoad }) => {
           imageData: baseImage,
         };
 
-        const response = await axios.post(url, payload);
+        const response = await axios.post(url, payload, { headers: headers });
         const data = response.data;
         console.log("posts dai api add post", data);
         const pageBook = dataBookAdd.page;
@@ -104,16 +110,20 @@ const AddPostHome = ({ load, setLoad }) => {
             : "want to read";
         const urlProgress = "http://localhost:8080/api/reading/add";
 
-        const response1 = await axios.post(urlProgress, {
-          book: {
-            bookID: idBook,
+        const response1 = await axios.post(
+          urlProgress,
+          {
+            book: {
+              bookID: idBook,
+            },
+            userProgress: {
+              userID: Cookies.get("user_id"),
+            },
+            readPage: pageProgressStatus,
+            status: status,
           },
-          userProgress: {
-            userID: Cookies.get("user_id"),
-          },
-          readPage: pageProgressStatus,
-          status: status,
-        });
+          { headers }
+        );
         const data1 = response1.data;
         console.log("posts dai api progress", data1);
       } catch (error) {

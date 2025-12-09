@@ -65,7 +65,7 @@ const PostCardItem = ({
       const urlComment = `http://localhost:8080/api/comments/post/${postID}`;
       // Get request using axios with error handling
       await axios
-        .get(urlComment)
+        .get(urlComment, { headers })
         .then((response) => {
           console.log("comment jjj", response.data);
           setDataCommentPost(response.data);
@@ -109,7 +109,7 @@ const PostCardItem = ({
     const data = updatedPost;
 
     axios
-      .put(url, data)
+      .put(url, data, { headers })
       .then((response) => {
         console.log(response.data); // Handle success response
       })
@@ -123,7 +123,7 @@ const PostCardItem = ({
 
     // DELETE request using axios with error handling
     axios
-      .delete(url)
+      .delete(url, { headers })
       .then((response) => console.log(response.data))
       .catch((error) => {
         console.error("There was an error!", error);
@@ -158,16 +158,24 @@ const PostCardItem = ({
       const updatedUserLike = !userLike;
 
       if (updatedUserLike) {
-        const response = await axios.post(url, {
-          user: { userID: Cookies.get("user_id") },
-          post: { postID: postID },
-        });
+        const response = await axios.post(
+          url,
+          {
+            user: { userID: Cookies.get("user_id") },
+            post: { postID: postID },
+          },
+          { headers }
+        );
         console.log("Liked post:", response.data);
       } else {
-        const response = await axios.post(urlDislike, {
-          user: { userID: Cookies.get("user_id") },
-          post: { postID: postID },
-        });
+        const response = await axios.post(
+          urlDislike,
+          {
+            user: { userID: Cookies.get("user_id") },
+            post: { postID: postID },
+          },
+          { headers }
+        );
         console.log("Disliked post:", response.data);
       }
 
@@ -179,7 +187,17 @@ const PostCardItem = ({
   };
   return (
     <>
-      {console.log("data post card", data, "dfjs", item, "progress", progress, isError, isLoading, data.length)}
+      {console.log(
+        "data post card",
+        data,
+        "dfjs",
+        item,
+        "progress",
+        progress,
+        isError,
+        isLoading,
+        data.length
+      )}
 
       {!isError && !isLoading && data && data.length > 0 && (
         <div className="post-card">

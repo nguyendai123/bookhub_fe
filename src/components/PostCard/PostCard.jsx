@@ -30,6 +30,11 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
     setOpenComment(!openComment);
   };
   console.log("dât123", data);
+  const jwtToken = Cookies.get("jwt_token");
+
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`,
+  };
 
   const handleClickEditSave = (postID) => {
     // Assuming the postID, updatedPost, and result are defined and available
@@ -45,7 +50,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
     const data = updatedPost;
 
     axios
-      .put(url, data)
+      .put(url, data, { headers })
       .then((response) => {
         console.log(response.data); // Handle success response
       })
@@ -59,17 +64,39 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
 
     // DELETE request using axios with error handling
     axios
-      .delete(url)
+      .delete(url, { headers })
       .then((response) => console.log(response.data))
       .catch((error) => {
         console.error("There was an error!", error);
       });
     setLoad(!load);
   };
-  const handleClickLikePost = (postID) => {
-    setUserLike(!userLike);
+  const handleClickLikePost = async (postID) => {
+    // UI update trước (tối ưu UX)
+    setUserLike((prev) => !prev);
+
     const url = `http://localhost:8080/api/like`;
+    const data = {
+      targetType: "POST",
+      targetId: postID,
+    };
+
+    try {
+      const res = await axios.post(url, data, {
+        headers: {
+          headers,
+        },
+      });
+
+      console.log("Server:", res.data); // Like thành công!
+    } catch (error) {
+      console.error("Error like:", error);
+
+      // rollback UI nếu fail
+      setUserLike((prev) => !prev);
+    }
   };
+
   return (
     <>
       <Modal
