@@ -52,7 +52,7 @@ const PostCardItem = ({
   const [openComment, setOpenComment] = useState(false);
   const [userLike, setUserLike] = useState(false);
   const [progress, setProgress] = useState({});
-  const [dataCommentPost, setDataCommentPost] = useState();
+  const [dataCommentPost, setDataCommentPost] = useState([]);
   const [openShare, setOpenShare] = useState(false);
 
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
@@ -198,7 +198,10 @@ const PostCardItem = ({
           <div className="author-des">
             {/* avatar */}
             {console.log("item avatar PostCardItem", item)}
-            <Avatar item={item} srcImage={`http://localhost:8080${item.userAvatar}`} />
+            <Avatar
+              item={item}
+              srcImage={`http://localhost:8080${item.userAvatar}`}
+            />
             <Dropdown
               overlay={menu}
               trigger={["click"]}
@@ -227,13 +230,9 @@ const PostCardItem = ({
                   alt="post image"
                   className="post-content-image-user-add-1"
                 />
-
               </div>
               <div className="post-content-body">
-                <PostCardItemBookProgress
-                  item={item}
-                  progress={progress}
-                />
+                <PostCardItemBookProgress item={item} progress={progress} />
               </div>
             </div>
 
@@ -247,7 +246,6 @@ const PostCardItem = ({
                 <div className="like-post">
                   <div className="">
                     <img src={likeicon} alt="like" />
-
                   </div>
 
                   <LikeCount item={item} userLike={userLike} />
@@ -263,8 +261,6 @@ const PostCardItem = ({
 
               <div className="comment" id="accordionExample">
                 <div className="comment-item">
-
-
                   {/* comment collapse */}
 
                   <hr style={{ marginTop: "15px" }} />
@@ -307,7 +303,6 @@ const PostCardItem = ({
                       <img src={iconshare} alt="share" />
                       <span>&nbsp; &nbsp;Share</span>
                     </div>
-
                   </div>
                   {/* comment expand */}
                   {openComment && (
@@ -331,8 +326,6 @@ const PostCardItem = ({
                             setDataCommentPost((prev) => [...prev, newComment]);
                           }}
                         />
-
-
 
                         {/* end */}
                       </div>
