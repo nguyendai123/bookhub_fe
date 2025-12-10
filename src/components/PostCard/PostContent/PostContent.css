@@ -1,0 +1,52 @@
+.post-content-wrapper {
+    position: relative;
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.post-content {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
+}
+
+.post-content.clamped {
+    -webkit-line-clamp: 4;
+}
+
+.post-content.expanded {
+    display: block;
+}
+
+.fade-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 32px;
+    height: 48px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 90%);
+}
+
+.btn-toggle {
+    background: none;
+    border: none;
+    color: #1877f2;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.post-content a {
+    color: #1877f2;
+    text-decoration: none;
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+}

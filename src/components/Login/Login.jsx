@@ -136,6 +136,7 @@ const Login = () => {
             <div className="space-login"></div>
 
             <button
+              type="button"
               className="register-button"
               onClick={() => navigate("/register")}
             >

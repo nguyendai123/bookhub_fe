@@ -9,6 +9,7 @@ import axios from "axios";
 import AccountHeader from "../AccountHeader/AccountHeader";
 import { Button, Dropdown, Modal, Space, Popover, ConfigProvider } from "antd";
 import { Input } from "antd";
+import Cookies from "js-cookie";
 import PostCardItem from "./PostCardItem/PostCardItem";
 
 const { TextArea } = Input;
@@ -70,31 +71,6 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
         console.error("There was an error!", error);
       });
     setLoad(!load);
-  };
-  const handleClickLikePost = async (postID) => {
-    // UI update trước (tối ưu UX)
-    setUserLike((prev) => !prev);
-
-    const url = `http://localhost:8080/api/like`;
-    const data = {
-      targetType: "POST",
-      targetId: postID,
-    };
-
-    try {
-      const res = await axios.post(url, data, {
-        headers: {
-          headers,
-        },
-      });
-
-      console.log("Server:", res.data); // Like thành công!
-    } catch (error) {
-      console.error("Error like:", error);
-
-      // rollback UI nếu fail
-      setUserLike((prev) => !prev);
-    }
   };
 
   return (

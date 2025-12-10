@@ -1,6 +1,7 @@
 .register-page {
   background-color: #c6ceda;
 }
+
 .register-form-container {
   display: flex;
   flex-direction: column;
@@ -9,6 +10,7 @@
   height: calc(100vh - 150px);
   width: 100%;
   margin: auto;
+  z-index: 1;
   background-color: #dadde1;
 }
 
@@ -72,6 +74,7 @@
   margin: auto;
   margin-bottom: 10px;
 }
+
 @media screen and (max-width: 991px) {
   .register-website-logo-desktop-image {
     margin-top: 100px;
@@ -159,6 +162,7 @@
   outline: none;
   cursor: pointer;
 }
+
 @media screen and (max-width: 991px) {
   .register-button {
     margin-top: 20px;
@@ -174,12 +178,14 @@
   color: #ff0b37;
   line-height: 16px;
 }
+
 .Signup-btn {
   display: flex;
   gap: 20px;
 }
 
 .footer-register {
+  z-index: -1000;
   display: flex;
   height: 110px;
   flex-direction: column;

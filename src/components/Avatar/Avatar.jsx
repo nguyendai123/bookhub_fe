@@ -1,8 +1,15 @@
 import React from "react";
 import moment from "moment";
+import "moment/locale/vi"; // nạp tiếng Việt
+
+
+
 const Avatar = ({ item, srcImage }) => {
+  const time = moment(item?.updatedAt).fromNow();
+  moment.locale("vi");
   return (
     <div className="avatar">
+      {console.log("srcImage avatar", srcImage, " item", item)}
       <img
         src={srcImage ?? "https://source.unsplash.com/collection/happy-people"}
         alt="avatar"
@@ -14,7 +21,9 @@ const Avatar = ({ item, srcImage }) => {
         <p className="author-name">{item?.userName}</p>
         <span className="post-createat">
           {item &&
-            moment(item?.createDate).format("dddd, MMMM Do YYYY, h:mm:ss a")}
+            <span>
+              {moment(item?.updatedAt).fromNow().replace(/^\w/, c => c.toUpperCase())}
+            </span>}
         </span>
       </div>
     </div>

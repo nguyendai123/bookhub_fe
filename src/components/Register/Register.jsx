@@ -11,17 +11,14 @@ const Register = () => {
   const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
-  const onSubmitSuccuss = (jwtToken) => {
-    return navigate("/");
+
+  const onSubmitSuccuss = () => {
+    navigate("/login"); // hoặc navigate("/") tùy bạn
   };
 
-  const onSubmitFailure = () => {
+  const onSubmitFailure = (msg) => {
     setShowSubmitError(true);
-    setErrorMsg("Username or Password is Invalid");
-  };
-
-  const onSubmitForm = async (event) => {
-    event.preventDefault();
+    setErrorMsg(msg || "Register failed!");
   };
 
   const onChangePassword = (event) => {
@@ -31,8 +28,50 @@ const Register = () => {
   const onChangeUsername = (event) => {
     setUsername(event.target.value);
   };
+
+  const onChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
   const handleCancelClick = () => {
     return navigate("/");
+  };
+
+  // -------------------------
+  // 🔥 GỌI API ĐĂNG KÝ Ở ĐÂY
+  // -------------------------
+  const onSubmitForm = async (event) => {
+    event.preventDefault();
+
+    const apiUrl = "http://localhost:8080/api/auth/register";
+
+    const bodyData = {
+      username: username,
+      email: email,
+      role: ["USER"],
+      password: password,
+    };
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
+
+      const data = await response.json();
+      console.log("Register response: ", data);
+
+      if (response.ok) {
+        onSubmitSuccuss();
+      } else {
+        onSubmitFailure(data.message || "Registration failed");
+      }
+    } catch (error) {
+      onSubmitFailure("Cannot connect to server");
+    }
   };
   return (
     <div className="register-page">
@@ -90,7 +129,6 @@ const Register = () => {
                   onChange={(e) => onChangePassword(e)}
                 />
               </>
-              {showSubmitError && <p className="error-message">{errorMsg}</p>}
             </div>
             <div className="input-container">
               <>
@@ -106,7 +144,6 @@ const Register = () => {
                   onChange={(e) => onChangeEmail(e)}
                 />
               </>
-              {showSubmitError && <p className="error-message">{errorMsg}</p>}
             </div>
             <div className="Signup-btn">
               <button className="register-button" onClick={handleCancelClick}>
@@ -117,12 +154,12 @@ const Register = () => {
           </form>
         </div>
       </div>
-      <div className="footer-login">
-        <div className="tran-login">
+      <div className="footer-register">
+        <div className="tran-register">
           <div>English (UK)</div>
           <div>Tiếng Việt</div>
         </div>
-        <div>Copyright @ 2023</div>
+        <div>Copyright @ 2025</div>
       </div>
     </div>
   );
