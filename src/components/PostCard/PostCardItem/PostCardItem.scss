@@ -1,0 +1,44 @@
+.shared-original-post {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #f0f2f5;
+    border: 1px solid #ddd;
+    cursor: pointer;
+
+    /* Lệch sang phải nhẹ giống Facebook */
+    margin-left: 40px;
+    /* 👈 lệch sang phải */
+}
+
+.original-post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.original-post-header .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.original-post-content {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.original-post-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    object-fit: cover;
+}
+
+.original-post-disabled-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6b7280;
+}

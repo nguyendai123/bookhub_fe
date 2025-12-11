@@ -116,7 +116,6 @@ const Home = () => {
                 </p>
 
                 <AddPostHome load={load} setLoad={setLoad} />
-                <div>vfgds</div>
 
                 <PostCard data={data} load={load} setLoad={setLoad} />
               </div>

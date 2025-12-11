@@ -26,6 +26,8 @@ import PostContent from "../PostContent/PostContent";
 import Avatar from "../../Avatar/Avatar";
 import CommentAddForm from "./CommentAddForm/CommentAddForm";
 import ShareModal from "./ShareModal/ShareModal";
+import OriginalPostModal from "./OriginalPostModal/OriginalPostModal";
+import "./PostCardItem.scss"
 import Cookies from "js-cookie";
 
 const { TextArea } = Input;
@@ -37,6 +39,7 @@ const breakPoints = [
   { width: 1200, itemsToShow: 3 },
 ];
 const PostCardItem = ({
+  isModal = false,
   isError,
   isLoading,
   data,
@@ -50,10 +53,12 @@ const PostCardItem = ({
 }) => {
   const [currentValue] = useState(2);
   const [openComment, setOpenComment] = useState(false);
-  const [userLike, setUserLike] = useState(false);
+  const [userLike, setUserLike] = useState(item?.isLiked);
   const [progress, setProgress] = useState({});
   const [dataCommentPost, setDataCommentPost] = useState([]);
   const [openShare, setOpenShare] = useState(false);
+  const [openOriginal, setOpenOriginal] = useState(false);
+
 
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar"
@@ -193,16 +198,17 @@ const PostCardItem = ({
       )}
 
       {!isError && !isLoading && data && data.length > 0 && (
-        <div className="post-card">
+        <div className={isModal ? "post-card-modal" : "post-card"}>
           {/* author */}
           <div className="author-des">
             {/* avatar */}
+
             {console.log("item avatar PostCardItem", item)}
             <Avatar
               item={item}
               srcImage={`http://localhost:8080${item.userAvatar}`}
             />
-            <Dropdown
+            {!isModal && (<Dropdown
               overlay={menu}
               trigger={["click"]}
               placement="bottomRight"
@@ -214,11 +220,42 @@ const PostCardItem = ({
               >
                 <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
               </svg>
-            </Dropdown>
+            </Dropdown>)}
           </div>
           {/* post content */}
           <div className="post-content">
             {/* content */}
+            {item.shareOf && item.originalPost && (
+              <div
+                className="shared-original-post"
+                onClick={() => setOpenOriginal(true)}
+              >
+                <div className="original-post-header">
+                  <img
+                    src={`http://localhost:8080${item.originalPost.userAvatar}`}
+                    className="avatar"
+                  />
+                  <span>{item.originalPost.userName}</span>
+                </div>
+
+                <div className="original-post-content">
+                  {item.originalPost.content}
+                </div>
+
+                {item.originalPost.imageUrl && (
+                  <img
+                    src={`http://localhost:8080${item.originalPost.imageUrl}`}
+                    className="original-post-image"
+                    alt="original post"
+                  />
+                )}
+
+                <div className="original-post-disabled-info">
+                  {item.originalPost.likesCount} likes • {item.originalPost.commentsCount} comments
+                </div>
+              </div>
+            )}
+
 
             <div>
               {console.log("item PostCardItem", item)}
@@ -235,6 +272,8 @@ const PostCardItem = ({
                 <PostCardItemBookProgress item={item} progress={progress} />
               </div>
             </div>
+
+
 
             {/* likes & comments */}
             <div className="post_comment">
@@ -346,6 +385,15 @@ const PostCardItem = ({
           </div>
         </div>
       )}
+      <OriginalPostModal
+
+        data={data}
+        setLoad={setLoad}
+        open={openOriginal}
+        onClose={() => setOpenOriginal(false)}
+        post={item.originalPost}
+      />
+
     </>
   );
 };
