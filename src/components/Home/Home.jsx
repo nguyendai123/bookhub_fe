@@ -10,6 +10,7 @@ import PostCard from "../PostCard/PostCard";
 import RatingBookItem from "../RatingBookItem/RatingBookItem";
 import AddPostHome from "./AddPostHome/AddPostHome";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const topRatedApiStatuses = {
   initial: "INITIAL",
@@ -27,6 +28,40 @@ const Home = () => {
   const headers = {
     Authorization: `Bearer ${jwtToken}`,
   };
+  useEffect(() => {
+    const token = Cookies.get("jwt_token");
+
+    // Không có token
+    if (!token) {
+      console.log("Không tồn tại jwt_token → redirect login");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decoded.exp < currentTime) {
+        console.log("JWT token đã hết hạn");
+
+        // Xóa token hết hạn
+        Cookies.remove("jwt_token");
+        Cookies.remove("user_id");
+        Cookies.remove("user_roles");
+        Cookies.remove("user_name");
+
+        navigate("/login");
+        return;
+      }
+
+      console.log("Token hợp lệ → vào trang Home");
+    } catch (error) {
+      console.log("JWT không hợp lệ → redirect login");
+      Cookies.remove("jwt_token");
+      navigate("/login");
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {

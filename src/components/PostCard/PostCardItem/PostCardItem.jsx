@@ -27,7 +27,7 @@ import Avatar from "../../Avatar/Avatar";
 import CommentAddForm from "./CommentAddForm/CommentAddForm";
 import ShareModal from "./ShareModal/ShareModal";
 import OriginalPostModal from "./OriginalPostModal/OriginalPostModal";
-import "./PostCardItem.scss"
+import "./PostCardItem.scss";
 import Cookies from "js-cookie";
 
 const { TextArea } = Input;
@@ -58,7 +58,6 @@ const PostCardItem = ({
   const [dataCommentPost, setDataCommentPost] = useState([]);
   const [openShare, setOpenShare] = useState(false);
   const [openOriginal, setOpenOriginal] = useState(false);
-
 
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar"
@@ -141,6 +140,10 @@ const PostCardItem = ({
 
   useEffect(() => {
     async function fetchData() {
+      if (!item?.bookId || !item?.userId) {
+        console.log("item.bookId hoặc item.userId NULL → không fetch API");
+        return;
+      }
       console.log("book id", item);
       const url = `http://localhost:8080/api/reading/${item.userId}/${item.bookId}`;
 
@@ -157,7 +160,7 @@ const PostCardItem = ({
       setLoad(!load);
     }
     fetchData();
-  }, []);
+  }, [item.bookId, item.userId]);
   const handleClickLikePost = async (postId) => {
     // UI update trước (tối ưu UX)
     setUserLike((prev) => !prev);
@@ -208,19 +211,21 @@ const PostCardItem = ({
               item={item}
               srcImage={`http://localhost:8080${item.userAvatar}`}
             />
-            {!isModal && (<Dropdown
-              overlay={menu}
-              trigger={["click"]}
-              placement="bottomRight"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 512 512"
+            {!isModal && (
+              <Dropdown
+                overlay={menu}
+                trigger={["click"]}
+                placement="bottomRight"
               >
-                <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
-              </svg>
-            </Dropdown>)}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
+                </svg>
+              </Dropdown>
+            )}
           </div>
           {/* post content */}
           <div className="post-content">
@@ -251,11 +256,11 @@ const PostCardItem = ({
                 )}
 
                 <div className="original-post-disabled-info">
-                  {item.originalPost.likesCount} likes • {item.originalPost.commentsCount} comments
+                  {item.originalPost.likesCount} likes •{" "}
+                  {item.originalPost.commentsCount} comments
                 </div>
               </div>
             )}
-
 
             <div>
               {console.log("item PostCardItem", item)}
@@ -272,8 +277,6 @@ const PostCardItem = ({
                 <PostCardItemBookProgress item={item} progress={progress} />
               </div>
             </div>
-
-
 
             {/* likes & comments */}
             <div className="post_comment">
@@ -386,14 +389,12 @@ const PostCardItem = ({
         </div>
       )}
       <OriginalPostModal
-
         data={data}
         setLoad={setLoad}
         open={openOriginal}
         onClose={() => setOpenOriginal(false)}
         post={item.originalPost}
       />
-
     </>
   );
 };
