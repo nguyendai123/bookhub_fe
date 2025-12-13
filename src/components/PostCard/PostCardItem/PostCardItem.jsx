@@ -230,6 +230,7 @@ const PostCardItem = ({
           {/* post content */}
           <div className="post-content">
             {/* content */}
+            <PostContent content={item.content} />
             {item.shareOf && item.originalPost && (
               <div
                 className="shared-original-post"
@@ -264,7 +265,7 @@ const PostCardItem = ({
 
             <div>
               {console.log("item PostCardItem", item)}
-              <PostContent content={item.content} />
+
               <div className="post-content-image-user-add">
                 <Image
                   src={`http://localhost:8080${item.imageUrl}`}
