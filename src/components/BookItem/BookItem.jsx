@@ -31,7 +31,7 @@ const BookItem = (props) => {
               >
                 <img
                   className="book-item-cover-pic"
-                  src={coverPic}
+                  src={`http://localhost:8080${coverPic}`}
                   alt={title}
                 />
               </button>

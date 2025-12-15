@@ -10,11 +10,12 @@ import BookItem from "../BookItem/BookItem";
 import "./BookShelves.css";
 import { useEffect, useState } from "react";
 import { Button, Input, Space } from "antd";
+import axios from "axios";
 
 const bookshelvesList = [
   {
     id: "22526c8e-680e-4419-a041-b05cc239ece4",
-    value: "ALL",
+    value: "Tất cả sách",
     label: "All",
   },
   {
@@ -50,44 +51,44 @@ const BookShelves = () => {
   const [activeFilterLabel, setActiveFilterLabel] = useState(
     bookshelvesList[0].label
   );
+  const jwtToken = Cookies.get("jwt_token");
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`,
+  };
 
   useEffect(() => {
     async () => getBooksApiData(), getBooksApiData();
   }, []);
 
-  const updatedBooksList = (booksList) =>
-    booksList?.map((eachBook) => ({
-      id: eachBook.bookID,
-      title: eachBook.title,
-      readStatus: eachBook.read_status,
-      authorName: eachBook.author,
-      coverPic: eachBook.image,
+  const updatedBooksList = (books) =>
+    books.map((book) => ({
+      id: book.bookId,
+      title: book.title,
+      authorName: book.author?.name,
+      coverPic: book.coverUrl,
+      avgRating: book.avgRating,
+      totalReviews: book.totalReviews,
+      totalPages: book.totalPages,
+      genres: book.genres?.map((g) => g.name),
     }));
 
   const getBooksApiData = async () => {
-    setBooksApiStatus(bookApiStatuses.inProgress);
+    try {
+      setBooksApiStatus(bookApiStatuses.inProgress);
 
-    const booksApi = `http://localhost:8080/api/books`;
+      const { data } = await axios.get(
+        "http://localhost:8080/api/books/search",
+        { headers }
+      );
 
-    const headers = {
-      Authorization: `Bearer ${Cookies.get("jwt_token")}`,
-    };
-    const options = {
-      method: "GET",
-      headers: { headers },
-    };
-    const response = await fetch(booksApi, options);
-    if (response.ok === true) {
-      const fetchedData = await response.json();
+      setBooksData({
+        books: updatedBooksList(data),
+        total: data.length,
+      });
 
-      const updatedData = {
-        books: updatedBooksList(fetchedData),
-        total: fetchedData.length,
-      };
-      console.log("kkk", updatedData);
-      setBooksData(updatedData);
       setBooksApiStatus(bookApiStatuses.success);
-    } else {
+    } catch (error) {
+      console.error(error);
       setBooksApiStatus(bookApiStatuses.failure);
     }
   };

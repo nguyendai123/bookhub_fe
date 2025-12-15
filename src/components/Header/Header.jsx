@@ -33,35 +33,10 @@ const AppHeader = () => {
     {
       label: (
         <Link className="link" to="/shelf">
-          Bookshelves
+          My Bookshelf
         </Link>
       ),
       key: "/shelf",
-    },
-    {
-      label: (
-        <Link className="link" to="/genres">
-          Genres
-        </Link>
-      ),
-      key: "/genres",
-    },
-
-    {
-      label: (
-        <Link className="link" to="/authors">
-          Authors
-        </Link>
-      ),
-      key: "/authors",
-    },
-    {
-      label: (
-        <Link className="link" to="/groups">
-          Group
-        </Link>
-      ),
-      key: "/groups",
     },
   ];
   const [, setCurrent] = useState("home");

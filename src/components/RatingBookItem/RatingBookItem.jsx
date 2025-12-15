@@ -21,16 +21,18 @@ function RatingBookItem() {
                   height: "200px",
                   borderRadius: "10px",
                 }}
-                src={item.image}
-                alt="imageBook1"
+                src={`http://localhost:8080${item?.coverUrl}`}
+                alt="imageBook"
                 className="home-book-image-rating"
               />
               <div className="home-book-rating-content">
                 <div className="home-book-rating-des">
-                  <div className="home-book-rating-name">{item.title}</div>
-                  <div className="home-book-rating-author">{item.author}</div>
+                  <div className="home-book-rating-name">{item?.title}</div>
+                  <div className="home-book-rating-author">
+                    {item?.author?.name}
+                  </div>
                 </div>
-                <Rate allowHalf defaultValue={item.rate} disabled />
+                <Rate allowHalf defaultValue={item?.avgRating} disabled />
               </div>
             </div>
           )}

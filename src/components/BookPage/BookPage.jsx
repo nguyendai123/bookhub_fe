@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import Slider from "react-slick";
 import { useNavigate, redirect } from "react-router-dom";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import AppHeader from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -10,7 +10,8 @@ import Footer from "../Footer/Footer";
 import { TailSpin } from "react-loader-spinner";
 import "./BookPage.scss";
 import { useEffect, useState } from "react";
-import { Rate, Space } from "antd";
+import { Rate, Space, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 const topRatedApiStatuses = {
   initial: "INITIAL",
@@ -19,50 +20,31 @@ const topRatedApiStatuses = {
   inProgress: "IN_PROGRESS",
 };
 
-const settings = {
+const sliderSettings = {
   dots: false,
+  arrows: true,
   infinite: false,
   autoplay: true,
   slidesToScroll: 1,
   slidesToShow: 4,
+  vertical: false,
+  verticalSwiping: false,
+
+  swipeToSlide: true,
+  draggable: true,
   responsive: [
-    {
-      breakpoint: 1800,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1400,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1000,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 500,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
+    { breakpoint: 1800, settings: { slidesToShow: 3 } },
+    { breakpoint: 1400, settings: { slidesToShow: 2 } },
+    { breakpoint: 1000, settings: { slidesToShow: 1 } },
   ],
 };
-
 const BookPage = () => {
   let navigate = useNavigate();
   const [topRatedApiStatus, setTopRatedApiStatus] = useState(
     topRatedApiStatuses.initial
   );
   const [topRatedBooks, setTopRatedBooks] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
   useEffect(() => {
     getTopRatedBooks();
   }, []);
@@ -70,86 +52,76 @@ const BookPage = () => {
   const getTopRatedBooks = async () => {
     setTopRatedApiStatus(topRatedApiStatuses.inProgress);
 
-    const topRatedBooksApi = "http://localhost:8080/api/books/search?keyword=";
     const jwtToken = Cookies.get("jwt_token");
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    };
-    const response = await fetch(topRatedBooksApi, options);
-    if (response.ok === true) {
-      const fetchedData = await response.json();
-      console.log("hello", fetchedData);
-      const booksList = fetchedData;
-      const updatedData = booksList?.map((eachBook) => ({
-        id: eachBook.bookID,
-        authorName: eachBook.author,
-        coverPic: eachBook.image,
+    const response = await fetch(
+      "http://localhost:8080/api/books/search?keyword=",
+      {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const booksList = await response.json();
+      console.log("booksList", booksList);
+      const updatedData = booksList.map((eachBook) => ({
+        id: eachBook.bookId,
+        authorName: eachBook?.author?.name,
+        coverPic: eachBook.coverUrl,
         title: eachBook.title,
-        rate: eachBook.rate,
+        rate: eachBook.avgRating,
       }));
-      setTopRatedApiStatus(topRatedApiStatuses.success);
+
       setTopRatedBooks(updatedData);
+      setTopRatedApiStatus(topRatedApiStatuses.success);
     } else {
       setTopRatedApiStatus(topRatedApiStatuses.failure);
     }
   };
 
-  const onClickRetry = () => {
-    getTopRatedBooks();
-  };
-
   const onClickFindBooks = () => {
-    console.log("lll");
+    console.log("to /shelf");
     return navigate("/shelf");
   };
 
-  const RenderSliderSuccessView = () => {
-    return (
-      <Slider Slider {...settings}>
-        {topRatedBooks?.map((eachBook) => {
-          const { id, title, coverPic, authorName, rate } = eachBook;
-          // const onClickedTopRatedBook = () => {
-          //   redirect(`/books/${id}`);
-          // };
+  /* ===================== UI PARTS ===================== */
 
-          return (
-            <div className="top-rated-book-item-container" key={id}>
-              <button
-                // onClick={onClickedTopRatedBook}
-                className="top-rated-card-btn"
-                type="button"
-              >
-                <div className="top-rated-book-image-container">
+  const RenderSliderSuccessView = () => (
+    <>
+      {filteredBooks.length === 0 ? (
+        <div className="no-result">❌ Không tìm thấy sách phù hợp</div>
+      ) : (
+        <Slider {...sliderSettings}>
+          {filteredBooks?.map(({ id, title, coverPic, authorName, rate }) => (
+            <div key={id}>
+              <div className="top-rated-book-item-container">
+                <button className="top-rated-card-btn" type="button">
                   <img
                     className="top-rated-book-image"
-                    src={coverPic}
+                    src={`http://localhost:8080${coverPic}`}
                     alt={title}
                   />
-                </div>
-                <h1 className="top-rated-book-name">{title}</h1>
-                <p className="top-rated-book-author">{authorName}</p>
-                <Space>
-                  <Rate allowHalf defaultValue={rate} disabled />
-                  <span>{10}</span>
-                </Space>
-              </button>
+                  <h3 className="top-rated-book-name">{title}</h3>
+                  <p className="top-rated-book-author">{authorName}</p>
+                  <Space size={6}>
+                    <Rate allowHalf disabled defaultValue={rate} />
+                    <span className="rating-text">{rate}</span>
+                  </Space>
+                </button>
+              </div>
             </div>
-          );
-        })}
-      </Slider>
-    );
-  };
+          ))}
+        </Slider>
+      )}
+    </>
+  );
 
-  const RenderSliderProgressView = () => {
-    return (
-      <div className="loader-container">
-        <TailSpin color="#8284C7" height={50} width={50} />;
-      </div>
-    );
-  };
+  const RenderSliderProgressView = () => (
+    <div className="loader-container">
+      <TailSpin height={50} width={50} color="#6b6fcf" />
+    </div>
+  );
 
   const RenderSliderViewFailure = () => {
     return (
@@ -160,16 +132,8 @@ const BookPage = () => {
           alt="failure view"
         />
 
-        <p className="top-rated-books-failure-heading">
-          Something Went wrong. Please try again.
-        </p>
-        <button
-          className="top-rated-books-failure-btn"
-          onClick={() => onClickRetry()}
-          type="button"
-        >
-          Try Again
-        </button>
+        <p>Something went wrong. Please try again.</p>
+        <button onClick={getTopRatedBooks}>Retry</button>
       </div>
     );
   };
@@ -177,61 +141,68 @@ const BookPage = () => {
   const renderSlider = () => {
     switch (topRatedApiStatus) {
       case topRatedApiStatuses.success:
-        return (
-          <>
-            <RenderSliderSuccessView />
-          </>
-        );
+        return <RenderSliderSuccessView />;
       case topRatedApiStatuses.inProgress:
-        return (
-          <>
-            <RenderSliderProgressView />
-          </>
-        );
+        return <RenderSliderProgressView />;
       case topRatedApiStatuses.failure:
-        return (
-          <>
-            <RenderSliderViewFailure />
-          </>
-        );
+        return <RenderSliderViewFailure />;
       default:
         return null;
     }
   };
+  const removeVietnameseTones = (str = "") =>
+    str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .toLowerCase();
+  const filteredBooks = topRatedBooks.filter((book) => {
+    const keywordNormalized = removeVietnameseTones(searchKeyword);
+
+    const title = removeVietnameseTones(book.title);
+    const author = removeVietnameseTones(book.authorName);
+
+    return (
+      title.includes(keywordNormalized) || author.includes(keywordNormalized)
+    );
+  });
 
   return (
     <>
       <AppHeader />
+
       <div className="book-page-bg-container">
-        <h1 className="book-heading" key="title">
-          Tìm cuốn sách yêu thích tiếp theo của bạn?
-        </h1>
-        <p className="book-paragraph">
-          Bạn đã đến đúng nơi rồi. Hãy cho chúng tôi biết những tựa sách hoặc thể loại bạn yêu thích trước đây, và chúng tôi sẽ đưa ra cho bạn những gợi ý sâu sắc đến bất ngờ.
-        </p>
-        <button
-          className="book-find-books-btn books-responsive-btn-sm"
-          type="button"
-          onClick={() => onClickFindBooks()}
-        >
-          Find Books
-        </button>
-        <div>
-          <div className="book-top-rated-container">
-            <div className="top-rated-heading-container">
-              <h1 className="top-rated-heading">Top Rated Books</h1>
-              <button
-                className="book-find-books-btn books-responsive-btn-lg"
-                type="button"
-                onClick={() => onClickFindBooks()}
-              >
-                Find Books
-              </button>
+        {/* ===== HERO ===== */}
+        <section className="book-hero">
+          <h1>Tìm cuốn sách yêu thích tiếp theo của bạn 📚</h1>
+          <p>Khám phá hàng ngàn cuốn sách phù hợp với sở thích đọc của bạn.</p>
+
+          {/* ===== SEARCH BAR (UI only) ===== */}
+        </section>
+
+        {/* ===== TOP RATED ===== */}
+        <section className="book-top-rated-container">
+          <Space className="top-rated-heading-container">
+            <h2>Top Rated Books</h2>
+            <div className="book-search-bar">
+              <Input
+                allowClear
+                size="large"
+                placeholder="Tìm kiếm sách, tác giả..."
+                prefix={<SearchOutlined />}
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
             </div>
-            <div className="slick-container">{renderSlider()}</div>
+          </Space>
+
+          <div className="slick-container" margin="20px 0">
+            {renderSlider()}
           </div>
-        </div>
+        </section>
       </div>
+
       <Footer />
     </>
   );

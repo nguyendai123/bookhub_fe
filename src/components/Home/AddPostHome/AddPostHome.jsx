@@ -1,10 +1,19 @@
 import "./AddPostHome.css";
-import { Button, Dropdown, Modal, Space, Popover, ConfigProvider } from "antd";
-import { Input } from "antd";
+import {
+  Button,
+  Dropdown,
+  Modal,
+  Space,
+  Popover,
+  ConfigProvider,
+  Image,
+  Divider,
+} from "antd";
+import { Input, Row, Col } from "antd";
 import useFetchPost from "../../customize/fetchpost";
 import useFetch from "../../customize/fetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import Carousel from "react-elastic-carousel";
+import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import {
   faCoffee,
@@ -36,13 +45,21 @@ const breakPoints = [
 const AddPostHome = ({ load, setLoad }) => {
   const [open, setOpen] = useState(false);
   const [openAddBook, setOpenAddBook] = useState(false);
-  const [dataBookAdd, setDataBookAdd] = useState();
-  const [value, setValue] = useState("");
-  const [idBook, setIdBook] = useState();
-  const [isFilePicked, setIsFilePicked] = useState(false);
+
+  const [content, setContent] = useState("");
+
+  const [selectedBook, setSelectedBook] = useState(null);
   const [isBookAddPost, setIsBookAddPost] = useState(false);
-  const [baseImage, setBaseImage] = useState("");
-  const [pageProgressStatus, setPageProgressStatus] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [readingStatus, setReadingStatus] = useState("READING");
+  const [keyword, setKeyword] = useState("");
+  const [readingProgress, setReadingProgress] = useState(null);
+
+  const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const [selectedBookId, setSelectedBookId] = useState(null);
+
   const username = Cookies.get("user_name");
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar"
@@ -55,10 +72,20 @@ const AddPostHome = ({ load, setLoad }) => {
   };
   const {
     data: dataBooks,
-    isLoadingBooks,
-    isErrorBooks,
-  } = useFetch("http://localhost:8080/api/books/search?keyword=", false);
+    isLoading: isLoadingBooks,
+    isError: isErrorBooks,
+    refetch,
+  } = useFetch(
+    `http://localhost:8080/api/books/search?keyword=${keyword}`,
+    false
+  );
+
   console.log("dataBooks", dataBooks, isLoadingBooks, isErrorBooks);
+
+  const handleSelectBook = (book) => {
+    setSelectedBookId(book.bookId);
+    setSelectedBook(book);
+  };
 
   const onClickAddBookPost = () => {
     setOpen(false);
@@ -66,80 +93,176 @@ const AddPostHome = ({ load, setLoad }) => {
     return dataBooks;
   };
 
-  const handleClickAddBook = (id) => {
-    setIdBook(id);
-    const {
-      data: dataBooksAdd,
-      isLoadingBooksAdd,
-      isErrorBooksAdd,
-    } = useFetch(`http://localhost:8080/api/books/${id}`, false);
-    console.log(
-      "dataBooksAdd",
-      dataBooksAdd,
-      isLoadingBooksAdd,
-      isErrorBooksAdd
-    );
-    setDataBookAdd(dataBooksAdd);
-  };
+  // const handleClickAddBook = (id) => {
+  //   setIdBook(id);
+  //   const {
+  //     data: dataBooksAdd,
+  //     isLoadingBooksAdd,
+  //     isErrorBooksAdd,
+  //   } = useFetch(`http://localhost:8080/api/books/${id}`, false);
+  //   console.log(
+  //     "dataBooksAdd",
+  //     dataBooksAdd,
+  //     isLoadingBooksAdd,
+  //     isErrorBooksAdd
+  //   );
+  //   setDataBooksAdd(dataBooksAdd);
+  // };
   const handleDone = () => {
-    setIsBookAddPost(true);
     setOpenAddBook(false);
     setOpen(true);
   };
-  async function getNewPosts() {
-    const fetchData = async () => {
-      try {
-        const url = `http://localhost:8080/api/posts`; // Replace with your API endpoint
-        const payload = {
-          content: `${value}`,
-          book: {
-            bookID: idBook,
-          },
-          imageData: baseImage,
-        };
 
-        const response = await axios.post(url, payload, { headers: headers });
-        const data = response.data;
-        console.log("posts dai api add post", data);
-        const pageBook = dataBookAdd.page;
-        const status =
-          pageProgressStatus < pageBook
-            ? "In Progress"
-            : pageProgressStatus == pageBook
-            ? "Completed"
-            : "want to read";
-        const urlProgress = "http://localhost:8080/api/reading/add";
+  // async function getNewPosts() {
+  //   const fetchData = async () => {
+  //     try {
+  //       const url = `http://localhost:8080/api/posts`; // Replace with your API endpoint
+  //       const payload = {
+  //         content: `${value}`,
+  //         book: {
+  //           bookID: idBook,
+  //         },
+  //         imageData: baseImage,
+  //       };
 
-        const response1 = await axios.post(
-          urlProgress,
+  //       const response = await axios.post(url, payload, { headers: headers });
+  //       const data = response.data;
+  //       console.log("posts dai api add post", data);
+  //       const pageBook = dataBooksAdd.page;
+  //       const status =
+  //         pageProgressStatus < pageBook
+  //           ? "In Progress"
+  //           : pageProgressStatus == pageBook
+  //           ? "Completed"
+  //           : "want to read";
+  //       const urlProgress = "http://localhost:8080/api/reading/add";
+
+  //       const response1 = await axios.post(
+  //         urlProgress,
+  //         {
+  //           book: {
+  //             bookID: idBook,
+  //           },
+  //           userProgress: {
+  //             userID: Cookies.get("user_id"),
+  //           },
+  //           readPage: pageProgressStatus,
+  //           status: status,
+  //         },
+  //         { headers }
+  //       );
+  //       const data1 = response1.data;
+  //       console.log("posts dai api progress", data1);
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //     }
+  //     setLoad(!load);
+  //   };
+  //   setOpen(false);
+  //   // Call the fetchData function wherever needed
+  //   fetchData();
+  // }
+
+  // const changeHandler = async (event) => {
+  //   setIsFilePicked(true);
+  //   const base64 = await convertBase64(event.target.files[0]);
+  //   setBaseImage(base64);
+  // };
+  // const changeHandler = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   const base64 = await convertBase64(file);
+  //   setImageUrl(base64); // tạm thời
+  // };
+
+  const changeHandler = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setImageFile(file);
+    setImageUrl(URL.createObjectURL(file)); // preview
+  };
+
+  const uploadPostImage = async () => {
+    if (!imageFile) return null;
+
+    const formData = new FormData();
+    formData.append("file", imageFile);
+
+    const res = await axios.post(
+      "http://localhost:8080/api/uploads/POST",
+      formData,
+      {
+        headers: {
+          ...headers,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return res.data.url;
+  };
+
+  const handleSearchBook = async () => {
+    if (!keyword.trim()) return;
+
+    try {
+      const res = await axios.get(`http://localhost:8080/api/books/search`, {
+        params: { keyword },
+      });
+      setDataBooks(res.data);
+    } catch (e) {
+      console.error("Search book failed", e);
+    }
+  };
+
+  const handleCreatePost = async () => {
+    try {
+      let uploadedImageUrl = null;
+
+      if (imageFile) {
+        uploadedImageUrl = await uploadPostImage();
+      }
+      const payload = {
+        content,
+        translatedText: null,
+        imageUrl: uploadedImageUrl,
+        hashtags: [],
+        bookId: selectedBook?.bookId || null,
+        shareOf: null,
+      };
+
+      await axios.post("http://localhost:8080/api/posts", payload, { headers });
+
+      // Nếu có book → update reading progress
+      if (selectedBook) {
+        const res = await axios.post(
+          "http://localhost:8080/api/reading/add",
           {
-            book: {
-              bookID: idBook,
-            },
-            userProgress: {
-              userID: Cookies.get("user_id"),
-            },
-            readPage: pageProgressStatus,
-            status: status,
+            bookId: selectedBook.bookId,
+            status: readingStatus,
+            currentPage,
           },
           { headers }
         );
-        const data1 = response1.data;
-        console.log("posts dai api progress", data1);
-      } catch (error) {
-        console.error("Error:", error);
+        setReadingProgress(res.data);
       }
-      setLoad(!load);
-    };
-    setOpen(false);
-    // Call the fetchData function wherever needed
-    fetchData();
-  }
 
-  const changeHandler = async (event) => {
-    setIsFilePicked(true);
-    const base64 = await convertBase64(event.target.files[0]);
-    setBaseImage(base64);
+      setOpen(false);
+      setLoad(!load);
+      resetForm();
+    } catch (e) {
+      console.error("Create post failed", e);
+    }
+  };
+
+  const resetForm = () => {
+    setContent("");
+    setImageUrl(null);
+    setSelectedBook(null);
+    setCurrentPage(0);
+    setReadingStatus("READING");
   };
 
   const convertBase64 = (file) => {
@@ -206,41 +329,66 @@ const AddPostHome = ({ load, setLoad }) => {
                 </Dropdown>
               </div>
             </Space>
-            <div>
-              <TextArea
-                style={{
-                  margin: "20px 0 10px 0",
-                  border: "none",
-                  fontSize: "18px",
-                }}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                placeholder="Please share your impressions ..."
-                autoSize={{
-                  minRows: 3,
-                  maxRows: 10,
-                }}
-              />
-            </div>
           </div>
-          <div className="model-content-add-image">
-            <input type="file" name="file" onChange={changeHandler} />
-            {isFilePicked ? (
-              <div>
-                <img src={baseImage} height="200px" />
-              </div>
-            ) : (
-              <p>Select a file to show details</p>
-            )}
-          </div>
-          <div className="book-post-create">
-            {isBookAddPost && (
-              <div>
-                <PostCardItemBookProgress
-                  item={dataBooksAdd}
-                  setPageProgressStatus={setPageProgressStatus}
+          <div>
+            <Row gutter={16} style={{ width: "100%", marginTop: 20 }}>
+              {/* LEFT – 70% */}
+              <Col span={16}>
+                <TextArea
+                  style={{
+                    width: "100%",
+                    margin: "20px 0 10px 0",
+                    border: "none",
+                    fontSize: "18px",
+                  }}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Please share your impressions ..."
+                  autoSize={{
+                    minRows: 3,
+                    maxRows: 10,
+                  }}
                 />
-              </div>
+                {/* RIGHT – 30% */}
+              </Col>
+              <Col span={8}>
+                <div className="model-content-add-image">
+                  {imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      fallback="/no-image.png"
+                      alt="post image"
+                      style={{
+                        height: "200px",
+                        objectFit: "cover",
+                        margin: "10px 0",
+                        borderRadius: 8,
+                      }}
+                    />
+                  ) : (
+                    <p>Select an image for your post</p>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={changeHandler}
+                    style={{ paddingBottom: "10px" }}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </div>
+
+          {/* comment nham o day */}
+          <div className="book-post-create">
+            {console.log("selectedBook", selectedBook)}
+            {selectedBook && (
+              <PostCardItemBookProgress
+                item={selectedBook}
+                progress={readingProgress}
+                mode="CREATE" // 👈 CREATE | VIEW
+                onChangePage={(page) => setCurrentPage(page)}
+              />
             )}
           </div>
           <hr style={{ color: "#9197a3" }} />
@@ -353,7 +501,7 @@ const AddPostHome = ({ load, setLoad }) => {
             <div className="model-content-submit">
               <Button
                 className="model-content-btn-submit"
-                onClick={getNewPosts}
+                onClick={handleCreatePost}
                 block
               >
                 Post
@@ -363,11 +511,8 @@ const AddPostHome = ({ load, setLoad }) => {
         </Modal>
         <Modal
           title={
-            <Space
-              direction="horizontal"
-              style={{ width: "100%", justifyContent: "center" }}
-            >
-              Add books to posts
+            <Space style={{ width: "100%", justifyContent: "center" }}>
+              📚 Add book to your post
             </Space>
           }
           centered
@@ -378,59 +523,126 @@ const AddPostHome = ({ load, setLoad }) => {
           onOk={() => setOpenAddBook(false)}
           onCancel={() => setOpenAddBook(false)}
         >
-          <hr style={{ color: "#9197a3" }} />
-          <Space.Compact
-            style={{
-              width: "100%",
-            }}
-          >
-            <Input defaultValue="Combine input and button" />
-            <Button type="primary">Submit</Button>
-          </Space.Compact>
+          {/* SEARCH */}
+          <Input.Search
+            placeholder="Tìm kiếm sách theo tên, tác giả, thể loại hoặc theo số ISBN..."
+            allowClear
+            enterButton="Search"
+            size="large"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onSearch={handleSearchBook}
+          />
 
-          <hr style={{ color: "#9197a3" }} />
-          <div className="model-content-active">
-            <div>
-              <div className="model-content-title">
-                suggest
-                <span style={{ color: "red" }}>*</span>
-              </div>
+          <Divider />
 
-              {/* isError === false && isLoading === false && data && data.length > 0 */}
-              {/* {!isLoadingBooks &&
-                !isErrorBooks &&
-                dataBooks &&
-                dataBooks.length > 0 && (
-                  // <Space
-                  //   style={{ display: "flex", justifyContent: "space-around" }}
-                  //   size={30}
-                  // >
-                  // <Carousel itemsToShow={3} pagination={false}>
-                  //   {dataBooks.map((item) => (
-                  //     <div style={{ margin: "0 5px" }} key={item.bookID}>
-                  //       <img
-                  //         style={{
-                  //           width: "140px",
-                  //           height: "200px",
-                  //           borderRadius: "10px",
-                  //         }}
-                  //         src={item.image}
-                  //         alt="imageBook1"
-                  //         onClick={() => handleClickAddBook(item.bookID)}
-                  //       />
-                  //     </div>
-                  //   ))}
-                  // </Carousel>
-                )} */}
-            </div>
-            <div className="model-content-submit">
-              <Button
-                className="model-content-btn-submit"
-                onClick={() => handleDone()}
-              >
-                Done
-              </Button>
-            </div>
+          {/* SUGGEST BOOK */}
+          <div className="model-content-title">
+            Suggestions <span style={{ color: "red" }}>*</span>
+          </div>
+          <Carousel itemsToShow={3} pagination={false} itemPadding={[0, 8]}>
+            {dataBooks?.map((book) => {
+              const isSelected = book.bookId === selectedBookId;
+
+              return (
+                <div
+                  key={book.bookId}
+                  onClick={() => handleSelectBook(book)}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.03)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = isSelected
+                      ? "scale(1.05)"
+                      : "scale(1)")
+                  }
+                  style={{
+                    width: 150,
+                    minHeight: 220,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    transition: "all 0.25s ease",
+                    transform: isSelected ? "scale(1.05)" : "scale(1)",
+                  }}
+                >
+                  {/* IMAGE WRAPPER */}
+                  <div
+                    style={{
+                      position: "relative",
+                      borderRadius: 14,
+                      border: isSelected
+                        ? "3px solid #1890ff"
+                        : "2px solid transparent",
+                      boxShadow: isSelected
+                        ? "0 8px 20px rgba(24,144,255,0.35)"
+                        : "0 2px 6px rgba(0,0,0,0.08)",
+                      transition: "all 0.25s ease",
+                    }}
+                  >
+                    <Image
+                      width={140}
+                      height={200}
+                      style={{
+                        borderRadius: 12,
+                        objectFit: "cover",
+                      }}
+                      src={`http://localhost:8080${book.coverUrl}`}
+                      preview={false}
+                      fallback="/no-image.png"
+                    />
+
+                    {/* CHECK ICON */}
+                    {isSelected && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 8,
+                          right: 8,
+                          background: "#1890ff",
+                          width: 26,
+                          height: 26,
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#fff",
+                          fontSize: 14,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ✓
+                      </div>
+                    )}
+                  </div>
+
+                  {/* TITLE */}
+                  <div
+                    style={{
+                      marginTop: 8,
+                      fontSize: 14,
+                      textAlign: "center",
+                      fontWeight: isSelected ? 600 : 500,
+                      color: isSelected ? "#1890ff" : "#333",
+                    }}
+                  >
+                    {book.title}
+                  </div>
+                </div>
+              );
+            })}
+          </Carousel>
+
+          {/* FOOTER */}
+
+          <div className="model-content-submit">
+            <Button
+              className="model-content-btn-submit"
+              onClick={() => handleDone()}
+            >
+              Done
+            </Button>
           </div>
         </Modal>
       </div>

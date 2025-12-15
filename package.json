@@ -18,12 +18,14 @@
     "moment": "^2.29.4",
     "react": "18",
     "react-dom": "18",
+    "react-elastic-carousel": "^0.11.5",
     "react-icons": "^4.10.1",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^7.10.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "sass": "^1.65.1",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {

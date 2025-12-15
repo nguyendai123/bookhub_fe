@@ -1,15 +1,28 @@
-import { Space, Progress, Row, Col, Button, Image, Rate } from "antd";
+import {
+  Space,
+  Progress,
+  Row,
+  Col,
+  Button,
+  Image,
+  Rate,
+  InputNumber,
+  Slider,
+} from "antd";
 import { useState } from "react";
 import Destination from "../../../assets/Destination";
 const PostCardItemBookProgress = ({
   item,
   progress,
-  setPageProgressStatus,
+  mode = "VIEW", // CREATE | VIEW
+  onChangePage,
 }) => {
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(progress?.readPage ?? 0);
+  const totalPages = progress?.book?.totalPages ?? item?.totalPages;
   const handleChangeProgressPage = (e) => {
-    setPageNumber(e.target.value);
-    setPageProgressStatus(e.target.value);
+    const value = Number(e.target.value);
+    setPageNumber(value);
+    onChangePage?.(value); // 👈 đẩy lên cha
   };
   const translateReadingStatus = (status) => {
     switch (status) {
@@ -26,24 +39,35 @@ const PostCardItemBookProgress = ({
 
   return (
     <>
-      {console.log("progress PostCardItemBookProgress", progress, " item", item)}
+      {console.log(
+        "progress PostCardItemBookProgress",
+        progress,
+        " item",
+        item
+      )}
       <Row style={{ width: "100%" }} gutter={16}>
         {/* LEFT = 35% */}
-        <Col span={12} style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}>
-          <div style={{
-            width: "100%",
-            maxWidth: "180px",
-            height: "240px",
-            maxHeight: "100%",
-            overflow: "hidden",
-
-          }}>
+        <Col
+          span={12}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "180px",
+              height: "240px",
+              maxHeight: "100%",
+              overflow: "hidden",
+            }}
+          >
             <Image
-              src={`http://localhost:8080${progress?.book?.image}`}
+              src={`http://localhost:8080${
+                progress?.book?.image ?? item?.coverUrl
+              }`}
               fallback="/no-image.png"
               alt="book image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -53,13 +77,15 @@ const PostCardItemBookProgress = ({
 
         {/* RIGHT = 65% */}
         <Col span={12}>
-
           <div>
-            <p>{progress?.book?.title}</p>
-            <p>{progress?.book?.authorName}</p>
+            <p>{progress?.book?.title ?? item?.title}</p>
+            <p>{progress?.book?.authorName ?? item?.author?.name}</p>
             <Progress
               style={{ width: "280px" }}
-              percent={item?.percentDone ?? 0}
+              percent={
+                item?.percentDone ??
+                Math.min(100, Math.round((pageNumber / totalPages) * 100))
+              }
               strokeColor={{
                 "0%": "#87d068",
                 "100%": "#108ee9",
@@ -67,21 +93,43 @@ const PostCardItemBookProgress = ({
             />
             <div style={{ marginBottom: "30px" }}>
               <Space>
-                <span>
-                  {console.log("haha", progress)}
-                  {progress?.readPage ?? 0}
-                  /{progress?.book?.totalPages}
-                </span>
+                {mode === "CREATE" ? (
+                  <>
+                    <input
+                      type="number"
+                      min={0}
+                      max={progress?.book?.totalPages ?? item?.totalPages}
+                      value={pageNumber}
+                      onChange={handleChangeProgressPage}
+                      style={{
+                        width: 40,
+                        padding: 4,
+                        borderRadius: 6,
+                        border: "1px solid #d9d9d9",
+                      }}
+                    />
+                    <span>
+                      /{progress?.book?.totalPages ?? item?.totalPages}
+                    </span>
+                  </>
+                ) : (
+                  <span>
+                    {progress?.readPage ?? 0}/{progress?.book?.totalPages}
+                  </span>
+                )}
+
                 <span>Trang sách đã đọc</span>
               </Space>
             </div>
+
             <Space>
               <Button className="btn-post-content-body">
                 <div className="btn-post-content-body-des">
                   <Destination />
                 </div>
-                <div style={{ margin: "0px 10px 0 0" }}>{translateReadingStatus(item?.readingStatus)}</div>
-
+                <div style={{ margin: "0px 10px 0 0" }}>
+                  {translateReadingStatus(item?.readingStatus)}
+                </div>
               </Button>
               <div
                 style={{
@@ -93,7 +141,7 @@ const PostCardItemBookProgress = ({
               >
                 <Rate
                   allowHalf
-                  value={progress?.book?.averageRating}
+                  value={progress?.book?.averageRating ?? item?.avgRating}
                   defaultValue={4}
                   disabled
                 />
@@ -104,7 +152,8 @@ const PostCardItemBookProgress = ({
                     justifyContent: "center",
                   }}
                 >
-                  ({progress?.book?.numberOfReviews} đánh giá)
+                  ({progress?.book?.numberOfReviews ?? item?.totalReviews} đánh
+                  giá)
                 </div>
               </div>
             </Space>

@@ -264,18 +264,25 @@ const PostCardItem = ({
             )}
 
             <div>
-              {console.log("item PostCardItem", item)}
+              {console.log(
+                "item PostCardItem image1234 ",
+                item.postId == 15 ? item.imageUrl : "không có"
+              )}
 
               <div className="post-content-image-user-add">
                 <Image
                   src={`http://localhost:8080${item.imageUrl}`}
                   fallback="/no-image.png"
-                  alt="post image"
+                  alt="post image1"
                   className="post-content-image-user-add-1"
                 />
               </div>
               <div className="post-content-body">
-                <PostCardItemBookProgress item={item} progress={progress} />
+                <PostCardItemBookProgress
+                  item={item}
+                  progress={progress}
+                  mode="VIEW"
+                />
               </div>
             </div>
 

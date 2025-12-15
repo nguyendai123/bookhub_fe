@@ -144,6 +144,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
                   className="post-content-image"
                 />
                 <div>
+                  {console.log("post in PostCard modal", post)}
                   <p>{post.book?.title}</p>
                   <p>{post.book?.author}</p>
                   <Progress
