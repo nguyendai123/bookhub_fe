@@ -1,7 +1,5 @@
 import Cookies from "js-cookie";
 import { TailSpin } from "react-loader-spinner";
-import { BsSearch } from "react-icons/bs";
-
 import AppHeader from "../Header/Header";
 
 import Footer from "../Footer/Footer";
@@ -9,106 +7,203 @@ import BookItem from "../BookItem/BookItem";
 
 import "./BookShelves.css";
 import { useEffect, useState } from "react";
-import { Button, Input, Space } from "antd";
+import { Button, Input, Space, Pagination } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const bookshelvesList = [
-  {
-    id: "22526c8e-680e-4419-a041-b05cc239ece4",
-    value: "Tất cả sách",
-    label: "All",
-  },
-  {
-    id: "37e09397-fab2-46f4-9b9a-66b2324b2e22",
-    value: "READ",
-    label: "Read",
-  },
-  {
-    id: "2ab42512-3d05-4fba-8191-5122175b154e",
-    value: "CURRENTLY_READING",
-    label: "Currently Reading",
-  },
-  {
-    id: "361d5fd4-9ea1-4e0c-bd47-da2682a5b7c8",
-    value: "WANT_TO_READ",
-    label: "Want to Read",
-  },
+  { value: "ALL", label: "All" },
+  { value: "FINISHED", label: "Read" },
+  { value: "READING", label: "Currently Reading" },
+  { value: "WANT_TO_READ", label: "Want to Read" },
 ];
 
-const bookApiStatuses = {
-  initial: "INITIAL",
-  success: "SUCCESS",
-  failure: "FAILURE",
-  inProgress: "IN_PROGRESS",
+const STATUS = {
+  SUCCESS: "SUCCESS",
+  FAILURE: "FAILURE",
+  LOADING: "LOADING",
 };
 
 const BookShelves = () => {
-  const [activeFilter, setActiveFilter] = useState("");
-  const [booksApiStatus, setBooksApiStatus] = useState(bookApiStatuses.initial);
+  const [activeFilter, setActiveFilter] = useState("ALL");
+  const [allBooksRaw, setAllBooksRaw] = useState([]); // cache ALL
+  const [myShelfRaw, setMyShelfRaw] = useState([]); // cache reading
+
+  const [books, setBooks] = useState([]);
+  const [status, setStatus] = useState(STATUS.LOADING);
+
+  const [loadedAll, setLoadedAll] = useState(false);
+  const [loadedShelf, setLoadedShelf] = useState(false);
+
   const [booksData, setBooksData] = useState({});
-  const [searchInput, setSearchInput] = useState("");
-  const [search, setSearch] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [activeFilterLabel, setActiveFilterLabel] = useState(
     bookshelvesList[0].label
   );
+
+  const [page, setPage] = useState(1); // antd bắt đầu từ 1
+  const [pageSize, setPageSize] = useState(2);
+  const [total, setTotal] = useState(0);
+
   const jwtToken = Cookies.get("jwt_token");
   const headers = {
     Authorization: `Bearer ${jwtToken}`,
   };
 
   useEffect(() => {
-    async () => getBooksApiData(), getBooksApiData();
-  }, []);
-
-  const updatedBooksList = (books) =>
-    books.map((book) => ({
-      id: book.bookId,
-      title: book.title,
-      authorName: book.author?.name,
-      coverPic: book.coverUrl,
-      avgRating: book.avgRating,
-      totalReviews: book.totalReviews,
-      totalPages: book.totalPages,
-      genres: book.genres?.map((g) => g.name),
-    }));
+    getBooksApiData();
+  }, [page, pageSize]);
 
   const getBooksApiData = async () => {
+    setStatus(STATUS.LOADING);
     try {
-      setBooksApiStatus(bookApiStatuses.inProgress);
-
       const { data } = await axios.get(
         "http://localhost:8080/api/books/search",
         { headers }
       );
 
-      setBooksData({
-        books: updatedBooksList(data),
-        total: data.length,
-      });
-
-      setBooksApiStatus(bookApiStatuses.success);
-    } catch (error) {
-      console.error(error);
-      setBooksApiStatus(bookApiStatuses.failure);
+      setAllBooksRaw(data.content);
+      setTotal(data.totalElements);
+      setLoadedAll(true);
+      setStatus(STATUS.SUCCESS);
+    } catch (e) {
+      setStatus(STATUS.FAILURE);
     }
   };
 
-  const onClickRetry = () => {
-    getBooksApiData();
+  const getMyBookshelfList = async () => {
+    setStatus(STATUS.LOADING);
+    try {
+      const { data } = await axios.get("http://localhost:8080/api/reading", {
+        headers,
+      });
+
+      setMyShelfRaw(data);
+      setLoadedShelf(true);
+      setStatus(STATUS.SUCCESS);
+    } catch (e) {
+      setStatus(STATUS.FAILURE);
+    }
   };
 
-  const onChangeInput = (event) => {
-    setSearchInput(event.target.value);
-  };
-  // useEffect(() => {
-  //   getBooksApiData();
-  // }, [search]);
+  /* ================= EFFECT ================= */
+  useEffect(() => {
+    if (activeFilter === "ALL") return;
 
-  const onSearchBooks = () => {
-    setSearch(searchInput);
-    getBooksApiData();
-  };
+    const filtered = myShelfRaw.filter((b) => b.readingStatus === activeFilter);
 
+    setBooks(
+      filtered.map((b) => ({
+        id: b.bookId,
+        title: b.title,
+        authorName: b.author?.name,
+        coverPic: b.coverUrl,
+        avgRating: b.avgRating,
+        totalReviews: b.totalReviews,
+        totalPages: b.totalPages,
+        readStatus: b.readingStatus,
+        percentDone: b.percentDone,
+        currentPage: b.currentPage,
+        genres: b?.genres,
+      }))
+    );
+
+    setTotal(filtered.length);
+  }, [activeFilter, myShelfRaw]);
+
+  useEffect(() => {
+    if (activeFilter === "ALL") {
+      if (!loadedAll) {
+        getBooksApiData();
+      }
+      return;
+    }
+
+    if (!loadedShelf) {
+      getMyBookshelfList();
+    }
+  }, [activeFilter]);
+
+  useEffect(() => {
+    if (activeFilter === "ALL") {
+      setBooks(
+        allBooksRaw.map((book) => ({
+          id: book.bookId,
+          title: book.title,
+          authorName: book.authorName,
+          coverPic: book.coverUrl,
+          avgRating: book.avgRating,
+          totalReviews: book.totalReviews,
+          totalPages: book.totalPages,
+          readStatus: book.readingStatus,
+          percentDone: book.percentDone,
+          genres: book.genres,
+        }))
+      );
+      return;
+    }
+
+    const filtered = myShelfRaw.filter((b) => b.readingStatus === activeFilter);
+
+    setBooks(
+      filtered.map((b) => ({
+        id: b.bookId,
+        title: b.title,
+        authorName: b.authorName,
+        coverPic: b.coverUrl,
+        avgRating: b.avgRating,
+        totalReviews: b.totalReviews,
+        totalPages: b.totalPages,
+        readStatus: b.readingStatus,
+        percentDone: b.percentDone,
+        currentPage: b.currentPage,
+        genres: b?.genres,
+      }))
+    );
+  }, [activeFilter, allBooksRaw, myShelfRaw]);
+
+  /* ================= RENDER ================= */
+  const renderContent = () => {
+    if (status === STATUS.LOADING) {
+      return (
+        <div className="loader-container">
+          <TailSpin height={50} width={50} />
+        </div>
+      );
+    }
+
+    if (status === STATUS.FAILURE) {
+      return <p style={{ textAlign: "center" }}>Load dữ liệu thất bại</p>;
+    }
+
+    if (filteredBooks.length === 0) {
+      return <p style={{ textAlign: "center" }}>Không có sách</p>;
+    }
+
+    return (
+      <>
+        <ul className="bookList-container">
+          {filteredBooks.map((b) => (
+            <BookItem key={b.id} bookDetails={b} />
+          ))}
+        </ul>
+
+        {activeFilter === "ALL" && (
+          <Pagination
+            current={page}
+            pageSize={pageSize}
+            total={total}
+            showSizeChanger
+            onChange={(p, s) => {
+              setPage(p);
+              setPageSize(s);
+            }}
+            style={{ marginTop: 24, textAlign: "center" }}
+          />
+        )}
+      </>
+    );
+  };
   const RenderBooksProgressView = () => (
     <div className="loader-container" testid="loader">
       <TailSpin color="#8284C7" height={50} width={50} />;
@@ -135,14 +230,55 @@ const BookShelves = () => {
     </div>
   );
 
+  const removeVietnameseTones = (str = "") =>
+    str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .toLowerCase();
+  const filteredBooks = (books || []).filter((book) => {
+    const keyword = removeVietnameseTones(searchKeyword);
+
+    const matchSearch =
+      !keyword ||
+      removeVietnameseTones(book.title).includes(keyword) ||
+      removeVietnameseTones(book.authorName || "").includes(keyword);
+    console.log("book shelf book", book);
+    const matchShelf =
+      !activeFilter ||
+      activeFilter === "ALL" ||
+      book?.readStatus === activeFilter;
+    console.log(
+      "matchShelf",
+      matchShelf,
+      "activeFilter",
+      activeFilter,
+      "book?.readStatus",
+      book?.readStatus
+    );
+
+    return matchSearch && matchShelf;
+  });
+
   const renderTheListOfBooks = () => {
-    const { books } = booksData;
-    console.log("book dai", booksData.books);
     return (
       <ul className="bookList-container">
-        {books?.map((eachBook) => (
+        {filteredBooks.map((eachBook) => (
           <BookItem key={eachBook.id} bookDetails={eachBook} />
         ))}
+        <Pagination
+          current={page}
+          pageSize={pageSize}
+          total={total}
+          showSizeChanger
+          showQuickJumper
+          onChange={(p, size) => {
+            setPage(p);
+            setPageSize(size);
+          }}
+          style={{ marginTop: 24, textAlign: "center" }}
+        />
       </ul>
     );
   };
@@ -156,45 +292,44 @@ const BookShelves = () => {
           alt="no books"
         />
         <p className="no-match-paragraph">
-          Your search for {searchInput} did not find any matches.
+          Your search for {searchKeyword} did not find any matches.
         </p>
       </div>
     );
   };
 
   const RenderBooksSuccessView = () => {
-    console.log("render");
-    const { total } = booksData;
-    if (total !== 0) {
-      return <> {renderTheListOfBooks()} </>;
+    if (filteredBooks.length > 0) {
+      return renderTheListOfBooks();
     }
-    return <> {renderNoMatchBooks()} </>;
+    return renderNoMatchBooks();
   };
-  console.log(booksApiStatus);
-  const renderBooks = () => {
-    switch (booksApiStatus) {
-      case bookApiStatuses.success:
-        return (
-          <>
-            <RenderBooksSuccessView />
-          </>
-        );
-      case bookApiStatuses.inProgress:
-        return (
-          <>
-            <RenderBooksProgressView />
-          </>
-        );
-      case bookApiStatuses.failure:
-        return (
-          <>
-            <RenderBooksFailureView />
-          </>
-        );
-      default:
-        return null;
-    }
-  };
+
+  // console.log(booksApiStatus);
+  // const renderBooks = () => {
+  //   switch (booksApiStatus) {
+  //     case bookApiStatuses.success:
+  //       return (
+  //         <>
+  //           <RenderBooksSuccessView />
+  //         </>
+  //       );
+  //     case bookApiStatuses.inProgress:
+  //       return (
+  //         <>
+  //           <RenderBooksProgressView />
+  //         </>
+  //       );
+  //     case bookApiStatuses.failure:
+  //       return (
+  //         <>
+  //           <RenderBooksFailureView />
+  //         </>
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <>
@@ -215,15 +350,14 @@ const BookShelves = () => {
                 const onClickedFilter = () => {
                   setActiveFilter(eachItem.value);
                   setActiveFilterLabel(eachItem.label);
-
-                  getBooksApiData;
+                  setPage(1);
                 };
                 return (
                   <li className="active-filter-list-lg" key={eachItem.label}>
                     <button
                       className={`active-filter-list-lg ${activeFilterClass}`}
                       onClick={onClickedFilter}
-                    // type="button"
+                      type="button"
                     >
                       {eachItem.label}
                     </button>
@@ -241,22 +375,19 @@ const BookShelves = () => {
               </div>
               <div className="search-input-container">
                 <Input
-                  placeholder="Search...."
-                  type="search"
-                  onChange={() => onChangeInput()}
-                  value={searchInput}
+                  allowClear
+                  size="large"
+                  placeholder="Tìm theo tên sách hoặc tác giả..."
+                  prefix={<SearchOutlined />}
+                  value={searchKeyword}
+                  onChange={(e) => {
+                    setSearchKeyword(e.target.value);
+                    setPage(1);
+                  }}
                 />
-                <Button
-                  className="search-btn"
-                  onClick={() => onSearchBooks()}
-                  type="button"
-                  testid="searchButton"
-                >
-                  <BsSearch className="search=icon" />
-                </Button>
               </div>
             </Space>
-            <div className="renderbookshelves">{renderBooks()}</div>
+            <div className="renderbookshelves"> {renderContent()}</div>
           </div>
         </div>
       </div>
