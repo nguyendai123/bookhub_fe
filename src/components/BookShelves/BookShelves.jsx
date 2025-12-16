@@ -206,7 +206,7 @@ const BookShelves = () => {
               className="bookshelves-heading-bookshelves-heading-lg"
               key="title"
             >
-              Bookshelves
+              My Bookshelf
             </h1>
             <ul className="filter-un-order-list-container">
               {bookshelvesList.map((eachItem) => {
@@ -223,7 +223,7 @@ const BookShelves = () => {
                     <button
                       className={`active-filter-list-lg ${activeFilterClass}`}
                       onClick={onClickedFilter}
-                      type="button"
+                    // type="button"
                     >
                       {eachItem.label}
                     </button>
