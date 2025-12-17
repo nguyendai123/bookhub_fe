@@ -90,7 +90,7 @@ const AddPostHome = ({ load, setLoad }) => {
   const onClickAddBookPost = () => {
     setOpen(false);
     setOpenAddBook(true);
-    return dataBooks;
+    return dataBooks?.content;
   };
 
   // const handleClickAddBook = (id) => {
@@ -541,7 +541,7 @@ const AddPostHome = ({ load, setLoad }) => {
             Suggestions <span style={{ color: "red" }}>*</span>
           </div>
           <Carousel itemsToShow={3} pagination={false} itemPadding={[0, 8]}>
-            {dataBooks?.map((book) => {
+            {dataBooks.content?.map((book) => {
               const isSelected = book.bookId === selectedBookId;
 
               return (

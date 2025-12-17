@@ -14,7 +14,7 @@ const Books = () => {
     fetch("http://localhost:8080/api/books/search?keyword=", { headers })
       .then((response) => response.json())
       .then((data) => {
-        setbooks(data);
+        setbooks(data.content);
         if (reloadData) {
           setReloadData(false);
         }

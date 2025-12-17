@@ -234,6 +234,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddToShelfButton from "../AddToShelfButton/AddToShelfButton";
+import ReadingTracker from "../ReadingTracker/ReadingTracker";
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -271,6 +273,23 @@ const BookDetail = () => {
         {console.log("book detail", book)}
         {book && (
           <>
+            <Card>
+              {/* Add button */}
+              <AddToShelfButton bookId={book.bookId} />
+
+              {/* Nếu đã có trong shelf */}
+              {book.readingProgresses.map(
+                (p) =>
+                  p.userId == Cookies.get("user_id") && (
+                    <ReadingTracker
+                      bookId={book.bookId}
+                      currentPage={p.currentPage}
+                      totalPages={p.totalPages}
+                      percentDone={p.percentDone}
+                    />
+                  )
+              )}
+            </Card>
             {/* ===== HEADER ===== */}
             <Card loading={loading}>
               <Row gutter={[24, 24]} align="top">

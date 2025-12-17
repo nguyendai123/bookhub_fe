@@ -104,6 +104,7 @@ const Home = () => {
       const topRatedBooksApi =
         "http://localhost:8080/api/books/search?keyword=";
       let response = await axios.get(topRatedBooksApi, { headers });
+      console.log("response", response);
       if (response.ok === true) {
         setTopRatedApiStatus(topRatedApiStatuses.success);
       } else {

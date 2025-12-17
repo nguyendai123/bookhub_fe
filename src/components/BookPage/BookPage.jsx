@@ -63,7 +63,7 @@ const BookPage = () => {
     );
 
     if (response.ok) {
-      const booksList = await response.json();
+      const booksList = await response.json().content;
       console.log("booksList", booksList);
       const updatedData = booksList.map((eachBook) => ({
         id: eachBook.bookId,

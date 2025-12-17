@@ -67,6 +67,7 @@ import { BsFillStarFill } from "react-icons/bs";
 import FavoriteContext from "../../Context/FavoriteContext";
 import { useNavigate } from "react-router-dom";
 import { Card, Image, Tag, Typography, Space } from "antd";
+import ReadingTracker from "../ReadingTracker/ReadingTracker";
 
 const { Title, Text } = Typography;
 
@@ -97,6 +98,16 @@ const BookItem = (props) => {
               bodyStyle={{ padding: 12 }}
               onClick={onClickBookItem}
             >
+              <Space onClick={(e) => e.stopPropagation()}>
+                {console.log("bookDetails in BookItem:", bookDetails)}
+                <ReadingTracker
+                  bookId={id}
+                  currentPage={bookDetails.currentPage}
+                  totalPages={bookDetails.totalPages}
+                  percentDone={bookDetails.percentDone}
+                />
+              </Space>
+
               <Space align="start" size={16}>
                 {/* Cover */}
                 <Image

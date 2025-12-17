@@ -42,7 +42,7 @@ const BookShelves = () => {
   );
 
   const [page, setPage] = useState(1); // antd bắt đầu từ 1
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(3);
   const [total, setTotal] = useState(0);
 
   const jwtToken = Cookies.get("jwt_token");
@@ -58,7 +58,7 @@ const BookShelves = () => {
     setStatus(STATUS.LOADING);
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/books/search",
+        "http://localhost:8080/api/books/search?keyword=",
         { headers }
       );
 
@@ -107,11 +107,10 @@ const BookShelves = () => {
         genres: b?.genres,
       }))
     );
-
-    setTotal(filtered.length);
   }, [activeFilter, myShelfRaw]);
 
   useEffect(() => {
+    setPage(1);
     if (activeFilter === "ALL") {
       if (!loadedAll) {
         getBooksApiData();
@@ -137,6 +136,7 @@ const BookShelves = () => {
           totalPages: book.totalPages,
           readStatus: book.readingStatus,
           percentDone: book.percentDone,
+          currentPage: book.currentPage,
           genres: book.genres,
         }))
       );
@@ -179,11 +179,24 @@ const BookShelves = () => {
     if (filteredBooks.length === 0) {
       return <p style={{ textAlign: "center" }}>Không có sách</p>;
     }
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const pagedBooks = filteredBooks.slice(startIndex, endIndex);
+    console.log(
+      "startIndex",
+      startIndex,
+      "endIndex",
+      endIndex,
+      "pagedBooks",
+      pagedBooks
+    );
 
     return (
       <>
         <ul className="bookList-container">
-          {filteredBooks.map((b) => (
+          {console.log("filteredBooks", filteredBooks)}
+          {pagedBooks.map((b) => (
             <BookItem key={b.id} bookDetails={b} />
           ))}
         </ul>
@@ -249,14 +262,7 @@ const BookShelves = () => {
       !activeFilter ||
       activeFilter === "ALL" ||
       book?.readStatus === activeFilter;
-    console.log(
-      "matchShelf",
-      matchShelf,
-      "activeFilter",
-      activeFilter,
-      "book?.readStatus",
-      book?.readStatus
-    );
+    console.log("book shelf matchShelf", book);
 
     return matchSearch && matchShelf;
   });

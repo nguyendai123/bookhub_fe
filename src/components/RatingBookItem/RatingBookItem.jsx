@@ -10,7 +10,7 @@ function RatingBookItem() {
   } = useFetch("http://localhost:8080/api/books/search?keyword=", false);
   return (
     <>
-      {dataBooks.map((item, idx) => (
+      {dataBooks?.content?.map((item, idx) => (
         <div key={item.bookId}>
           {idx <= 4 && (
             <div className="rating-book-item" style={{ margin: "0 5px" }}>
