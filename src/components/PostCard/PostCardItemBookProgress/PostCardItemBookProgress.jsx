@@ -17,7 +17,7 @@ const PostCardItemBookProgress = ({
   mode = "VIEW", // CREATE | VIEW
   onChangePage,
 }) => {
-  const [pageNumber, setPageNumber] = useState(progress?.readPage ?? 0);
+  const [pageNumber, setPageNumber] = useState(progress?.readPage ?? item?.currentPage ?? 0);
   const totalPages = progress?.book?.totalPages ?? item?.totalPages;
   const handleChangeProgressPage = (e) => {
     const value = Number(e.target.value);
@@ -65,9 +65,8 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`http://localhost:8080${
-                progress?.book?.image ?? item?.coverUrl
-              }`}
+              src={`http://localhost:8080${progress?.book?.image ?? item?.coverUrl
+                }`}
               fallback="/no-image.png"
               alt="book image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

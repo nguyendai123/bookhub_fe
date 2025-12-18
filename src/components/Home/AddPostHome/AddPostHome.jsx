@@ -93,88 +93,10 @@ const AddPostHome = ({ load, setLoad }) => {
     return dataBooks?.content;
   };
 
-  // const handleClickAddBook = (id) => {
-  //   setIdBook(id);
-  //   const {
-  //     data: dataBooksAdd,
-  //     isLoadingBooksAdd,
-  //     isErrorBooksAdd,
-  //   } = useFetch(`http://localhost:8080/api/books/${id}`, false);
-  //   console.log(
-  //     "dataBooksAdd",
-  //     dataBooksAdd,
-  //     isLoadingBooksAdd,
-  //     isErrorBooksAdd
-  //   );
-  //   setDataBooksAdd(dataBooksAdd);
-  // };
   const handleDone = () => {
     setOpenAddBook(false);
     setOpen(true);
   };
-
-  // async function getNewPosts() {
-  //   const fetchData = async () => {
-  //     try {
-  //       const url = `http://localhost:8080/api/posts`; // Replace with your API endpoint
-  //       const payload = {
-  //         content: `${value}`,
-  //         book: {
-  //           bookID: idBook,
-  //         },
-  //         imageData: baseImage,
-  //       };
-
-  //       const response = await axios.post(url, payload, { headers: headers });
-  //       const data = response.data;
-  //       console.log("posts dai api add post", data);
-  //       const pageBook = dataBooksAdd.page;
-  //       const status =
-  //         pageProgressStatus < pageBook
-  //           ? "In Progress"
-  //           : pageProgressStatus == pageBook
-  //           ? "Completed"
-  //           : "want to read";
-  //       const urlProgress = "http://localhost:8080/api/reading/add";
-
-  //       const response1 = await axios.post(
-  //         urlProgress,
-  //         {
-  //           book: {
-  //             bookID: idBook,
-  //           },
-  //           userProgress: {
-  //             userID: Cookies.get("user_id"),
-  //           },
-  //           readPage: pageProgressStatus,
-  //           status: status,
-  //         },
-  //         { headers }
-  //       );
-  //       const data1 = response1.data;
-  //       console.log("posts dai api progress", data1);
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //     setLoad(!load);
-  //   };
-  //   setOpen(false);
-  //   // Call the fetchData function wherever needed
-  //   fetchData();
-  // }
-
-  // const changeHandler = async (event) => {
-  //   setIsFilePicked(true);
-  //   const base64 = await convertBase64(event.target.files[0]);
-  //   setBaseImage(base64);
-  // };
-  // const changeHandler = async (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-
-  //   const base64 = await convertBase64(file);
-  //   setImageUrl(base64); // tạm thời
-  // };
 
   const changeHandler = (e) => {
     const file = e.target.files[0];
@@ -211,7 +133,6 @@ const AddPostHome = ({ load, setLoad }) => {
       const res = await axios.get(`http://localhost:8080/api/books/search`, {
         params: { keyword },
       });
-      setDataBooks(res.data);
     } catch (e) {
       console.error("Search book failed", e);
     }
@@ -265,20 +186,6 @@ const AddPostHome = ({ load, setLoad }) => {
     setReadingStatus("READING");
   };
 
-  const convertBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
   return (
     <div className="home-add-newpost bg-white p-3 mt-3 rounded border shadow mb-3">
       {/* avatar */}
@@ -500,6 +407,7 @@ const AddPostHome = ({ load, setLoad }) => {
             </div>
             <div className="model-content-submit">
               <Button
+                type="primary"
                 className="model-content-btn-submit"
                 onClick={handleCreatePost}
                 block
@@ -552,9 +460,9 @@ const AddPostHome = ({ load, setLoad }) => {
                     (e.currentTarget.style.transform = "scale(1.03)")
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = isSelected
-                      ? "scale(1.05)"
-                      : "scale(1)")
+                  (e.currentTarget.style.transform = isSelected
+                    ? "scale(1.05)"
+                    : "scale(1)")
                   }
                   style={{
                     width: 150,

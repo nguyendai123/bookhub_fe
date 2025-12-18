@@ -75,7 +75,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
 
   return (
     <>
-      <Modal
+      {/* <Modal
         title={
           <Space
             direction="horizontal"
@@ -321,7 +321,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
             </Button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
       {console.log("item123 ", data)}
       {data?.content?.map((item) => (
         <div key={"id" + item.postID}>
