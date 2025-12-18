@@ -12,6 +12,7 @@ import "./BookPage.scss";
 import { useEffect, useState } from "react";
 import { Rate, Space, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const topRatedApiStatuses = {
   initial: "INITIAL",
@@ -49,23 +50,18 @@ const BookPage = () => {
     getTopRatedBooks();
   }, []);
 
+  const jwtToken = Cookies.get("jwt_token");
+  const headers = {
+    Authorization: `Bearer ${jwtToken}`,
+  };
+
   const getTopRatedBooks = async () => {
     setTopRatedApiStatus(topRatedApiStatuses.inProgress);
 
-    const jwtToken = Cookies.get("jwt_token");
-    const response = await fetch(
-      "http://localhost:8080/api/books/search?keyword=",
-      {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      }
-    );
+    try {
+      const { data } = await axios.get("http://localhost:8080/api/books/search?keyword=", { headers });
 
-    if (response.ok) {
-      const booksList = await response.json().content;
-      console.log("booksList", booksList);
-      const updatedData = booksList.map((eachBook) => ({
+      const updatedData = data?.content.map((eachBook) => ({
         id: eachBook.bookId,
         authorName: eachBook?.author?.name,
         coverPic: eachBook.coverUrl,
@@ -75,7 +71,7 @@ const BookPage = () => {
 
       setTopRatedBooks(updatedData);
       setTopRatedApiStatus(topRatedApiStatuses.success);
-    } else {
+    } catch (error) {
       setTopRatedApiStatus(topRatedApiStatuses.failure);
     }
   };

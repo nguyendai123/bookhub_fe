@@ -372,13 +372,14 @@ const BookShelves = () => {
               })}
             </ul>
           </div>
+
           <div className="large-container">
-            <Space className="filtered-books-search-input-container-lg">
-              <div>
-                <h1 className="filtered-books-heading">
-                  {activeFilterLabel} Books
-                </h1>
-              </div>
+
+            <div className="filtered-books-search-input-container-lg">
+              <h1 className="filtered-books-heading">
+                {activeFilterLabel} Books
+              </h1>
+
               <div className="search-input-container">
                 <Input
                   allowClear
@@ -392,7 +393,7 @@ const BookShelves = () => {
                   }}
                 />
               </div>
-            </Space>
+            </div>
             <div className="renderbookshelves"> {renderContent()}</div>
           </div>
         </div>

@@ -15,7 +15,7 @@ function Profile({ token, setUser, userImage, username }) {
   return (
     <>
       <Space>
-        <Flex justify="center" align="center" style={{ height: "300px" }}>
+        <Flex justify="center" align="center" style={{ marginTop: "5px", height: "40px" }}>
           <Avatar size={40} srcImage={userImage} alt="User Avatar" />
           <Text style={{ marginLeft: "8px", color: "#333", maxHeight: "32px", minWidth: "80px" }}>{username}</Text>
         </Flex>

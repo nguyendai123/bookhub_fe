@@ -20,7 +20,6 @@ const App = () => {
         <Route path="/books/:id" exact element={<BookItemDetails />} />
         <Route path="/ratings" element={<BookPage />} />
         <Route path="/shelf" element={<BookShelves />} />
-        <Route path="/books" exact element={<BookPage />} />
       </Routes>
     </div>
   );

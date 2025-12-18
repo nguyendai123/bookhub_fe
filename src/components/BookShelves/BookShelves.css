@@ -124,10 +124,11 @@
   width: 30px;
 }
 
-/* .large-container {
+.large-container {
   display: flex;
   flex-direction: column;
-} */
+}
+
 @media screen and (min-width: 787px) {
   .large-container {
     display: flex;
