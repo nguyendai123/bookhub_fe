@@ -10,9 +10,16 @@ import "./Header.css";
 import { useState } from "react";
 import Profile from "../Profile/Profile";
 import useIsMobile from "../customize/useIsMobile ";
+import NotificationPanel from "../Notification/NotificationPanel";
+import jwtDecode from "jwt-decode";
+import NotificationListener from "../Notification/NotificationListener";
 
 // eslint-disable-next-line react/prop-types
 const AppHeader = () => {
+  const userId = Cookies.get("user_id"); // hoặc lấy từ Redux
+  const token = Cookies.get("jwt_token");
+  const currentUser = token ? jwtDecode(token) : null;
+
   const items = [
     {
       label: (
@@ -108,6 +115,9 @@ const AppHeader = () => {
         {/* RIGHT (ẩn trên mobile) */}
         {!isMobile && (
           <div className="header-right">
+            {/* 🔔 Notification */}
+            <NotificationListener userId={userId} token={token} />
+            <NotificationPanel currentUser={currentUser} />
             <Profile
               username={Cookies.get("user_name")}
               token={Cookies.get("jwt_token")}
@@ -123,7 +133,15 @@ const AppHeader = () => {
 
         {/* MOBILE ICON */}
         {isMobile && (
-          <FiMenu className="mobile-menu-icon" onClick={() => setOpen(true)} />
+          <div>
+            {/* 🔔 Notification */}
+            <NotificationListener userId={userId} token={token} />
+            <NotificationPanel currentUser={currentUser} />
+            <FiMenu
+              className="mobile-menu-icon"
+              onClick={() => setOpen(true)}
+            />
+          </div>
         )}
       </Header>
 
