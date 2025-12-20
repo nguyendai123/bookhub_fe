@@ -8,18 +8,31 @@ import BookItemDetails from "./components/BookItemDetails/BookItemDetails";
 import BookPage from "./components/BookPage/BookPage";
 import AdminPage from "./components/AdminPage/AdminPage";
 import BookShelves from "./components/BookShelves/BookShelves";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
+import FollowButton from "./components/Follow/FollowButton";
+import UserProfilePage from "./components/Profile/UserProfilePage";
 
 const App = () => {
+  const token = Cookies.get("jwt_token");
+  const currentUser = token ? jwtDecode(token) : null;
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/*" element={<AdminPage />} />
-        <Route path="login" exact element={<Login />} />
-        <Route path="register" exact element={<Register />} />
-        <Route path="/books/:id" exact element={<BookItemDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/books/:id" element={<BookItemDetails />} />
         <Route path="/ratings" element={<BookPage />} />
         <Route path="/shelf" element={<BookShelves />} />
+
+        {/* ✅ route động */}
+        <Route
+          path="/profile/:userId"
+          element={<UserProfilePage currentUser={currentUser} />}
+        />
       </Routes>
     </div>
   );

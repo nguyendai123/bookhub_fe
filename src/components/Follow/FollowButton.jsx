@@ -1,46 +1,45 @@
 import { Button, message } from "antd";
 import { useEffect, useState } from "react";
-import { followUser, unfollowUser, checkFollowing } from "@/api/followApi";
+import { followUser, unfollowUser, checkFollowing } from "../../services/followApi";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const FollowButton = ({ currentUserId, targetUserId }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [loading, setLoading] = useState(false);
+const FollowButton = ({ profileUser, setProfileUser, currentUserId, targetUserId }) => {
+  console.log("FollowButton profileUser", profileUser);
 
-  useEffect(() => {
-    if (!currentUserId || !targetUserId) return;
-
-    checkFollowing(currentUserId, targetUserId).then((res) => {
-      setIsFollowing(res.data);
-    });
-  }, [currentUserId, targetUserId]);
-
-  const toggleFollow = async () => {
-    try {
-      setLoading(true);
-      if (isFollowing) {
-        await unfollowUser(targetUserId);
-        message.success("Đã bỏ theo dõi");
-      } else {
-        await followUser(targetUserId);
-        message.success("Đã theo dõi");
-      }
-      setIsFollowing(!isFollowing);
-    } catch {
-      message.error("Thao tác thất bại");
-    } finally {
-      setLoading(false);
-    }
+  const headers = {
+    Authorization: `Bearer ${Cookies.get("jwt_token")}`,
   };
+
+  const handleFollowToggle = async () => {
+    if (profileUser.following) {
+      await axios.delete(`http://localhost:8080/api/follow/${profileUser.userId}`, { headers });
+      message.info(`Bạn đã bỏ theo dõi ${profileUser.username}`);
+    } else {
+      await axios.post(`http://localhost:8080/api/follow/${profileUser.userId}`, {}, { headers });
+      message.success(`Bạn đã theo dõi ${profileUser.username}`);
+    }
+
+    setProfileUser(prev => ({
+      ...prev,
+      following: !prev.following,
+      followersCount: prev.following
+        ? prev.followersCount - 1
+        : prev.followersCount + 1
+    }));
+  };
+
 
   if (currentUserId === targetUserId) return null;
 
   return (
+
     <Button
-      type={isFollowing ? "default" : "primary"}
-      loading={loading}
-      onClick={toggleFollow}
+      type={profileUser.following ? "default" : "primary"}
+      danger={profileUser.following}
+      onClick={handleFollowToggle}
     >
-      {isFollowing ? "Unfollow" : "Follow"}
+      {profileUser.following ? "Bỏ theo dõi" : "Theo dõi"}
     </Button>
   );
 };

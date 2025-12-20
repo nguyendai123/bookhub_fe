@@ -1,6 +1,6 @@
 import { List, Avatar, Tabs } from "antd";
 import { useEffect, useState } from "react";
-import { getFollowers, getFollowing } from "@/api/followApi";
+import { getFollowers, getFollowing } from "../../services/followApi";
 
 const FollowersListPage = ({ userId }) => {
   const [followers, setFollowers] = useState([]);

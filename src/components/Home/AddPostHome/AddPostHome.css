@@ -2,11 +2,13 @@
   font-size: 20px;
   font-weight: 600;
 }
+
 .model-content-add {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+
 .add-post-book {
   border-radius: 50%;
   background-color: #eff0f6;
@@ -16,6 +18,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .model-content-btn-submit {
   margin-top: 20px;
   background-color: #d9dbe9;
@@ -24,8 +27,8 @@
   font-size: 24px;
 }
 
-.rec-arrow-right {
-}
+.rec-arrow-right {}
+
 .ibdAiA,
 .bTosVK {
   line-height: 0px !important;
@@ -34,4 +37,17 @@
   width: 20px !important;
   height: 20px !important;
   font-size: 10px !important;
+}
+
+.ant-carousel .slick-prev,
+.ant-carousel .slick-next {
+  width: 22px;
+  height: 22px;
+  z-index: 2;
+}
+
+.ant-carousel .slick-prev::before,
+.ant-carousel .slick-next::before {
+  font-size: 14px;
+  color: #1890ff;
 }

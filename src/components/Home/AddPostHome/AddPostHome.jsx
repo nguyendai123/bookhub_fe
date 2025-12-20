@@ -9,11 +9,9 @@ import {
   Image,
   Divider,
 } from "antd";
-import { Input, Row, Col } from "antd";
-import useFetchPost from "../../customize/fetchpost";
+import { Input, Row, Col, Carousel } from "antd";
 import useFetch from "../../customize/fetch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import {
   faCoffee,
@@ -35,6 +33,7 @@ const items = [
     icon: <FontAwesomeIcon icon={faLock} />,
   },
 ];
+
 const breakPoints = [
   { width: 1, itemsToShow: 3 },
   { width: 550, itemsToShow: 3, itemsToScroll: 3 },
@@ -81,6 +80,14 @@ const AddPostHome = ({ load, setLoad }) => {
   );
 
   console.log("dataBooks", dataBooks, isLoadingBooks, isErrorBooks);
+  const chunkArray = (arr, size) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  };
+  const bookSlides = chunkArray(dataBooks.content || [], 3);
 
   const handleSelectBook = (book) => {
     setSelectedBookId(book.bookId);
@@ -448,98 +455,113 @@ const AddPostHome = ({ load, setLoad }) => {
           <div className="model-content-title">
             Suggestions <span style={{ color: "red" }}>*</span>
           </div>
-          <Carousel itemsToShow={3} pagination={false} itemPadding={[0, 8]}>
-            {dataBooks.content?.map((book) => {
-              const isSelected = book.bookId === selectedBookId;
 
-              return (
+          <Carousel
+            dots={false}
+            arrows
+            slidesToShow={1}
+            draggable
+          >
+            {bookSlides.map((slide, idx) => (
+              <div key={idx}>
                 <div
-                  key={book.bookId}
-                  onClick={() => handleSelectBook(book)}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.03)")
-                  }
-                  onMouseLeave={(e) =>
-                  (e.currentTarget.style.transform = isSelected
-                    ? "scale(1.05)"
-                    : "scale(1)")
-                  }
                   style={{
-                    width: 150,
-                    minHeight: 220,
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    cursor: "pointer",
-                    transition: "all 0.25s ease",
-                    transform: isSelected ? "scale(1.05)" : "scale(1)",
+                    justifyContent: "center",
+                    gap: 16,
+                    padding: "0 8px",
                   }}
                 >
-                  {/* IMAGE WRAPPER */}
-                  <div
-                    style={{
-                      position: "relative",
-                      borderRadius: 14,
-                      border: isSelected
-                        ? "3px solid #1890ff"
-                        : "2px solid transparent",
-                      boxShadow: isSelected
-                        ? "0 8px 20px rgba(24,144,255,0.35)"
-                        : "0 2px 6px rgba(0,0,0,0.08)",
-                      transition: "all 0.25s ease",
-                    }}
-                  >
-                    <Image
-                      width={140}
-                      height={200}
-                      style={{
-                        borderRadius: 12,
-                        objectFit: "cover",
-                      }}
-                      src={`http://localhost:8080${book.coverUrl}`}
-                      preview={false}
-                      fallback="/no-image.png"
-                    />
+                  {slide.map((book) => {
+                    const isSelected = book.bookId === selectedBookId;
 
-                    {/* CHECK ICON */}
-                    {isSelected && (
+                    return (
                       <div
+                        key={book.bookId}
+                        onClick={() => handleSelectBook(book)}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.transform = "scale(1.03)")
+                        }
+                        onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = isSelected
+                          ? "scale(1.05)"
+                          : "scale(1)")
+                        }
                         style={{
-                          position: "absolute",
-                          top: 8,
-                          right: 8,
-                          background: "#1890ff",
-                          width: 26,
-                          height: 26,
-                          borderRadius: "50%",
+                          width: 150,
+                          minHeight: 220,
                           display: "flex",
+                          flexDirection: "column",
                           alignItems: "center",
-                          justifyContent: "center",
-                          color: "#fff",
-                          fontSize: 14,
-                          fontWeight: "bold",
+                          cursor: "pointer",
+                          transition: "all 0.25s ease",
+                          transform: isSelected ? "scale(1.05)" : "scale(1)",
                         }}
                       >
-                        ✓
-                      </div>
-                    )}
-                  </div>
+                        {/* IMAGE */}
+                        <div
+                          style={{
+                            position: "relative",
+                            borderRadius: 14,
+                            border: isSelected
+                              ? "3px solid #1890ff"
+                              : "2px solid transparent",
+                            boxShadow: isSelected
+                              ? "0 8px 20px rgba(24,144,255,0.35)"
+                              : "0 2px 6px rgba(0,0,0,0.08)",
+                            transition: "all 0.25s ease",
+                          }}
+                        >
+                          <Image
+                            width={140}
+                            height={200}
+                            style={{ borderRadius: 12, objectFit: "cover" }}
+                            src={`http://localhost:8080${book.coverUrl}`}
+                            preview={false}
+                            fallback="/no-image.png"
+                          />
 
-                  {/* TITLE */}
-                  <div
-                    style={{
-                      marginTop: 8,
-                      fontSize: 14,
-                      textAlign: "center",
-                      fontWeight: isSelected ? 600 : 500,
-                      color: isSelected ? "#1890ff" : "#333",
-                    }}
-                  >
-                    {book.title}
-                  </div>
+                          {isSelected && (
+                            <div
+                              style={{
+                                position: "absolute",
+                                top: 8,
+                                right: 8,
+                                background: "#1890ff",
+                                width: 26,
+                                height: 26,
+                                borderRadius: "50%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "#fff",
+                                fontSize: 14,
+                                fontWeight: "bold",
+                              }}
+                            >
+                              ✓
+                            </div>
+                          )}
+                        </div>
+
+                        {/* TITLE */}
+                        <div
+                          style={{
+                            marginTop: 8,
+                            fontSize: 14,
+                            textAlign: "center",
+                            fontWeight: isSelected ? 600 : 500,
+                            color: isSelected ? "#1890ff" : "#333",
+                          }}
+                        >
+                          {book.title}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </Carousel>
 
           {/* FOOTER */}

@@ -29,8 +29,8 @@ import ShareModal from "./ShareModal/ShareModal";
 import OriginalPostModal from "./OriginalPostModal/OriginalPostModal";
 import "./PostCardItem.scss";
 import Cookies from "js-cookie";
-import Carousel from "react-elastic-carousel";
 import useFetch from "../../customize/fetch";
+import { Carousel } from "antd";
 
 const { TextArea } = Input;
 const items = [
@@ -92,6 +92,16 @@ const PostCardItem = ({
     `http://localhost:8080/api/books/search?keyword=${keyword}`,
     false
   );
+
+  const chunk = (arr, size) => {
+    const res = [];
+    for (let i = 0; i < arr.length; i += size) {
+      res.push(arr.slice(i, i + size));
+    }
+    return res;
+  };
+
+  const slides = chunk(dataBooks.content || [], 3);
 
   const handleSearchBook = async () => {
     if (!keyword.trim()) return;
@@ -166,25 +176,7 @@ const PostCardItem = ({
   };
   console.log("dât111", data);
   console.log("item pót item", item);
-  // const menu = (
-  //   <Menu>
-  //     <Menu.Item
-  //       key="edit"
-  //       onClick={() => {
-  //         setOpen(true);
-  //         setPost(item);
-  //         setValue(item.content);
-  //       }}
-  //     >
-  //       Edit Post
-  //     </Menu.Item>
-  //     <Menu.Item
-  //       key="delete"
-  //       onClick={() => handleDeletePost(item.postId)}>
-  //       Delete Post
-  //     </Menu.Item>
-  //   </Menu>
-  // );
+
 
   const menu = (
     <Menu>
@@ -226,45 +218,6 @@ const PostCardItem = ({
     );
 
     return res.data.url;
-  };
-  const handleCreatePost = async () => {
-    try {
-      let uploadedImageUrl = null;
-
-      if (imageFile) {
-        uploadedImageUrl = await uploadPostImage();
-      }
-      const payload = {
-        content,
-        translatedText: null,
-        imageUrl: uploadedImageUrl,
-        hashtags: [],
-        bookId: selectedBook?.bookId || null,
-        shareOf: null,
-      };
-
-      await axios.post("http://localhost:8080/api/posts", payload, { headers });
-
-      // Nếu có book → update reading progress
-      if (selectedBook) {
-        const res = await axios.post(
-          "http://localhost:8080/api/reading/add",
-          {
-            bookId: selectedBook.bookId,
-            status: readingStatus,
-            currentPage,
-          },
-          { headers }
-        );
-        setReadingProgress(res.data);
-      }
-
-      setOpen(false);
-      setLoad(!load);
-      resetForm();
-    } catch (e) {
-      console.error("Create post failed", e);
-    }
   };
 
   const handleUpdatePost = async () => {
@@ -448,42 +401,22 @@ const PostCardItem = ({
 
     return res.data.url;
   };
-  const handleClickEditSave = async (postId) => {
-    try {
-      let finalImageUrl = editImageUrl;
-
-      // nếu user chọn ảnh mới → upload
-      if (editImageFile) {
-        finalImageUrl = await uploadEditImage();
-      }
-
-      const payload = {
-        content,
-        imageUrl: finalImageUrl,
-        bookId: post.book?.bookId || null,
-        readingStatus,
-        currentPage,
-      };
-
-      await axios.put(
-        `http://localhost:8080/api/posts/${postId}`,
-        payload,
-        { headers }
-      );
-
-      setOpen(false);
-      setLoad(!load);
-    } catch (e) {
-      console.error("Update post failed", e);
-    }
-  };
 
   const onClickAddBookPost = () => {
     setOpenEdit(false);
     setOpenAddBook(true);
     return dataBooks?.content;
   };
-
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8080/api/users/${userId}/profile`, {
+  //     headers: {
+  //       Authorization: `Bearer ${Cookies.get("jwt_token")}`,
+  //     }
+  //   },
+  //   ).then((res) => {
+  //     setProfileUser(res.data);
+  //   });
+  // }, [userId]);
 
 
   return (
@@ -759,98 +692,42 @@ const PostCardItem = ({
         <div className="model-content-title">
           Suggestions <span style={{ color: "red" }}>*</span>
         </div>
-        <Carousel itemsToShow={3} pagination={false} itemPadding={[0, 8]}>
-          {dataBooks.content?.map((book) => {
-            const isSelected = book.bookId === selectedBookId;
 
-            return (
-              <div
-                key={book.bookId}
-                onClick={() => handleSelectBook(book)}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.transform = "scale(1.03)")
-                }
-                onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = isSelected
-                  ? "scale(1.05)"
-                  : "scale(1)")
-                }
-                style={{
-                  width: 150,
-                  minHeight: 220,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  transition: "all 0.25s ease",
-                  transform: isSelected ? "scale(1.05)" : "scale(1)",
-                }}
-              >
-                {/* IMAGE WRAPPER */}
-                <div
-                  style={{
-                    position: "relative",
-                    borderRadius: 14,
-                    border: isSelected
-                      ? "3px solid #1890ff"
-                      : "2px solid transparent",
-                    boxShadow: isSelected
-                      ? "0 8px 20px rgba(24,144,255,0.35)"
-                      : "0 2px 6px rgba(0,0,0,0.08)",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <Image
-                    width={140}
-                    height={200}
-                    style={{
-                      borderRadius: 12,
-                      objectFit: "cover",
-                    }}
-                    src={`http://localhost:8080${book.coverUrl}`}
-                    preview={false}
-                    fallback="/no-image.png"
-                  />
+        <Carousel dots={false} arrows draggable>
+          {slides.map((group, index) => (
+            <div key={index}>
+              <div className="book-carousel-row">
+                {group.map((book) => {
+                  const isSelected = book.bookId === selectedBookId;
 
-                  {/* CHECK ICON */}
-                  {isSelected && (
+                  return (
                     <div
-                      style={{
-                        position: "absolute",
-                        top: 8,
-                        right: 8,
-                        background: "#1890ff",
-                        width: 26,
-                        height: 26,
-                        borderRadius: "50%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#fff",
-                        fontSize: 14,
-                        fontWeight: "bold",
-                      }}
+                      key={book.bookId}
+                      className={`book-carousel-item ${isSelected ? "selected" : ""
+                        }`}
+                      onClick={() => handleSelectBook(book)}
                     >
-                      ✓
-                    </div>
-                  )}
-                </div>
+                      <div className="book-image-wrapper">
+                        <Image
+                          width={140}
+                          height={200}
+                          src={`http://localhost:8080${book.coverUrl}`}
+                          preview={false}
+                          fallback="/no-image.png"
+                        />
 
-                {/* TITLE */}
-                <div
-                  style={{
-                    marginTop: 8,
-                    fontSize: 14,
-                    textAlign: "center",
-                    fontWeight: isSelected ? 600 : 500,
-                    color: isSelected ? "#1890ff" : "#333",
-                  }}
-                >
-                  {book.title}
-                </div>
+                        {isSelected && (
+                          <div className="book-check-icon">✓</div>
+                        )}
+                      </div>
+
+                      <div className="book-title">{book.title}</div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </Carousel>
 
         {/* FOOTER */}

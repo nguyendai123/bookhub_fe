@@ -45,6 +45,14 @@ const AppHeader = () => {
       ),
       key: "/shelf",
     },
+    {
+      label: (
+        <Link className="link" to="/follow">
+          Follow
+        </Link>
+      ),
+      key: "/follow",
+    },
   ];
   const [, setCurrent] = useState("home");
   const [, setUser] = useState("");
