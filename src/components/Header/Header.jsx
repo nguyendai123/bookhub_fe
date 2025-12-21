@@ -124,7 +124,7 @@ const AppHeader = () => {
         {!isMobile && (
           <div className="header-right">
             {/* 🔔 Notification */}
-            <NotificationListener userId={userId} token={token} />
+            {/* <NotificationListener userId={userId} token={token} /> */}
             <NotificationPanel currentUser={currentUser} />
             <Profile
               username={Cookies.get("user_name")}
@@ -143,8 +143,8 @@ const AppHeader = () => {
         {isMobile && (
           <div>
             {/* 🔔 Notification */}
-            <NotificationListener userId={userId} token={token} />
-            <NotificationPanel currentUser={currentUser} />
+            {/* <NotificationListener userId={userId} token={token} /> */}
+            <NotificationPanel />
             <FiMenu
               className="mobile-menu-icon"
               onClick={() => setOpen(true)}

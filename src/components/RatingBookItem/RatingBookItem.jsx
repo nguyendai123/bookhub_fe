@@ -2,17 +2,18 @@ import React from "react";
 import useFetch from "../customize/fetch";
 import { Rate } from "antd";
 import "./RatingBookItem.css";
-function RatingBookItem() {
+function TrendingBooksSection() {
   const {
     data: dataBooks,
     isLoadingBooks,
     isErrorBooks,
-  } = useFetch("http://localhost:8080/api/books/search?keyword=", false);
+  } = useFetch("http://localhost:8080/api/books/trending?limit=8", false);
   return (
     <>
-      {dataBooks?.content?.map((item, idx) => (
+      {console.log("dataBooks111", dataBooks)}
+      {dataBooks?.map((item, idx) => (
         <div key={item.bookId}>
-          {idx <= 4 && (
+          {
             <div className="rating-book-item" style={{ margin: "0 5px" }}>
               <div className="number-book-item">0{idx + 1}</div>
               <img
@@ -35,11 +36,11 @@ function RatingBookItem() {
                 <Rate allowHalf defaultValue={item?.avgRating} disabled />
               </div>
             </div>
-          )}
+          }
         </div>
       ))}
     </>
   );
 }
 
-export default RatingBookItem;
+export default TrendingBooksSection;

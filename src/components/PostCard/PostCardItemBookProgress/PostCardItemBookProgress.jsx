@@ -17,7 +17,9 @@ const PostCardItemBookProgress = ({
   mode = "VIEW", // CREATE | VIEW
   onChangePage,
 }) => {
-  const [pageNumber, setPageNumber] = useState(progress?.readPage ?? item?.currentPage ?? 0);
+  const [pageNumber, setPageNumber] = useState(
+    progress?.readPage ?? item?.currentPage ?? 0
+  );
   const totalPages = progress?.book?.totalPages ?? item?.totalPages;
   const handleChangeProgressPage = (e) => {
     const value = Number(e.target.value);
@@ -36,6 +38,8 @@ const PostCardItemBookProgress = ({
         return "Chưa đọc";
     }
   };
+  const maxPages = progress?.book?.totalPages ?? item?.totalPages;
+  const widthCh = String(maxPages ?? "").length + 2.5;
 
   return (
     <>
@@ -65,8 +69,9 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`http://localhost:8080${progress?.book?.image ?? item?.coverUrl
-                }`}
+              src={`http://localhost:8080${
+                progress?.book?.image ?? item?.coverUrl
+              }`}
               fallback="/no-image.png"
               alt="book image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -94,19 +99,19 @@ const PostCardItemBookProgress = ({
               <Space>
                 {mode === "CREATE" ? (
                   <>
-                    <input
-                      type="number"
+                    <InputNumber
                       min={0}
-                      max={progress?.book?.totalPages ?? item?.totalPages}
+                      max={maxPages}
                       value={pageNumber}
                       onChange={handleChangeProgressPage}
+                      size="small"
+                      controls={false} // 👈 bỏ mũi tên ↑ ↓
                       style={{
-                        width: 40,
-                        padding: 4,
-                        borderRadius: 6,
-                        border: "1px solid #d9d9d9",
+                        width: `${widthCh}ch`,
+                        textAlign: "center",
                       }}
                     />
+
                     <span>
                       /{progress?.book?.totalPages ?? item?.totalPages}
                     </span>

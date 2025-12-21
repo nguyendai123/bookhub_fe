@@ -12,6 +12,10 @@ import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import FollowButton from "./components/Follow/FollowButton";
 import UserProfilePage from "./components/Profile/UserProfilePage";
+import { Typography, Row, Col, Card, Avatar, Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import NotificationListener from "./components/Notification/NotificationListener";
+import { NotificationProvider } from "./components/contexts/NotificationContext";
 
 const App = () => {
   const token = Cookies.get("jwt_token");
@@ -19,21 +23,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin/*" element={<AdminPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/books/:id" element={<BookItemDetails />} />
-        <Route path="/ratings" element={<BookPage />} />
-        <Route path="/shelf" element={<BookShelves />} />
+      <NotificationProvider>
+        {currentUser && (
+          <NotificationListener userId={Cookies.get("user_id")} token={token} />
+        )}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin/*" element={<AdminPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/books/:id" element={<BookItemDetails />} />
+          <Route path="/ratings" element={<BookPage />} />
+          <Route path="/shelf" element={<BookShelves />} />
 
-        {/* ✅ route động */}
-        <Route
-          path="/profile/:userId"
-          element={<UserProfilePage currentUser={currentUser} />}
-        />
-      </Routes>
+          {/* ✅ route động */}
+          <Route
+            path="/profile/:userId"
+            element={<UserProfilePage currentUser={currentUser} />}
+          />
+        </Routes>
+      </NotificationProvider>
     </div>
   );
 };

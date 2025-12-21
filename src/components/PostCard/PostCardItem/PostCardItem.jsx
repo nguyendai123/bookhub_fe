@@ -17,7 +17,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import AccountHeader from "../../AccountHeader/AccountHeader";
-import { Button, Dropdown, Modal, Space, Row, Col, Popover, ConfigProvider, notification } from "antd";
+import {
+  Button,
+  Dropdown,
+  Modal,
+  Space,
+  Row,
+  Col,
+  Popover,
+  ConfigProvider,
+  notification,
+} from "antd";
 import { Input, Image } from "antd";
 import LikeCount from "../LikeCount/LikeCount";
 import PostCardItemBookProgress from "../PostCardItemBookProgress/PostCardItemBookProgress";
@@ -101,7 +111,7 @@ const PostCardItem = ({
     return res;
   };
 
-  const slides = chunk(dataBooks.content || [], 3);
+  const slides = chunk(dataBooks?.content || [], 3);
 
   const handleSearchBook = async () => {
     if (!keyword.trim()) return;
@@ -119,11 +129,10 @@ const PostCardItem = ({
 
   const editModal = (post) => {
     setEditPost(post);
-    setEditContent(post.content || "");
-    setEditImageUrl(`http://localhost:8080${post.imageUrl}` || null);
+    setEditContent(post?.content || "");
+    setEditImageUrl(`http://localhost:8080${post?.imageUrl}` || null);
     setOpenEdit(true);
   };
-
 
   const [editForm, setEditForm] = useState({
     content: "",
@@ -132,7 +141,6 @@ const PostCardItem = ({
     hashtags: [],
     bookId: null,
   });
-
 
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar"
@@ -144,7 +152,7 @@ const PostCardItem = ({
   const username = Cookies.get("user_name");
 
   const currentUserId = Number(Cookies.get("user_id"));
-  const isOwner = currentUserId === item.userId;
+  const isOwner = currentUserId === item?.userId;
   const post = item;
 
   const handleSelectBook = (book) => {
@@ -177,14 +185,13 @@ const PostCardItem = ({
   console.log("dât111", data);
   console.log("item pót item", item);
 
-
   const menu = (
     <Menu>
       <Menu.Item
         key="edit"
         onClick={() => {
           editModal(item);
-          setEditPost(item);      // lưu post cần edit
+          setEditPost(item); // lưu post cần edit
           setOpenEditModal(true);
         }}
       >
@@ -194,7 +201,7 @@ const PostCardItem = ({
       <Menu.Item
         key="delete"
         danger
-        onClick={() => handleDeletePost(item.postId)}
+        onClick={() => handleDeletePost(item?.postId)}
       >
         Delete Post
       </Menu.Item>
@@ -222,7 +229,7 @@ const PostCardItem = ({
 
   const handleUpdatePost = async () => {
     try {
-      let uploadedImageUrl = editPost.imageUrl;
+      let uploadedImageUrl = editPost?.imageUrl;
 
       if (editImageFile) {
         uploadedImageUrl = await uploadPostImage(editImageFile);
@@ -234,7 +241,7 @@ const PostCardItem = ({
         imageUrl: uploadedImageUrl,
         hashtags: editPost.hashtags,
         bookId: editPost.book?.bookId,
-        shareOf: editPost.shareOf,
+        shareOf: editPost?.shareOf,
       };
 
       await axios.post("http://localhost:8080/api/posts", payload, { headers });
@@ -253,10 +260,8 @@ const PostCardItem = ({
         setReadingProgress(res.data);
       }
 
-
-
       await axios.put(
-        `http://localhost:8080/api/posts/${editPost.postId}`,
+        `http://localhost:8080/api/posts/${editPost?.postId}`,
         payload,
         { headers }
       );
@@ -276,8 +281,6 @@ const PostCardItem = ({
     }
   };
 
-
-
   const handleDeletePost = (postId) => {
     Modal.confirm({
       title: "Xóa bài viết?",
@@ -288,10 +291,9 @@ const PostCardItem = ({
 
       onOk: async () => {
         try {
-          await axios.delete(
-            `http://localhost:8080/api/posts/${postId}`,
-            { headers }
-          );
+          await axios.delete(`http://localhost:8080/api/posts/${postId}`, {
+            headers,
+          });
 
           notification.success({
             message: "Đã xóa bài viết",
@@ -313,15 +315,14 @@ const PostCardItem = ({
     });
   };
 
-
   useEffect(() => {
     async function fetchData() {
       if (!item?.bookId || !item?.userId) {
-        console.log("item.bookId hoặc item.userId NULL → không fetch API");
+        console.log("item?.bookId hoặc item?.userId NULL → không fetch API");
         return;
       }
       console.log("book id", item);
-      const url = `http://localhost:8080/api/reading/${item.userId}/${item.bookId}`;
+      const url = `http://localhost:8080/api/reading/${item?.userId}/${item?.bookId}`;
 
       await axios
         .get(url, { headers })
@@ -336,7 +337,7 @@ const PostCardItem = ({
       setLoad(!load);
     }
     fetchData();
-  }, [item.bookId, item.userId]);
+  }, [item?.bookId, item?.userId]);
   const handleClickLikePost = async (postId) => {
     // UI update trước (tối ưu UX)
     setUserLike((prev) => !prev);
@@ -363,8 +364,8 @@ const PostCardItem = ({
   };
   useEffect(() => {
     if (open && post) {
-      setEditContent(post.content || "");
-      setEditImageUrl(post.imageUrl || null); // ảnh cũ
+      setEditContent(post?.content || "");
+      setEditImageUrl(post?.imageUrl || null); // ảnh cũ
       setEditImageFile(null); // reset file
     }
   }, [open, post]);
@@ -417,7 +418,6 @@ const PostCardItem = ({
   //     setProfileUser(res.data);
   //   });
   // }, [userId]);
-
 
   return (
     <>
@@ -515,23 +515,13 @@ const PostCardItem = ({
                 <p>Select an image for your post</p>
               )}
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={changeEditImage}
-              />
+              <input type="file" accept="image/*" onChange={changeEditImage} />
             </div>
           </Col>
         </Row>
 
-
-
-
-
         {/* Book – VIEW ONLY */}
         {editPost?.book && (
-
-
           <PostCardItemBookProgress
             item={editPost.book}
             progress={readingProgress}
@@ -703,8 +693,9 @@ const PostCardItem = ({
                   return (
                     <div
                       key={book.bookId}
-                      className={`book-carousel-item ${isSelected ? "selected" : ""
-                        }`}
+                      className={`book-carousel-item ${
+                        isSelected ? "selected" : ""
+                      }`}
                       onClick={() => handleSelectBook(book)}
                     >
                       <div className="book-image-wrapper">
@@ -716,9 +707,7 @@ const PostCardItem = ({
                           fallback="/no-image.png"
                         />
 
-                        {isSelected && (
-                          <div className="book-check-icon">✓</div>
-                        )}
+                        {isSelected && <div className="book-check-icon">✓</div>}
                       </div>
 
                       <div className="book-title">{book.title}</div>
@@ -751,7 +740,7 @@ const PostCardItem = ({
             {console.log("item avatar PostCardItem", item)}
             <Avatar
               item={item}
-              srcImage={`http://localhost:8080${item.userAvatar}`}
+              srcImage={`http://localhost:8080${item?.userAvatar}`}
             />
             {isOwner && !isModal && (
               <Dropdown
@@ -772,35 +761,35 @@ const PostCardItem = ({
           {/* post content */}
           <div className="post-content">
             {/* content */}
-            <PostContent content={item.content} />
-            {item.shareOf && item.originalPost && (
+            <PostContent content={item?.content} />
+            {item?.shareOf && item?.originalPost && (
               <div
                 className="shared-original-post"
                 onClick={() => setOpenOriginal(true)}
               >
                 <div className="original-post-header">
                   <img
-                    src={`http://localhost:8080${item.originalPost.userAvatar}`}
+                    src={`http://localhost:8080${item?.originalPost?.userAvatar}`}
                     className="avatar"
                   />
-                  <span>{item.originalPost.userName}</span>
+                  <span>{item?.originalPost?.userName}</span>
                 </div>
 
                 <div className="original-post-content">
-                  {item.originalPost.content}
+                  {item?.originalPost?.content}
                 </div>
 
-                {item.originalPost.imageUrl && (
+                {item?.originalPost?.imageUrl && (
                   <img
-                    src={`http://localhost:8080${item.originalPost.imageUrl}`}
+                    src={`http://localhost:8080${item?.originalPost?.imageUrl}`}
                     className="original-post-image"
                     alt="original post"
                   />
                 )}
 
                 <div className="original-post-disabled-info">
-                  {item.originalPost.likesCount} likes •{" "}
-                  {item.originalPost.commentsCount} comments
+                  {item?.originalPost?.likesCount} likes •{" "}
+                  {item?.originalPost?.commentsCount} comments
                 </div>
               </div>
             )}
@@ -808,12 +797,12 @@ const PostCardItem = ({
             <div>
               {console.log(
                 "item PostCardItem image1234 ",
-                item.postId == 15 ? item.imageUrl : "không có"
+                item?.postId == 15 ? item?.imageUrl : "không có"
               )}
 
               <div className="post-content-image-user-add">
                 <Image
-                  src={`http://localhost:8080${item.imageUrl}`}
+                  src={`http://localhost:8080${item?.imageUrl}`}
                   fallback="/no-image.png"
                   alt="post image1"
                   className="post-content-image-user-add-1"
@@ -837,15 +826,18 @@ const PostCardItem = ({
                 style={{ height: 50, zIndex: 5 }}
               >
                 <div className="like-post">
-                  <div className="">
-                    <img src={likeicon} alt="like" />
-                  </div>
+                  <Image
+                    src={likeicon}
+                    alt="like"
+                    width={30} // 👈 tăng size (px)
+                    preview={false}
+                  />
 
                   <LikeCount item={item} userLike={userLike} />
                 </div>
                 <div
                   className="comment-number"
-                  onClick={() => handleClickComment(item.postId)}
+                  onClick={() => handleClickComment(item?.postId)}
                 >
                   {item?.commentsCount} Comment
                 </div>
@@ -860,7 +852,7 @@ const PostCardItem = ({
                   {/* comment & like bar */}
                   <div className="comment-bar d-flex justify-content-around">
                     <div
-                      onClick={() => handleClickLikePost(item.postId)}
+                      onClick={() => handleClickLikePost(item?.postId)}
                       className="dropdown-item "
                     >
                       {userLike ? (
@@ -884,7 +876,7 @@ const PostCardItem = ({
                     </div>
                     <div
                       className="dropdown-item"
-                      onClick={() => handleClickComment(item.postId)}
+                      onClick={() => handleClickComment(item?.postId)}
                     >
                       <img src={commenticon} alt="commenticon" />
                       <span>&nbsp; &nbsp;Comment</span>
@@ -912,7 +904,7 @@ const PostCardItem = ({
 
                         {/* create comment */}
                         <CommentAddForm
-                          postId={item.postId}
+                          postId={item?.postId}
                           avatarUrl={avatarUrl}
                           onCommentAdded={(newComment) => {
                             // bạn có thể push vào list comments
@@ -944,7 +936,7 @@ const PostCardItem = ({
         setLoad={setLoad}
         open={openOriginal}
         onClose={() => setOpenOriginal(false)}
-        post={item.originalPost}
+        post={item?.originalPost}
       />
     </>
   );

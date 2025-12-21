@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Layout, Row, Col, Card } from "antd";
 const { Content } = Layout;
 import PostCard from "../PostCard/PostCard";
-import RatingBookItem from "../RatingBookItem/RatingBookItem";
+import TrendingBooksSection from "../RatingBookItem/RatingBookItem";
 import AddPostHome from "./AddPostHome/AddPostHome";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -167,7 +167,7 @@ const Home = () => {
                   boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                 }}
               >
-                <RatingBookItem />
+                <TrendingBooksSection />
               </Card>
             </Col>
           </Row>
