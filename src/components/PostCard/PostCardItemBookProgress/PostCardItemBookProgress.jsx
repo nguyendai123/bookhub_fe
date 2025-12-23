@@ -69,9 +69,8 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`http://localhost:8080${
-                progress?.book?.image ?? item?.coverUrl
-              }`}
+              src={`http://localhost:8080${progress?.book?.image ?? item?.coverUrl
+                }`}
               fallback="/no-image.png"
               alt="book image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
