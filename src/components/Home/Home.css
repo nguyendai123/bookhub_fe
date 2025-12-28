@@ -236,7 +236,8 @@
   align-items: center;
 }
 
-.comment {}
+.comment {
+}
 
 .comment-item {
   margin-top: 20px;
@@ -276,8 +277,6 @@
   display: flex;
   justify-content: end;
 }
-
-
 
 .comment-author-name {
   font-weight: bold;
@@ -386,7 +385,8 @@
   justify-content: space-between;
 }
 
-.home-book-rating-des {}
+.home-book-rating-des {
+}
 
 .home-book-rating-name {
   color: var(--light-blue-gray-700, #334155);
@@ -421,4 +421,30 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.star-rating {}
+/* Scroll dọc */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Thanh kéo */
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+/* Track */
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hover mới hiện rõ */
+.sidebar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+.sidebar {
+  position: sticky;
+  top: 64px; /* chiều cao header */
+  height: calc(100vh - 64px);
+  overflow-y: auto; /* 👉 scroll dọc */
+  /* overflow-x: hidden; */
+}

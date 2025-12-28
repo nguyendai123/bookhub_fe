@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import { Layout, Row, Col, Card } from "antd";
 const { Content } = Layout;
 import PostCard from "../PostCard/PostCard";
-import TrendingBooksSection from "../RatingBookItem/RatingBookItem";
+import TrendingBooksSection from "../TrendingBooksSection/TrendingBooksSection";
 import AddPostHome from "./AddPostHome/AddPostHome";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import RecommendationSection from "../Recommendation/RecommendationSection";
 
 const topRatedApiStatuses = {
   initial: "INITIAL",
@@ -131,15 +132,25 @@ const Home = () => {
       <Layout style={{ background: "#f5f5f5" }}>
         <Content
           style={{
-            width: "90%",
-            maxWidth: 1600,
             margin: "0 auto",
             padding: "24px 16px",
           }}
         >
           <Row gutter={[24, 24]}>
-            {/* LEFT CONTENT */}
-            <Col xs={24} md={16} lg={16}>
+            {/* LEFT SIDEBAR */}
+            <Col xs={24} md={6} lg={6}>
+              <div className="sidebar sidebar-left">
+                <Card
+                  title="Top Rated Books"
+                  variant="borderless"
+                  className="sidebar-card"
+                >
+                  <TrendingBooksSection />
+                </Card>
+              </div>
+            </Col>
+            {/* CENTER CONTENT */}
+            <Col xs={24} md={12} lg={12}>
               <div className="home-left">
                 <h1 className="home-heading">
                   Tìm cuốn sách yêu thích tiếp theo của bạn?
@@ -158,17 +169,10 @@ const Home = () => {
             </Col>
 
             {/* RIGHT SIDEBAR */}
-            <Col xs={24} md={8} lg={8}>
-              <Card
-                title="Top Rated Books"
-                bordered={false}
-                style={{
-                  borderRadius: 12,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                }}
-              >
-                <TrendingBooksSection />
-              </Card>
+            <Col xs={24} md={6} lg={6}>
+              <div className="sidebar sidebar-right">
+                <RecommendationSection setLoad={setLoad} />
+              </div>
             </Col>
           </Row>
         </Content>

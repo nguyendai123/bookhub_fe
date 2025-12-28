@@ -11,8 +11,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 // Import CSS để hiển thị nội dung PDF chính xác (không thể thiếu)
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import BookReaderView from "../BookReaderView/BookReaderView";
 
-const BookPdfReader = ({ bookId }) => {
+const BookPdfReader = ({ bookId, chapterId }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -52,6 +53,8 @@ const BookPdfReader = ({ bookId }) => {
     >
       {pdfUrl && (
         <>
+          <BookReaderView bookId={bookId} chapterId={chapterId} />
+
           <Document
             file={pdfUrl}
             loading={<Spin tip="Đang tải PDF..." />}

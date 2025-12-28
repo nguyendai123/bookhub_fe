@@ -11,6 +11,7 @@ import {
   Avatar,
   Progress,
   Empty,
+  Button,
 } from "antd";
 import {
   UserOutlined,
@@ -28,14 +29,17 @@ import ReadingTracker from "../ReadingTracker/ReadingTracker";
 import BookPdfReader from "../BookItemDetails/BookPdfReader";
 import AppHeader from "../Header/Header";
 import Footer from "../Footer/Footer";
+import AISummarySection from "../BookSummaryAI/AISummarySection";
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
+import { useNavigate } from "react-router-dom";
 
 const BookDetail = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBook();
@@ -67,6 +71,14 @@ const BookDetail = () => {
           {console.log("book detail", book)}
           {book && (
             <>
+              {/* ===== AI CHAT BUTTON ===== */}
+              <Button
+                type="primary"
+                style={{ marginBottom: 16 }}
+                onClick={() => navigate(`/ai/chat/${book.bookId}`)}
+              >
+                💬 Chat AI về sách
+              </Button>
               <Card>
                 {/* Add button */}
                 <AddToShelfButton bookId={book.bookId} />
@@ -137,17 +149,14 @@ const BookDetail = () => {
                   </Col>
                 </Row>
               </Card>
-
               {/* ===== DESCRIPTION ===== */}
               <Card title="Mô tả" style={{ marginTop: 24 }}>
                 <Paragraph>{book.description}</Paragraph>
               </Card>
-
               {/* ===== AUTHOR ===== */}
               <Card title="Tác giả" style={{ marginTop: 24 }}>
                 <Paragraph>{book.author.bio}</Paragraph>
               </Card>
-
               {/* ===== MEDIA ===== */}
               <Card title="Tài nguyên" style={{ marginTop: 24 }}>
                 <List
@@ -179,8 +188,7 @@ const BookDetail = () => {
                   )}
                 />
               </Card>
-
-              {/* ===== CHAPTERS ===== */}
+              {/* ===== CHAPTERS + AI SUMMARY ===== */}
               <Card title="Danh sách chương" style={{ marginTop: 24 }}>
                 <List
                   dataSource={book.chapters}
@@ -192,11 +200,14 @@ const BookDetail = () => {
                         description={`⏱ ${c.duration} phút`}
                       />
                       {c.audioUrl && <audio controls src={c.audioUrl} />}
+                      <AISummarySection
+                        bookId={book.bookId}
+                        chapterId={c.chapterId}
+                      />
                     </List.Item>
                   )}
                 />
               </Card>
-
               {/* ===== READING PROGRESS ===== */}
               <Card title="Tiến độ đọc" style={{ marginTop: 24 }}>
                 {book.readingProgresses.length === 0 ? (
@@ -214,7 +225,6 @@ const BookDetail = () => {
                   ))
                 )}
               </Card>
-
               {/* ===== REVIEWS ===== */}
               <Card title="Đánh giá" style={{ marginTop: 24 }}>
                 {book.bookReviews.length === 0 ? (
@@ -223,7 +233,6 @@ const BookDetail = () => {
                   "TODO"
                 )}
               </Card>
-
               {/* ===== HIGHLIGHTS ===== */}
               <Card title="Highlights" style={{ marginTop: 24 }}>
                 {book.highlights.length === 0 ? (
@@ -232,7 +241,6 @@ const BookDetail = () => {
                   "TODO"
                 )}
               </Card>
-
               {/* ===== QUOTES ===== */}
               <Card title="Quotes" style={{ marginTop: 24 }}>
                 {book.quotes.length === 0 ? (
@@ -243,7 +251,10 @@ const BookDetail = () => {
               </Card>
               {/* ===== READ BOOK ===== */}
               <Card title="Đọc sách" style={{ marginTop: 24 }}>
-                <BookPdfReader bookId={book.bookId} />
+                <BookPdfReader
+                  bookId={book.bookId}
+                  chapterId={book.chapters?.[0]?.chapterId}
+                />
               </Card>
             </>
           )}

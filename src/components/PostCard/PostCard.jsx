@@ -77,7 +77,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
     <>
       {console.log("item123 ", data)}
       {data?.content?.map((item) => (
-        <div key={"id" + item.postID}>
+        <div key={"id" + item.postId}>
           {console.log("item1234* ", item)}
           <PostCardItem
             isError={isError}

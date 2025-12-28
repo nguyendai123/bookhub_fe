@@ -311,32 +311,6 @@ const BookShelves = () => {
     return renderNoMatchBooks();
   };
 
-  // console.log(booksApiStatus);
-  // const renderBooks = () => {
-  //   switch (booksApiStatus) {
-  //     case bookApiStatuses.success:
-  //       return (
-  //         <>
-  //           <RenderBooksSuccessView />
-  //         </>
-  //       );
-  //     case bookApiStatuses.inProgress:
-  //       return (
-  //         <>
-  //           <RenderBooksProgressView />
-  //         </>
-  //       );
-  //     case bookApiStatuses.failure:
-  //       return (
-  //         <>
-  //           <RenderBooksFailureView />
-  //         </>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   return (
     <>
       <AppHeader />
@@ -374,7 +348,6 @@ const BookShelves = () => {
           </div>
 
           <div className="large-container">
-
             <div className="filtered-books-search-input-container-lg">
               <h1 className="filtered-books-heading">
                 {activeFilterLabel} Books

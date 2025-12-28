@@ -41,6 +41,7 @@ import "./PostCardItem.scss";
 import Cookies from "js-cookie";
 import useFetch from "../../customize/fetch";
 import { Carousel } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
 
 const { TextArea } = Input;
 const items = [
@@ -185,28 +186,24 @@ const PostCardItem = ({
   console.log("dât111", data);
   console.log("item pót item", item);
 
-  const menu = (
-    <Menu>
-      <Menu.Item
-        key="edit"
-        onClick={() => {
-          editModal(item);
-          setEditPost(item); // lưu post cần edit
-          setOpenEditModal(true);
-        }}
-      >
-        Edit Post
-      </Menu.Item>
+  const menuItems = [
+    {
+      key: "edit",
+      label: "Edit Post",
+      onClick: () => {
+        editModal(item);
+        setEditPost(item);
+        setOpenEditModal(true);
+      },
+    },
+    {
+      key: "delete",
+      label: "Delete Post",
+      danger: true,
+      onClick: () => handleDeletePost(item?.postId),
+    },
+  ];
 
-      <Menu.Item
-        key="delete"
-        danger
-        onClick={() => handleDeletePost(item?.postId)}
-      >
-        Delete Post
-      </Menu.Item>
-    </Menu>
-  );
   const uploadPostImage = async () => {
     if (!imageFile) return null;
 
@@ -693,8 +690,9 @@ const PostCardItem = ({
                   return (
                     <div
                       key={book.bookId}
-                      className={`book-carousel-item ${isSelected ? "selected" : ""
-                        }`}
+                      className={`book-carousel-item ${
+                        isSelected ? "selected" : ""
+                      }`}
                       onClick={() => handleSelectBook(book)}
                     >
                       <div className="book-image-wrapper">
@@ -743,17 +741,20 @@ const PostCardItem = ({
             />
             {isOwner && !isModal && (
               <Dropdown
-                overlay={menu}
+                menu={{ items: menuItems }}
                 trigger={["click"]}
                 placement="bottomRight"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="1em"
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
-                </svg>
+                <span style={{ cursor: "pointer" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="1em"
+                    viewBox="0 0 512 512"
+                    fill="#65676b"
+                  >
+                    <path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z" />
+                  </svg>
+                </span>
               </Dropdown>
             )}
           </div>

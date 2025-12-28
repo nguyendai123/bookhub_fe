@@ -1,4 +1,4 @@
-import { Badge, Drawer, List, Typography, Tag } from "antd";
+import { Badge, Drawer, List, Typography, Tag, Avatar } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useNotifications } from "../contexts/NotificationContext";
@@ -12,9 +12,10 @@ const NotificationPanel = () => {
 
   return (
     <>
-      <Badge count={unread} offset={[0, 6]}>
-        <BellOutlined
-          style={{ fontSize: 22, cursor: "pointer" }}
+      <Badge count={unread} offset={[2, 2]}>
+        <Avatar
+          className="fb-icon-avatar"
+          icon={<BellOutlined />}
           onClick={() => {
             setOpen(true);
             markAllRead();

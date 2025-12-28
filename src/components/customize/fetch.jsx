@@ -25,16 +25,6 @@ const useFetch = (url, isConvertData) => {
         });
 
         let data = res?.data || [];
-
-        if (data.length > 0 && isConvertData) {
-          data = data
-            .map((item) => ({
-              ...item,
-              Date: moment(item.Date).format("DD/MM/YYYY"),
-            }))
-            .reverse();
-        }
-
         setData(data);
         setIsLoading(false);
         setIsError(false);

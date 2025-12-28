@@ -1,7 +1,7 @@
 import React from "react";
 import useFetch from "../customize/fetch";
-import { Rate } from "antd";
-import "./RatingBookItem.css";
+import { Rate, Space, Tag } from "antd";
+import "./TrendingBooksSection.css";
 function TrendingBooksSection() {
   const {
     data: dataBooks,
@@ -32,6 +32,14 @@ function TrendingBooksSection() {
                   <div className="home-book-rating-author">
                     {item?.author?.name}
                   </div>
+                  {/* Genres */}
+                  <Space size={[4, 4]} wrap>
+                    {item?.genres?.map((g) => (
+                      <Tag color="blue" key={g.genreId}>
+                        {g.name}
+                      </Tag>
+                    ))}
+                  </Space>
                 </div>
                 <Rate allowHalf defaultValue={item?.avgRating} disabled />
               </div>

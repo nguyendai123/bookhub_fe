@@ -16,6 +16,7 @@ import { Typography, Row, Col, Card, Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import NotificationListener from "./components/Notification/NotificationListener";
 import { NotificationProvider } from "./components/contexts/NotificationContext";
+import AIChatPage from "./components/AIChatPage/AIChatPage";
 
 const App = () => {
   const token = Cookies.get("jwt_token");
@@ -35,7 +36,7 @@ const App = () => {
           <Route path="/books/:id" element={<BookItemDetails />} />
           <Route path="/ratings" element={<BookPage />} />
           <Route path="/shelf" element={<BookShelves />} />
-
+          <Route path="/ai/chat/:bookId" element={<AIChatPage />} />
           {/* ✅ route động */}
           <Route
             path="/profile/:userId"
