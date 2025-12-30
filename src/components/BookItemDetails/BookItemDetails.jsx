@@ -30,6 +30,7 @@ import BookPdfReader from "../BookItemDetails/BookPdfReader";
 import AppHeader from "../Header/Header";
 import Footer from "../Footer/Footer";
 import AISummarySection from "../BookSummaryAI/AISummarySection";
+import "./BookItemDetails.css";
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -251,10 +252,7 @@ const BookDetail = () => {
               </Card>
               {/* ===== READ BOOK ===== */}
               <Card title="Đọc sách" style={{ marginTop: 24 }}>
-                <BookPdfReader
-                  bookId={book.bookId}
-                  chapterId={book.chapters?.[0]?.chapterId}
-                />
+                <BookPdfReader bookId={book.bookId} chapterId={1} />
               </Card>
             </>
           )}

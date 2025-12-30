@@ -8,11 +8,18 @@ const headers = () => ({
 export const recommendations = () =>
   axios.get(`${AI_BASE}/ai/recommendations`, { headers: headers() });
 
-export const highlightText = (payload) =>
-  axios.post(`${AI_BASE}/ai/highlight`, payload, { headers: headers() });
-
 export const summarizeChapter = (payload) =>
   axios.post(`${AI_BASE}/ai/summary`, payload, { headers: headers() });
 
 export const askAI = (payload) =>
   axios.post(`${AI_BASE}/ai/interaction`, payload, { headers: headers() });
+
+export const createHighlight = (payload) =>
+  axios.post(`${AI_BASE}/ai/highlight`, payload, {
+    headers: headers(),
+  });
+
+export const getHighlights = (bookId) =>
+  axios.get(`${AI_BASE}/ai/highlight/${bookId}`, {
+    headers: headers(),
+  });

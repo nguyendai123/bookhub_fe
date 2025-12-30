@@ -2,7 +2,7 @@ import { Card, Tooltip, Tag } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { highlightText } from "../../services/AskAI";
+import { createHighlight } from "../../services/AskAI";
 const BookReaderView = ({ bookId, chapterId, content }) => {
   const [highlights, setHighlights] = useState([]);
   const headers = () => ({
@@ -13,7 +13,7 @@ const BookReaderView = ({ bookId, chapterId, content }) => {
     const text = selection.toString();
     if (!text) return;
 
-    const res = await highlightText({
+    const res = await createHighlight({
       bookId,
       chapterId,
       text,
@@ -21,7 +21,7 @@ const BookReaderView = ({ bookId, chapterId, content }) => {
     });
 
     setHighlights((prev) => [...prev, res.data]);
-    console.log("highlights" + highlights)
+    console.log("highlights" + highlights);
     selection.removeAllRanges();
   };
 
