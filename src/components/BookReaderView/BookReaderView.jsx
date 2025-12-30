@@ -13,16 +13,6 @@ const BookReaderView = ({ bookId, chapterId, content }) => {
     const text = selection.toString();
     if (!text) return;
 
-    // const res = await axios.post(
-    //   "http://localhost:8080/api/ai/highlight",
-    //   {
-    //     bookId,
-    //     chapterId,
-    //     text,
-    //     position: selection.anchorOffset,
-    //   },
-    //   { headers: headers() }
-    // );
     const res = await highlightText({
       bookId,
       chapterId,
@@ -31,6 +21,7 @@ const BookReaderView = ({ bookId, chapterId, content }) => {
     });
 
     setHighlights((prev) => [...prev, res.data]);
+    console.log("highlights" + highlights)
     selection.removeAllRanges();
   };
 
