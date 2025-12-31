@@ -157,7 +157,8 @@ const BookPdfReader = ({ bookId, chapterId }) => {
         setPdfUrl(`http://localhost:8080${res.data.pdfUrl}`);
         console.log("res pdf", res.data);
         setTotalPages(res.data.totalPages);
-        setPage(res?.data?.currenPage);
+        console.log("res pdfN", res?.data?.currentPage);
+        setPage(res?.data?.currentPage >= 1 ? res?.data?.currentPage : 1);
         // Nếu server có trả về trang đang đọc dở, bạn có thể setPage(res.data.currentPage) tại đây
       })
       .catch((err) => console.error("Lỗi tải tệp PDF:", err));
