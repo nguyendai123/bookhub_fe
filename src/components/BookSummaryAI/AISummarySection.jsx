@@ -13,21 +13,11 @@ export default function AISummarySection({ bookId, chapterId }) {
   const generateSummary = async () => {
     setLoading(true);
     try {
-      // const res = await axios.post(
-      //   "http://localhost:8080/api/ai/summary",
-      //   {
-      //     bookId,
-      //     chapterId,
-      //     type: chapterId ? "CHAPTER" : "BOOK",
-      //     lang: "vi",
-      //   },
-      //   { headers: headers() }
-      // );
       const res = await summarizeChapter({
         bookId,
         chapterId,
         type: chapterId ? "CHAPTER" : "BOOK",
-        lang: "vi",
+        lang: "việt",
       });
 
       setSummary(res.data);

@@ -18,6 +18,7 @@ import FollowButton from "../Follow/FollowButton";
 import UserAbout from "./UserAbout";
 import UserPosts from "./UserPosts";
 import UserBooks from "./UserBooks";
+import AppHeader from "../Header/Header";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -38,78 +39,81 @@ const UserProfilePage = ({ currentUser }) => {
   if (!profileUser) return null;
 
   return (
-    <Row justify="center">
-      <Col span={16}>
-        {/* ===== HEADER ===== */}
-        <Card style={{ marginTop: 24 }}>
-          <Row align="middle" gutter={16}>
-            <Col>
-              <Avatar
-                size={96}
-                src={`http://localhost:8080${profileUser.avatar}`}
-                icon={<UserOutlined />}
-              />
-            </Col>
-
-            <Col flex="auto">
-              <Title level={3} style={{ marginBottom: 0 }}>
-                {profileUser.username}
-              </Title>
-
-              <Space size="large">
-                <Text>
-                  <b>{profileUser.followersCount}</b> Followers
-                </Text>
-                <Text>
-                  <b>{profileUser.followingCount}</b> Following
-                </Text>
-              </Space>
-
-              <Paragraph style={{ marginTop: 8 }}>
-                {profileUser.bio || "Chưa có giới thiệu"}
-              </Paragraph>
-            </Col>
-
-            <Col>
-              {currentUser.userId !== profileUser.userId && (
-                <FollowButton
-                  profileUser={profileUser}
-                  setProfileUser={setProfileUser}
-                  currentUserId={currentUser.userId}
-                  targetUserId={profileUser.userId}
+    <>
+      <AppHeader />
+      <Row justify="center">
+        <Col span={16}>
+          {/* ===== HEADER ===== */}
+          <Card style={{ marginTop: 24 }}>
+            <Row align="middle" gutter={16}>
+              <Col>
+                <Avatar
+                  size={96}
+                  src={`http://localhost:8080${profileUser.avatar}`}
+                  icon={<UserOutlined />}
                 />
-              )}
-            </Col>
-          </Row>
-        </Card>
+              </Col>
 
-        <Divider />
+              <Col flex="auto">
+                <Title level={3} style={{ marginBottom: 0 }}>
+                  {profileUser.username}
+                </Title>
 
-        {/* ===== TABS ===== */}
-        <Card>
-          <Tabs
-            defaultActiveKey="posts"
-            items={[
-              {
-                key: "posts",
-                label: "Bài viết",
-                children: <UserPosts userId={userId} />,
-              },
-              {
-                key: "books",
-                label: "Sách đang đọc",
-                children: <UserBooks userId={userId} />,
-              },
-              {
-                key: "about",
-                label: "Giới thiệu",
-                children: <UserAbout profileUser={profileUser} />,
-              },
-            ]}
-          />
-        </Card>
-      </Col>
-    </Row>
+                <Space size="large">
+                  <Text>
+                    <b>{profileUser.followersCount}</b> Followers
+                  </Text>
+                  <Text>
+                    <b>{profileUser.followingCount}</b> Following
+                  </Text>
+                </Space>
+
+                <Paragraph style={{ marginTop: 8 }}>
+                  {profileUser.bio || "Chưa có giới thiệu"}
+                </Paragraph>
+              </Col>
+
+              <Col>
+                {currentUser.userId !== profileUser.userId && (
+                  <FollowButton
+                    profileUser={profileUser}
+                    setProfileUser={setProfileUser}
+                    currentUserId={currentUser.userId}
+                    targetUserId={profileUser.userId}
+                  />
+                )}
+              </Col>
+            </Row>
+          </Card>
+
+          <Divider />
+
+          {/* ===== TABS ===== */}
+          <Card>
+            <Tabs
+              defaultActiveKey="posts"
+              items={[
+                {
+                  key: "posts",
+                  label: "Bài viết",
+                  children: <UserPosts userId={userId} />,
+                },
+                {
+                  key: "books",
+                  label: "Sách đang đọc",
+                  children: <UserBooks userId={userId} />,
+                },
+                {
+                  key: "about",
+                  label: "Giới thiệu",
+                  children: <UserAbout profileUser={profileUser} />,
+                },
+              ]}
+            />
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

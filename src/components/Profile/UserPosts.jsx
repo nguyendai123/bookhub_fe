@@ -28,7 +28,8 @@ const UserPosts = ({ userId }) => {
     );
 
     setPosts((prev) => [...prev, ...res.data.content]);
-    setPage((p) => p + 1);
+    console.log("UserPost", posts);
+    setPage(page + 1);
     setHasMore(!res.data.last);
 
     loadingRef.current = false;

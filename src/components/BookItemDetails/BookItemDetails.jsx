@@ -195,17 +195,19 @@ const BookDetail = () => {
                   dataSource={book.chapters}
                   locale={{ emptyText: <Empty description="Chưa có chương" /> }}
                   renderItem={(c) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        title={`${c.chapterOrder}. ${c.chapterTitle}`}
-                        description={`⏱ ${c.duration} phút`}
-                      />
-                      {c.audioUrl && <audio controls src={c.audioUrl} />}
+                    <>
+                      <List.Item>
+                        <List.Item.Meta
+                          title={`${c.chapterOrder}. ${c.chapterTitle}`}
+                          description={`⏱ ${c.duration} phút`}
+                        />
+                        {c.audioUrl && <audio controls src={c.audioUrl} />}
+                      </List.Item>
                       <AISummarySection
                         bookId={book.bookId}
                         chapterId={c.chapterId}
                       />
-                    </List.Item>
+                    </>
                   )}
                 />
               </Card>

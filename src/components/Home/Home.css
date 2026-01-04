@@ -379,6 +379,7 @@
 }
 
 .home-book-rating-content {
+  with: 65%;
   padding: 10px 0px;
   display: flex;
   flex-direction: column;

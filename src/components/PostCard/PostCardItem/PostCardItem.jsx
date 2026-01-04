@@ -427,7 +427,7 @@ const PostCardItem = ({
         progress,
         isError,
         isLoading,
-        data.length
+        data?.length
       )}
       <Modal
         title={
