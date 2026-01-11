@@ -166,6 +166,7 @@ const BookPdfReader = ({ bookId, chapterId }) => {
 
   const loadHighlights = async () => {
     const res = await getHighlights(bookId);
+    console.log("Loaded highlights:", res.data);
     setHighlights(res.data);
   };
 

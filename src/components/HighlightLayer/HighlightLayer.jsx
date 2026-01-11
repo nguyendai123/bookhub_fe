@@ -1,4 +1,87 @@
+import { useEffect, useState } from "react";
+import { renderAIHighlightRects } from "../../hooks/renderAIHighlightRects";
+
 const HighlightLayer = ({ page, highlights }) => {
+  const [rects, setRects] = useState([]);
+  useEffect(() => {
+    let observer;
+    let cancelled = false;
+
+    const pageEl = document.querySelector(
+      `.react-pdf__Page[data-page-number="${page}"]`
+    );
+
+    if (!pageEl) return;
+
+    const renderHighlights = () => {
+      if (cancelled) return;
+
+      const textLayer = pageEl.querySelector(".react-pdf__Page__textContent");
+      if (!textLayer) return;
+
+      let allRects = [];
+
+      highlights
+        .filter((h) => String(h.pageNumber) === String(page))
+        .forEach((h) => {
+          // USER
+          if (h.source === "USER") {
+            try {
+              const userRects = JSON.parse(h.position || "[]");
+              allRects.push(
+                ...userRects.map((r) => ({
+                  ...r,
+                  source: "USER",
+                }))
+              );
+            } catch {}
+          }
+
+          // AI
+          if (h.source === "AI") {
+            try {
+              const position =
+                typeof h.position === "string"
+                  ? JSON.parse(h.position)
+                  : h.position;
+
+              const aiRects = renderAIHighlightRects(
+                position,
+                pageEl,
+                h.text.length
+              );
+
+              if (aiRects?.length) {
+                allRects.push(
+                  ...aiRects.map((r) => ({
+                    ...r,
+                    source: "AI",
+                  }))
+                );
+              }
+            } catch {}
+          }
+        });
+
+      setRects(allRects);
+    };
+
+    // 👉 chạy ngay nếu textLayer đã tồn tại
+    renderHighlights();
+
+    // 👉 theo dõi DOM thay đổi (PDF reload, zoom, render lại)
+    observer = new MutationObserver(renderHighlights);
+    observer.observe(pageEl, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+    };
+  }, [page, highlights]);
+
   return (
     <div
       style={{
@@ -7,36 +90,27 @@ const HighlightLayer = ({ page, highlights }) => {
         pointerEvents: "none",
       }}
     >
-      {highlights
-        .filter((h) => String(h.pageNumber) === String(page))
-        .flatMap((h) => {
-          let rects = [];
+      {rects.map((r, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            left: r.x,
+            top: r.y,
+            width: r.width,
+            height: r.height,
 
-          try {
-            rects = JSON.parse(h.position || "[]");
-          } catch (e) {
-            console.error("Invalid highlight position JSON", e);
-          }
+            background:
+              r.source === "AI"
+                ? "rgba(255, 77, 79, 0.35)" // 🔴 AI
+                : "rgba(24, 144, 255, 0.35)", // 🔵 USER
 
-          return rects.map((r, i) => (
-            <div
-              key={`${h.id || h.highlightId}-${i}`}
-              style={{
-                position: "absolute",
-                left: `${r.x}px`,
-                top: `${r.y}px`,
-                width: `${r.width}px`,
-                height: `${r.height}px`,
-                background:
-                  h.source === "AI"
-                    ? "rgba(255,77,79,0.3)"
-                    : "rgba(24,144,255,0.3)",
-                borderRadius: 4,
-              }}
-            />
-          ));
-        })}
+            borderRadius: 3,
+          }}
+        />
+      ))}
     </div>
   );
 };
+
 export default HighlightLayer;
