@@ -12,27 +12,49 @@ const AIChatPage = () => {
   const { messages, sendMessage, loading } = useAIChat(bookId);
 
   return (
-    <>
+    <Layout style={{ minHeight: "100vh" }}>
       <AppHeader />
-      <Layout>
-        <Content style={{ maxWidth: 900, margin: "24px auto" }}>
-          <Card title="💬 Chat AI về sách" style={{ height: "80vh" }}>
-            <AIChatBox
-              messages={messages}
-              loading={loading}
-              onSend={(q) =>
-                sendMessage(q, {
-                  bookTitle: "Atomic Habits",
-                  summaries: [],
-                  highlights: [],
-                })
-              }
-            />
-          </Card>
-        </Content>
-      </Layout>
+
+      <Content
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          padding: "24px 16px",
+          overflow: "hidden",
+        }}
+      >
+        <Card
+          title="💬 Chat AI về sách"
+          style={{
+            width: "100%",
+            maxWidth: 900,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+          bodyStyle={{
+            flex: 1,
+            padding: 0,
+            overflow: "hidden",
+          }}
+        >
+          <AIChatBox
+            messages={messages}
+            loading={loading}
+            onSend={(q) =>
+              sendMessage(q, {
+                bookTitle: "Atomic Habits",
+                summaries: [],
+                highlights: [],
+              })
+            }
+          />
+        </Card>
+      </Content>
+
       <Footer />
-    </>
+    </Layout>
   );
 };
 

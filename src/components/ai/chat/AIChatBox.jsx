@@ -13,14 +13,30 @@ const AIChatBox = ({ messages, onSend, loading }) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div style={{ flex: 1, overflowY: "auto", padding: 16 }}>
+      {/* 🔽 Scroll ở đây */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: 16,
+          background: "#fafafa",
+        }}
+      >
         {messages.map((m, i) => (
           <MessageBubble key={i} role={m.role} text={m.text} />
         ))}
         {loading && <Spin />}
       </div>
 
-      <div style={{ display: "flex", padding: 16 }}>
+      {/* 🔽 Input cố định */}
+      <div
+        style={{
+          display: "flex",
+          padding: 16,
+          borderTop: "1px solid #f0f0f0",
+          background: "#fff",
+        }}
+      >
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
