@@ -1,7 +1,29 @@
 import { Avatar } from "antd";
 import { UserOutlined, RobotOutlined } from "@ant-design/icons";
+import "./MessageBubble.scss";
+const formatTime = (time) => {
+  if (!time) return "";
 
-const MessageBubble = ({ role, text }) => {
+  const date = new Date(time);
+  const now = new Date();
+
+  const isToday =
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+
+  const timePart = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (isToday) return timePart;
+
+  const datePart = date.toLocaleDateString("vi-VN");
+  return `${timePart} ${datePart}`;
+};
+
+const MessageBubble = ({ role, text, time }) => {
   const isUser = role === "user";
 
   return (
@@ -10,9 +32,11 @@ const MessageBubble = ({ role, text }) => {
         display: "flex",
         justifyContent: isUser ? "flex-end" : "flex-start",
         marginBottom: 12,
+        alignItems: "flex-end",
       }}
     >
       {!isUser && <Avatar icon={<RobotOutlined />} />}
+
       <div
         style={{
           maxWidth: "70%",
@@ -22,10 +46,24 @@ const MessageBubble = ({ role, text }) => {
           color: isUser ? "#fff" : "#000",
           marginLeft: isUser ? 0 : 8,
           marginRight: isUser ? 8 : 0,
+          display: "flex",
+          flexDirection: "column", // 👈 QUAN TRỌNG
         }}
       >
-        {text}
+        <div>{text}</div>
+
+        <div
+          style={{
+            fontSize: 11,
+            opacity: 0.6,
+            marginTop: 4,
+            textAlign: "right",
+          }}
+        >
+          {formatTime(time)}
+        </div>
       </div>
+
       {isUser && <Avatar icon={<UserOutlined />} />}
     </div>
   );

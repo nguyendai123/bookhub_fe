@@ -53,7 +53,7 @@ const AIChatPage = () => {
         </Card>
       </Content>
 
-      <Footer />
+      {/* <Footer /> */}
     </Layout>
   );
 };

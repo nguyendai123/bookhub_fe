@@ -1,0 +1,44 @@
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* full màn hình */
+  background: #f7f7f8;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 16px 120px 16px; /* chừa chỗ cho input */
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.chat-input-bar {
+  position: sticky;
+  bottom: 0;
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  padding: 16px;
+  display: flex;
+  gap: 8px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+.user-bubble {
+  background: #1677ff;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 70%;
+  margin-left: auto;
+}
+
+.ai-bubble {
+  background: #eaeaea;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 70%;
+  margin-right: auto;
+}

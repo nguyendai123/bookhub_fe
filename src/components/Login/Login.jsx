@@ -2,6 +2,7 @@ import bg from "../../assets/bg-login.svg";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
 import "./Login.scss";
 
 const Login = () => {
@@ -16,17 +17,34 @@ const Login = () => {
     const jwt = Cookies.get("jwt_token");
     const role = Cookies.get("user_roles");
 
-    if (jwt) {
+    if (!jwt) return;
+
+    try {
+      const decoded = jwtDecode(jwt);
+
+      // exp trong JWT là seconds → đổi sang milliseconds
+      const isExpired = decoded.exp * 1000 < Date.now();
+
+      if (isExpired) {
+        throw new Error("Token expired");
+      }
+
+      // Token còn hạn → mới redirect
       if (role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/");
       }
+    } catch (error) {
+      console.log("JWT hết hạn hoặc không hợp lệ");
+      Cookies.remove("jwt_token");
+      Cookies.remove("user_roles");
+      Cookies.remove("user_id");
+      Cookies.remove("user_name");
     }
   }, [navigate]);
 
-  const onSubmitSuccess = () => {
-    const role = Cookies.get("user_roles");
+  const onSubmitSuccess = (role) => {
     if (role === "ADMIN") {
       navigate("/admin");
     } else {
@@ -64,7 +82,7 @@ const Login = () => {
       Cookies.set("user_name", data.username, { expires: 30, path: "/" });
       localStorage.setItem("data_avatar", data.avatar);
 
-      onSubmitSuccess();
+      onSubmitSuccess(data.roles);
     } else {
       onSubmitFailure();
     }

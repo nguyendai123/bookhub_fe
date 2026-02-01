@@ -36,11 +36,11 @@ export default function useAIChat(bookId) {
 
     getChatHistory(bookId).then((res) => {
       const historyMessages = [];
-
+      console.log("Chat history:", res.data);
       res.data.forEach((item) => {
         historyMessages.push(
-          { role: "user", text: item.question },
-          { role: "ai", text: item.answer }
+          { role: "user", text: item.question, time: item.createdAt },
+          { role: "ai", text: item.answer, time: item.createdAt },
         );
       });
 
@@ -55,8 +55,8 @@ export default function useAIChat(bookId) {
 
       setMessages((prev) => [
         ...prev,
-        { role: "user", text: question },
-        { role: "ai", text: res.data.answer },
+        { role: "user", text: question, time: new Date().toISOString() },
+        { role: "ai", text: res.data.answer, time: new Date().toISOString() },
       ]);
     } finally {
       setLoading(false);
