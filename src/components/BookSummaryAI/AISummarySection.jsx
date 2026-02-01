@@ -17,13 +17,23 @@ export default function AISummarySection({ bookId, chapterId }) {
         bookId,
         chapterId,
         type: chapterId ? "CHAPTER" : "BOOK",
-        lang: "việt",
+        lang: "vi",
       });
 
       setSummary(res.data);
     } finally {
       setLoading(false);
     }
+  };
+  const cleanText = (text) => {
+    if (!text) return "";
+
+    return text
+      .replace(/\\"/g, '"') // \" -> "
+      .replace(/\\n/g, " ") // xuống dòng escape -> space
+      .replace(/\s+/g, " ") // nhiều khoảng trắng -> 1 khoảng trắng
+      .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, "") // bỏ ký tự lạ unicode
+      .trim();
   };
 
   return (
@@ -35,7 +45,9 @@ export default function AISummarySection({ bookId, chapterId }) {
       {loading && <Spin />}
 
       {summary && (
-        <Paragraph style={{ marginTop: 16 }}>{summary.summaryText}</Paragraph>
+        <Paragraph style={{ marginTop: 16 }}>
+          {cleanText(summary.summaryText)}
+        </Paragraph>
       )}
     </Card>
   );
