@@ -58,11 +58,40 @@
 }
 
 .top-rated-book-item-container {
+  font-size: 50px;
 }
 
 .top-rated-book-image {
   height: 340px;
   width: 240px;
+}
+.book-card {
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.book-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.book-card img {
+  border-bottom: 1px solid #f0f0f0;
+  transition: transform 0.4s ease;
+}
+
+.book-card:hover img {
+  transform: scale(1.05);
+}
+
+.book-card .ant-typography {
+  margin-bottom: 4px !important;
+}
+
+.book-card .ant-rate {
+  color: #fadb14; /* sao vàng nổi bật */
 }
 
 @media screen and (max-width: 787px) {
@@ -75,7 +104,6 @@
 }
 
 .top-rated-book-name {
-  font-size: 15px;
   font-family: inter;
 }
 

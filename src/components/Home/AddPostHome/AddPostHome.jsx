@@ -61,7 +61,7 @@ const AddPostHome = ({ load, setLoad }) => {
 
   const username = Cookies.get("user_name");
   const avatarUrl = `http://localhost:8080${localStorage.getItem(
-    "data_avatar"
+    "data_avatar",
   )}`;
 
   const jwtToken = Cookies.get("jwt_token");
@@ -76,7 +76,7 @@ const AddPostHome = ({ load, setLoad }) => {
     refetch,
   } = useFetch(
     `http://localhost:8080/api/books/search?keyword=${keyword}`,
-    false
+    false,
   );
 
   console.log("dataBooks", dataBooks, isLoadingBooks, isErrorBooks);
@@ -127,7 +127,7 @@ const AddPostHome = ({ load, setLoad }) => {
           ...headers,
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
 
     return res.data.url;
@@ -172,7 +172,7 @@ const AddPostHome = ({ load, setLoad }) => {
             status: readingStatus,
             currentPage,
           },
-          { headers }
+          { headers },
         );
         setReadingProgress(res.data);
       }
@@ -321,9 +321,9 @@ const AddPostHome = ({ load, setLoad }) => {
               >
                 <Space size={25}>
                   <Popover
-                    overlayStyle={{ maxWidth: "140px" }}
+                    overlayStyle={{ maxWidth: "180px" }}
                     trigger="hover"
-                    content={"Books (Required)"}
+                    content={"Sách (Bắt buộc)"}
                     onClick={() => onClickAddBookPost()}
                   >
                     <div className="add-post-book">
@@ -342,7 +342,7 @@ const AddPostHome = ({ load, setLoad }) => {
                     </div>
                   </Popover>
 
-                  <Popover content={"Author (Required)"} trigger="hover">
+                  <Popover content={"Tác giả"} trigger="hover">
                     <div className="add-post-book">
                       <svg
                         width="24"
@@ -360,7 +360,7 @@ const AddPostHome = ({ load, setLoad }) => {
                       </svg>
                     </div>
                   </Popover>
-                  <Popover content={"Genres (Required)"} trigger="hover">
+                  <Popover content={"Thể loại"} trigger="hover">
                     <div className="add-post-book">
                       <svg
                         width="29"
@@ -393,7 +393,7 @@ const AddPostHome = ({ load, setLoad }) => {
                       </svg>
                     </div>
                   </Popover>
-                  <Popover content={"Image"} trigger="hover">
+                  <Popover content={"Ảnh"} trigger="hover">
                     <div className="add-post-book">
                       <svg
                         width="24"
@@ -456,12 +456,7 @@ const AddPostHome = ({ load, setLoad }) => {
             Suggestions <span style={{ color: "red" }}>*</span>
           </div>
 
-          <Carousel
-            dots={false}
-            arrows
-            slidesToShow={1}
-            draggable
-          >
+          <Carousel dots={false} arrows slidesToShow={1} draggable>
             {bookSlides.map((slide, idx) => (
               <div key={idx}>
                 <div
@@ -483,9 +478,9 @@ const AddPostHome = ({ load, setLoad }) => {
                           (e.currentTarget.style.transform = "scale(1.03)")
                         }
                         onMouseLeave={(e) =>
-                        (e.currentTarget.style.transform = isSelected
-                          ? "scale(1.05)"
-                          : "scale(1)")
+                          (e.currentTarget.style.transform = isSelected
+                            ? "scale(1.05)"
+                            : "scale(1)")
                         }
                         style={{
                           width: 150,

@@ -1,6 +1,7 @@
 .top-rated-card-btn {
   border: none;
   border-radius: 10px;
+  font-size: 18px;
 }
 .top-rated-book-item-container {
   width: 250px !important;

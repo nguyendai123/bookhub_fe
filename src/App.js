@@ -12,7 +12,15 @@ import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import FollowButton from "./components/Follow/FollowButton";
 import UserProfilePage from "./components/Profile/UserProfilePage";
-import { Typography, Row, Col, Card, Avatar, Space } from "antd";
+import {
+  Typography,
+  Row,
+  Col,
+  Card,
+  Avatar,
+  Space,
+  ConfigProvider,
+} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import NotificationListener from "./components/Notification/NotificationListener";
 import { NotificationProvider } from "./components/contexts/NotificationContext";
@@ -23,7 +31,14 @@ const App = () => {
   const currentUser = token ? jwtDecode(token) : null;
 
   return (
-    <div className="App">
+    <ConfigProvider
+      theme={{
+        token: {
+          fontSize: 18,
+        },
+      }}
+      className="App"
+    >
       <NotificationProvider>
         {currentUser && (
           <NotificationListener userId={Cookies.get("user_id")} token={token} />
@@ -44,7 +59,7 @@ const App = () => {
           />
         </Routes>
       </NotificationProvider>
-    </div>
+    </ConfigProvider>
   );
 };
 

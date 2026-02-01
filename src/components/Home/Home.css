@@ -40,7 +40,6 @@
 }
 
 .home-paragraph {
-  font-size: 16px;
   color: #555;
   line-height: 1.6;
   max-width: 700px;
@@ -72,10 +71,6 @@
   .books-responsive-btn-lg {
     display: none;
   }
-
-  .top-rated-heading {
-    font-size: 15px;
-  }
 }
 
 .top-rated-home-image {
@@ -90,11 +85,6 @@
     margin-top: 5px;
     align-items: center;
   }
-}
-
-.top-rated-home-name {
-  font-size: 15px;
-  font-family: inter;
 }
 
 .loader-container {
@@ -128,7 +118,9 @@
   background-color: white;
   padding: 2rem;
   border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 20px;
   width: 94%;
 }
@@ -164,12 +156,9 @@
   font-weight: bold;
 }
 
-.post-createat {
-  font-size: 14px;
-}
-
 .post-content {
   margin-top: 0.75rem;
+  font-size: 20px;
 }
 
 .number-like-comment {
@@ -364,7 +353,9 @@
   justify-content: center;
   align-items: center;
   color: var(--light-blue-gray-700, #334155);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Inter;
   font-size: 24px;
   font-style: normal;
@@ -392,9 +383,11 @@
 .home-book-rating-name {
   color: var(--light-blue-gray-700, #334155);
   text-align: center;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Inter;
-  font-size: 18px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 600;
   width: 150px;
@@ -404,7 +397,8 @@
   color: var(--light-blue-gray-600, #475569);
   text-align: center;
   font-family: Inter;
-  font-size: 14px;
+  margin: 5px 0px 10px 0px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 16px;
@@ -419,7 +413,9 @@
   width: 200px;
   border-radius: 35px;
   height: 36px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* Scroll dọc */

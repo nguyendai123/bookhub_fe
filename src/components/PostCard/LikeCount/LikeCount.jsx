@@ -1,20 +1,8 @@
 import React from "react";
 
 const LikeCount = ({ item, userLike }) => {
+  console.log("LikeCount item", item, " userLike", userLike);
   return (
-    // <div style={{ marginTop: "4px" }}>
-    //   {" "}
-    //   &nbsp;
-    //   {console.log("LikeCount item", item.likesCount, " userLike", userLike)}
-    //   {item?.likesCount > 0 ? (
-    //     <>
-    //       {userLike && <span>You and </span>}
-    //       {item?.likesCount} {userLike && <span> others </span>}
-    //     </>
-    //   ) : (
-    //     <>{userLike && <span>You</span>}</>
-    //   )}
-    // </div>
     <div
       style={{
         paddingBottom: 2,

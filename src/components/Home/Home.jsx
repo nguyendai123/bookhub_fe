@@ -141,7 +141,7 @@ const Home = () => {
             <Col xs={24} md={6} lg={6}>
               <div className="sidebar sidebar-left">
                 <Card
-                  title="Top Rated Books"
+                  title="Sách nổi bật"
                   variant="borderless"
                   className="sidebar-card"
                 >

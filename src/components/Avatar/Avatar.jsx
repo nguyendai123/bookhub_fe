@@ -4,12 +4,16 @@ import "moment/locale/vi"; // nạp tiếng Việt
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-
 const Avatar = ({ item, srcImage }) => {
   moment.locale("vi");
   const navigate = useNavigate();
   return (
-    <div className="avatar" onClick={() => navigate(`/profile/${item?.userId ?? Cookies.get("user_id")}`)}>
+    <div
+      className="avatar"
+      onClick={() =>
+        navigate(`/profile/${item?.userId ?? Cookies.get("user_id")}`)
+      }
+    >
       {console.log("srcImage avatar", srcImage, " item", item)}
       <img
         src={srcImage ?? "https://source.unsplash.com/collection/happy-people"}
@@ -21,10 +25,14 @@ const Avatar = ({ item, srcImage }) => {
       <div className="author-des-post">
         <p className="author-name">{item?.userName}</p>
         <span className="post-createat">
-          {item &&
+          {item && (
             <span>
-              {item?.updatedAt && moment(item?.updatedAt).fromNow().replace(/^\w/, c => c.toUpperCase())}
-            </span>}
+              {item?.updatedAt &&
+                moment(item?.updatedAt)
+                  .fromNow()
+                  .replace(/^\w/, (c) => c.toUpperCase())}
+            </span>
+          )}
         </span>
       </div>
     </div>

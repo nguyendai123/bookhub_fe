@@ -1,5 +1,6 @@
 import { Avatar } from "antd";
 import { UserOutlined, RobotOutlined } from "@ant-design/icons";
+import robotAvatar from "../../../assets/robot.png";
 import "./MessageBubble.scss";
 const formatTime = (time) => {
   if (!time) return "";
@@ -22,7 +23,8 @@ const formatTime = (time) => {
   const datePart = date.toLocaleDateString("vi-VN");
   return `${timePart} ${datePart}`;
 };
-
+const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
+console.log("avatarUrl", avatarUrl);
 const MessageBubble = ({ role, text, time }) => {
   const isUser = role === "user";
 
@@ -35,7 +37,17 @@ const MessageBubble = ({ role, text, time }) => {
         alignItems: "flex-end",
       }}
     >
-      {!isUser && <Avatar icon={<RobotOutlined />} />}
+      {!isUser && (
+        <Avatar
+          size={40}
+          src={robotAvatar}
+          alt="Robot Avatar"
+          style={{
+            backgroundColor: "#1890ff",
+            padding: 4,
+          }}
+        />
+      )}
 
       <div
         style={{
@@ -64,7 +76,7 @@ const MessageBubble = ({ role, text, time }) => {
         </div>
       </div>
 
-      {isUser && <Avatar icon={<UserOutlined />} />}
+      {isUser && <Avatar size={40} src={avatarUrl} alt="User Avatar" />}
     </div>
   );
 };

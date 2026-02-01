@@ -11,7 +11,7 @@ function Profile({ token, setUser, userImage, username }) {
   useEffect(() => {
     setUser(profile.sub.slice(0, 1).toUpperCase());
   }, [profile.sub, setUser, username]);
-
+  console.log("username111", userImage);
   return (
     <>
       <Space>

@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEarthAmericas } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import AccountHeader from "../AccountHeader/AccountHeader";
-import { Button, Dropdown, Modal, Space, Popover, ConfigProvider } from "antd";
 import { Input } from "antd";
 import Cookies from "js-cookie";
 import PostCardItem from "./PostCardItem/PostCardItem";

@@ -62,7 +62,13 @@ const RecommendationSection = ({ setLoad }) => {
                     }}
                   >
                     {item?.genres?.map((g) => (
-                      <Tag color="blue" key={g.genreId}>
+                      <Tag
+                        style={{
+                          fontSize: "13px",
+                        }}
+                        color="blue"
+                        key={g.genreId}
+                      >
                         {g.name}
                       </Tag>
                     ))}

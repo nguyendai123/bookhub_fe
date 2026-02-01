@@ -12,10 +12,10 @@ import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const bookshelvesList = [
-  { value: "ALL", label: "All" },
-  { value: "FINISHED", label: "Read" },
-  { value: "READING", label: "Currently Reading" },
-  { value: "WANT_TO_READ", label: "Want to Read" },
+  { value: "ALL", label: "Tất cả" },
+  { value: "FINISHED", label: "Đã đọc" },
+  { value: "READING", label: "Đang đọc" },
+  { value: "WANT_TO_READ", label: "Muốn đọc" },
 ];
 
 const STATUS = {
@@ -38,7 +38,7 @@ const BookShelves = () => {
   const [booksData, setBooksData] = useState({});
   const [searchKeyword, setSearchKeyword] = useState("");
   const [activeFilterLabel, setActiveFilterLabel] = useState(
-    bookshelvesList[0].label
+    bookshelvesList[0].label,
   );
 
   const [page, setPage] = useState(1); // antd bắt đầu từ 1
@@ -59,7 +59,7 @@ const BookShelves = () => {
     try {
       const { data } = await axios.get(
         "http://localhost:8080/api/books/search?keyword=",
-        { headers }
+        { headers },
       );
 
       setAllBooksRaw(data.content);
@@ -105,7 +105,7 @@ const BookShelves = () => {
         percentDone: b.percentDone,
         currentPage: b.currentPage,
         genres: b?.genres,
-      }))
+      })),
     );
   }, [activeFilter, myShelfRaw]);
 
@@ -138,7 +138,7 @@ const BookShelves = () => {
           percentDone: book.percentDone,
           currentPage: book.currentPage,
           genres: book.genres,
-        }))
+        })),
       );
       return;
     }
@@ -158,7 +158,7 @@ const BookShelves = () => {
         percentDone: b.percentDone,
         currentPage: b.currentPage,
         genres: b?.genres,
-      }))
+      })),
     );
   }, [activeFilter, allBooksRaw, myShelfRaw]);
 
@@ -189,7 +189,7 @@ const BookShelves = () => {
       "endIndex",
       endIndex,
       "pagedBooks",
-      pagedBooks
+      pagedBooks,
     );
 
     return (
@@ -310,7 +310,12 @@ const BookShelves = () => {
     }
     return renderNoMatchBooks();
   };
-
+  const headingMap = {
+    "Tất cả": "Tất cả sách",
+    "Đã đọc": "Sách đã đọc",
+    "Đang đọc": "Sách đang đọc",
+    "Muốn đọc": "Sách muốn đọc",
+  };
   return (
     <>
       <AppHeader />
@@ -321,7 +326,7 @@ const BookShelves = () => {
               className="bookshelves-heading-bookshelves-heading-lg"
               key="title"
             >
-              My Bookshelf
+              Kệ sách của tôi
             </h1>
             <ul className="filter-un-order-list-container">
               {bookshelvesList.map((eachItem) => {
@@ -350,7 +355,7 @@ const BookShelves = () => {
           <div className="large-container">
             <div className="filtered-books-search-input-container-lg">
               <h1 className="filtered-books-heading">
-                {activeFilterLabel} Books
+                {headingMap[activeFilterLabel] || "Sách"}
               </h1>
 
               <div className="search-input-container">

@@ -10,9 +10,11 @@ import Footer from "../Footer/Footer";
 import { TailSpin } from "react-loader-spinner";
 import "./BookPage.scss";
 import { useEffect, useState } from "react";
-import { Rate, Space, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Card, Rate, Typography, Space, Flex, Input, Row } from "antd";
+
+const { Text, Title } = Typography;
 
 const topRatedApiStatuses = {
   initial: "INITIAL",
@@ -42,7 +44,7 @@ const sliderSettings = {
 const BookPage = () => {
   let navigate = useNavigate();
   const [topRatedApiStatus, setTopRatedApiStatus] = useState(
-    topRatedApiStatuses.initial
+    topRatedApiStatuses.initial,
   );
   const [topRatedBooks, setTopRatedBooks] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -59,11 +61,15 @@ const BookPage = () => {
     setTopRatedApiStatus(topRatedApiStatuses.inProgress);
 
     try {
-      const { data } = await axios.get("http://localhost:8080/api/books/search?keyword=", { headers });
+      const { data } = await axios.get(
+        "http://localhost:8080/api/books/search?keyword=",
+        { headers },
+      );
+      console.log("Top rated books data:", data?.content);
 
       const updatedData = data?.content.map((eachBook) => ({
         id: eachBook.bookId,
-        authorName: eachBook?.author?.name,
+        authorName: eachBook?.authorName,
         coverPic: eachBook.coverUrl,
         title: eachBook.title,
         rate: eachBook.avgRating,
@@ -90,22 +96,56 @@ const BookPage = () => {
       ) : (
         <Slider {...sliderSettings}>
           {filteredBooks?.map(({ id, title, coverPic, authorName, rate }) => (
-            <div key={id}>
-              <div className="top-rated-book-item-container">
-                <button className="top-rated-card-btn" type="button">
+            <div key={id} style={{ padding: "0 12px" }}>
+              {" "}
+              {/* khoảng cách ngang */}
+              <Card
+                className="book-card"
+                hoverable
+                style={{
+                  width: 240,
+                  height: 430,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+                bodyStyle={{
+                  padding: 12,
+                  display: "flex",
+                  flexDirection: "column",
+                  flex: 1,
+                }}
+                cover={
                   <img
-                    className="top-rated-book-image"
                     src={`http://localhost:8080${coverPic}`}
                     alt={title}
+                    style={{
+                      height: 300,
+                      objectFit: "cover",
+                    }}
                   />
-                  <h3 className="top-rated-book-name">{title}</h3>
-                  <p className="top-rated-book-author">{authorName}</p>
-                  <Space size={6}>
-                    <Rate allowHalf disabled defaultValue={rate} />
-                    <span className="rating-text">{rate}</span>
+                }
+              >
+                <Flex vertical gap={4} style={{ flex: 1 }}>
+                  <Title level={5} ellipsis={{ rows: 2 }} style={{ margin: 0 }}>
+                    {title}
+                  </Title>
+
+                  <Text type="secondary" style={{ fontSize: 14 }}>
+                    {authorName}
+                  </Text>
+
+                  <Space size={6} align="center">
+                    <Rate
+                      allowHalf
+                      disabled
+                      defaultValue={rate}
+                      style={{ fontSize: 14 }}
+                    />
+                    <Text>{rate}</Text>
                   </Space>
-                </button>
-              </div>
+                </Flex>
+              </Card>
             </div>
           ))}
         </Slider>
@@ -180,7 +220,7 @@ const BookPage = () => {
         {/* ===== TOP RATED ===== */}
         <section className="book-top-rated-container">
           <Space className="top-rated-heading-container">
-            <h2>Top Rated Books</h2>
+            <h2>Sách nổi bật</h2>
             <div className="book-search-bar">
               <Input
                 allowClear
