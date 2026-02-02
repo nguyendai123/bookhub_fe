@@ -1,52 +1,80 @@
-import { Button, Card, Spin, Typography } from "antd";
+import { Button, Card, Spin, Typography, Select } from "antd";
 import { useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
-const { Paragraph } = Typography;
 import { summarizeChapter } from "../../services/AskAI";
+
+const { Paragraph } = Typography;
+const { Option } = Select;
+
 export default function AISummarySection({ bookId, chapterId }) {
   const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState(null);
-  const headers = () => ({
-    Authorization: `Bearer ${Cookies.get("jwt_token")}`,
-  });
-  const generateSummary = async () => {
+  const [summaryMap, setSummaryMap] = useState({}); // 👈 cache theo ngôn ngữ
+  const [lang, setLang] = useState("en");
+
+  const fetchSummary = async (selectedLang) => {
     setLoading(true);
     try {
       const res = await summarizeChapter({
         bookId,
         chapterId,
         type: chapterId ? "CHAPTER" : "BOOK",
-        lang: "vi",
+        lang: selectedLang,
       });
 
-      setSummary(res.data);
+      setSummaryMap((prev) => ({
+        ...prev,
+        [selectedLang]: res.data, // lưu theo key ngôn ngữ
+      }));
     } finally {
       setLoading(false);
     }
   };
+
+  const generateSummary = () => {
+    if (!summaryMap[lang]) {
+      fetchSummary(lang); // chỉ gọi nếu chưa có
+    }
+  };
+
+  const handleLangChange = (value) => {
+    setLang(value);
+
+    // Nếu đã có summary ngôn ngữ này → không gọi API
+    if (!summaryMap[value]) {
+      fetchSummary(value);
+    }
+  };
+
   const cleanText = (text) => {
     if (!text) return "";
-
     return text
-      .replace(/\\"/g, '"') // \" -> "
-      .replace(/\\n/g, " ") // xuống dòng escape -> space
-      .replace(/\s+/g, " ") // nhiều khoảng trắng -> 1 khoảng trắng
-      .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, "") // bỏ ký tự lạ unicode
+      .replace(/\\"/g, '"')
+      .replace(/\\n/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, "")
       .trim();
   };
 
+  const currentSummary = summaryMap[lang];
+
   return (
-    <Card title="📘 Tóm tắt AI">
+    <Card
+      title="📘 Tóm tắt AI"
+      extra={
+        <Select value={lang} onChange={handleLangChange} style={{ width: 128 }}>
+          <Option value="en">English</Option>
+          <Option value="vi">Tiếng Việt</Option>
+        </Select>
+      }
+    >
       <Button type="primary" onClick={generateSummary}>
         Tạo tóm tắt
       </Button>
 
-      {loading && <Spin />}
+      {loading && <Spin style={{ marginLeft: 12 }} />}
 
-      {summary && (
+      {currentSummary && (
         <Paragraph style={{ marginTop: 16 }}>
-          {cleanText(summary.summaryText)}
+          {cleanText(currentSummary.summaryText)}
         </Paragraph>
       )}
     </Card>
