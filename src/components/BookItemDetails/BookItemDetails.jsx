@@ -57,8 +57,6 @@ export default function BookDetail() {
 
   if (!book && !loading) return <Empty />;
 
-
-
   return (
     <>
       <AppHeader />
@@ -68,10 +66,8 @@ export default function BookDetail() {
           <>
             {/* ================= HEADER ================= */}
 
-
             {/* ================= MAIN READING AREA ================= */}
             <div className="reading-layout">
-
               {/* ===== LEFT: READER ===== */}
               <div className="reader-section">
                 <Card className="book-header" loading={loading}>
@@ -88,20 +84,24 @@ export default function BookDetail() {
                     <Col xs={24} sm={18} md={19}>
                       <Title level={2}>{book.title}</Title>
                       <Text>
-                        <UserOutlined /> {book.author.name} ({book.author.country})
+                        <UserOutlined /> {book.author.name} (
+                        {book.author.country})
                       </Text>
                       <br />
                       <Rate disabled allowHalf value={book.avgRating} />
                       <br />
                       <Text type="secondary">
-                        Ngày tạo: {new Date(book.createdAt).toLocaleDateString()}
+                        Ngày tạo:{" "}
+                        {new Date(book.createdAt).toLocaleDateString()}
                       </Text>
 
                       <Divider />
 
                       <Space wrap>
                         {book.genres.map((g) => (
-                          <Tag color="blue" key={g.genreId}>{g.name}</Tag>
+                          <Tag color="blue" key={g.genreId}>
+                            {g.name}
+                          </Tag>
                         ))}
                       </Space>
 
@@ -109,7 +109,10 @@ export default function BookDetail() {
 
                       <Space>
                         <AddToShelfButton bookId={book.bookId} />
-                        <Button type="primary" onClick={() => setChatOpen(true)}>
+                        <Button
+                          type="primary"
+                          onClick={() => setChatOpen(true)}
+                        >
                           💬 Chat AI về sách
                         </Button>
                       </Space>
@@ -149,7 +152,9 @@ export default function BookDetail() {
                 <Card title="📑 Tóm tắt từng chương" className="info-card">
                   {book.chapters?.map((c) => (
                     <div key={c.chapterId} className="chapter-summary">
-                      <b>{c.chapterOrder}. {c.chapterTitle}</b>
+                      <b>
+                        {c.chapterOrder}. {c.chapterTitle}
+                      </b>
                       <AISummarySection
                         bookId={book.bookId}
                         chapterId={c.chapterId}
@@ -162,23 +167,33 @@ export default function BookDetail() {
                 <Card title="📊 Tiến độ đọc" className="info-card">
                   <h4>Tiến độ của bạn</h4>
                   {book.readingProgresses
-                    .filter(p => p.userId == Cookies.get("user_id"))
+                    .filter((p) => p.userId == Cookies.get("user_id"))
                     .map((p) => (
-                      <ReadingTracker key={p.progressId} {...p} />
+                      <div key={p.progressId} className="progress-item self">
+                        <Text className="progress-user">
+                          <span className="user-icon">👤</span> Bạn
+                        </Text>
+                        <ReadingTracker {...p} />
+                      </div>
                     ))}
 
                   <Divider />
 
                   <h4>Tiến độ bạn bè theo dõi</h4>
-                  {book.readingProgresses
-                    .filter(p => p.userId != Cookies.get("user_id"))
-                    .length === 0 ? (
+                  {book.readingProgresses.filter(
+                    (p) => p.userId != Cookies.get("user_id"),
+                  ).length === 0 ? (
                     <Empty description="Chưa có bạn bè đọc sách này" />
                   ) : (
                     book.readingProgresses
-                      .filter(p => p.userId != Cookies.get("user_id"))
+                      .filter((p) => p.userId != Cookies.get("user_id"))
                       .map((p) => (
-                        <ReadingTracker key={p.progressId} {...p} />
+                        <div key={p.progressId} className="progress-item">
+                          <Text className="progress-user">
+                            <span className="user-icon">👥</span> {p.userName}
+                          </Text>
+                          <ReadingTracker {...p} />
+                        </div>
                       ))
                   )}
                 </Card>
@@ -193,7 +208,9 @@ export default function BookDetail() {
         <div className="ai-chat-sidebar">
           <div className="ai-chat-header">
             📚 Trợ lý đọc sách AI
-            <Button type="text" onClick={() => setChatOpen(false)}>✖</Button>
+            <Button type="text" onClick={() => setChatOpen(false)}>
+              ✖
+            </Button>
           </div>
           <AIChatPage bookId={book.bookId} />
         </div>

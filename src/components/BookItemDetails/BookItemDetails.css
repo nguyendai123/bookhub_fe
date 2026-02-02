@@ -21,11 +21,20 @@
 
 .book-cover {
   width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
+  height: 100%;
+  aspect-ratio: 3 / 4; /* Giữ đúng tỉ lệ sách */
+  object-fit: cover; /* Không méo ảnh */
   border-radius: 14px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  border: 3px solid #ffffff;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng hover cho đẹp */
+.book-cover:hover {
+  transform: scale(1.03);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .reading-layout {
@@ -89,7 +98,8 @@
   position: fixed;
   right: 0;
   top: 0;
-  width: 420px;
+  width: 750px;
+  min-width: 420px;
   height: 100vh;
   background: #ffffff;
   box-shadow: -12px 0 40px rgba(0, 0, 0, 0.25);
@@ -98,6 +108,7 @@
   flex-direction: column;
   animation: slideIn 0.25s ease;
   border-left: 1px solid rgba(0, 0, 0, 0.06);
+  margin-right: 22px;
 }
 
 .ai-chat-header {
@@ -125,4 +136,43 @@
   .ai-chat-sidebar {
     width: 100%;
   }
+}
+/* ===== PROGRESS ITEM WRAPPER ===== */
+.progress-item {
+  background: #f7f9ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(91, 140, 255, 0.15);
+  transition: all 0.25s ease;
+}
+
+.progress-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Người dùng hiện tại nổi bật hơn */
+.progress-item.self {
+  background: linear-gradient(135deg, #eaf1ff, #f5f8ff);
+  border: 1px solid rgba(91, 140, 255, 0.35);
+}
+
+/* Tên người đọc */
+.progress-user {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #2b4eff;
+  font-size: 13px;
+}
+.user-icon {
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+/* Icon của "Bạn" màu xanh nổi bật */
+.self-user .user-icon {
+  color: #2b6cff;
+  filter: drop-shadow(0 0 4px rgba(43, 108, 255, 0.4));
 }
