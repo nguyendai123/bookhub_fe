@@ -7,7 +7,10 @@ function TrendingBooksSection() {
     data: dataBooks,
     isLoadingBooks,
     isErrorBooks,
-  } = useFetch("http://localhost:8080/api/books/trending?limit=8", false);
+  } = useFetch(
+    "https://bookhub-postgress.onrender.com/api/books/trending?limit=8",
+    false,
+  );
   return (
     <>
       {console.log("dataBooks111", dataBooks)}
@@ -23,7 +26,7 @@ function TrendingBooksSection() {
                     height: "200px",
                     borderRadius: "10px",
                   }}
-                  src={`http://localhost:8080${item?.coverUrl}`}
+                  src={`https://bookhub-postgress.onrender.com${item?.coverUrl}`}
                   alt="imageBook"
                   className="home-book-image-rating"
                 />

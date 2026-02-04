@@ -28,11 +28,14 @@ const UserProfilePage = ({ currentUser }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/users/${userId}/profile`, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("jwt_token")}`,
+      .get(
+        `https://bookhub-postgress.onrender.com/api/users/${userId}/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("jwt_token")}`,
+          },
         },
-      })
+      )
       .then((res) => setProfileUser(res.data));
   }, [userId]);
 
@@ -49,7 +52,7 @@ const UserProfilePage = ({ currentUser }) => {
               <Col>
                 <Avatar
                   size={96}
-                  src={`http://localhost:8080${profileUser.avatar}`}
+                  src={`https://bookhub-postgress.onrender.com${profileUser.avatar}`}
                   icon={<UserOutlined />}
                 />
               </Col>

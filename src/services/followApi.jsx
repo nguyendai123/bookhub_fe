@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const headers = () => ({
   Authorization: `Bearer ${Cookies.get("jwt_token")}`,
 });
-const BASE = "http://localhost:8080/api/follow";
+const BASE = "https://bookhub-postgress.onrender.com/api/follow";
 
 export const followUser = (targetUserId) =>
   axios.post(`${BASE}/${targetUserId}`, null, { headers: headers() });

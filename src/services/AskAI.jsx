@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const AI_BASE = "http://localhost:8080/api";
+const AI_BASE = "https://bookhub-postgress.onrender.com/api";
 const headers = () => ({
   Authorization: `Bearer ${Cookies.get("jwt_token")}`,
 });
