@@ -1,6 +1,7 @@
 import React from "react";
 import useFetch from "../customize/fetch";
 import { Rate, Space, Tag } from "antd";
+import { useNavigate } from "react-router-dom";
 import "./TrendingBooksSection.css";
 function TrendingBooksSection() {
   const {
@@ -8,6 +9,10 @@ function TrendingBooksSection() {
     isLoadingBooks,
     isErrorBooks,
   } = useFetch("http://localhost:8080/api/books/trending?limit=8", false);
+  const navigate = useNavigate();
+  const onClickBookItem = (id) => {
+    navigate(`/books/${id}`);
+  };
   return (
     <>
       {console.log("dataBooks111", dataBooks)}
@@ -25,6 +30,7 @@ function TrendingBooksSection() {
                   }}
                   src={`http://localhost:8080${item?.coverUrl}`}
                   alt="imageBook"
+                  onClick={() => onClickBookItem(item.bookId)}
                   className="home-book-image-rating"
                 />
               </div>

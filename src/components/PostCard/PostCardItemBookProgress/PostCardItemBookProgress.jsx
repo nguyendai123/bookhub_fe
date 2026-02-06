@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import Destination from "../../../assets/Destination";
+import { useNavigate } from "react-router-dom";
 const PostCardItemBookProgress = ({
   item,
   progress,
@@ -40,7 +41,10 @@ const PostCardItemBookProgress = ({
   };
   const maxPages = progress?.book?.totalPages ?? item?.totalPages;
   const widthCh = String(maxPages ?? "").length + 2.5;
-
+  const navigate = useNavigate();
+  const onClickBookItem = (id) => {
+    navigate(`/books/${id}`);
+  };
   return (
     <>
       {console.log(
@@ -73,6 +77,7 @@ const PostCardItemBookProgress = ({
                 }`}
               fallback="/no-image.png"
               alt="book image"
+              onClick={() => onClickBookItem(item.bookId)}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>

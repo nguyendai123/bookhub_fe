@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { recommendations } from "../../services/AskAI";
+import { useNavigate } from "react-router-dom";
 
 const RecommendationSection = ({ setLoad }) => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const headers = () => ({
     Authorization: `Bearer ${Cookies.get("jwt_token")}`,
@@ -25,7 +27,9 @@ const RecommendationSection = ({ setLoad }) => {
 
     fetchRecommendations();
   }, []);
-
+  const onClickBookItem = (id) => {
+    navigate(`/books/${id}`);
+  };
   return (
     <Card title="📚 Gợi ý cho bạn">
       {console.log("datadainv123", data)}
@@ -44,6 +48,7 @@ const RecommendationSection = ({ setLoad }) => {
                   }}
                   src={`http://localhost:8080${item?.coverUrl}`}
                   alt="imageBook"
+                  onClick={() => onClickBookItem(item.bookId)}
                   className="home-book-image-rating"
                 />
               </div>
