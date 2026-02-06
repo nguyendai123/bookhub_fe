@@ -29,7 +29,7 @@ const UserProfilePage = ({ currentUser }) => {
   useEffect(() => {
     axios
       .get(
-        `https://bookhub-postgress.onrender.com/api/users/${userId}/profile`,
+        `http://localhost:8080/api/users/${userId}/profile`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("jwt_token")}`,
@@ -52,7 +52,7 @@ const UserProfilePage = ({ currentUser }) => {
               <Col>
                 <Avatar
                   size={96}
-                  src={`https://bookhub-postgress.onrender.com${profileUser.avatar}`}
+                  src={`http://localhost:8080${profileUser.avatar}`}
                   icon={<UserOutlined />}
                 />
               </Col>

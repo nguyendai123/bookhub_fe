@@ -33,7 +33,7 @@ const AppHeader = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [, setUser] = useState("");
 
-  const avatarUrl = `https://bookhub-postgress.onrender.com${localStorage.getItem(
+  const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar",
   )}`;
 

@@ -24,7 +24,7 @@ function TrendingBooksSection() {
                     height: "200px",
                     borderRadius: "10px",
                   }}
-                  src={`https://bookhub-postgress.onrender.com${item?.coverUrl}`}
+                  src={`http://localhost:8080${item?.coverUrl}`}
                   alt="imageBook"
                   onClick={() => onClickBookItem(item.bookId)}
                   className="home-book-image-rating"

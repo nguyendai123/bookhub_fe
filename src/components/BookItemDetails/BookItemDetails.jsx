@@ -47,7 +47,7 @@ export default function BookDetail() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://bookhub-postgress.onrender.com/api/books/${id}`,
+        `http://localhost:8080/api/books/${id}`,
         {
           headers: { Authorization: `Bearer ${Cookies.get("jwt_token")}` },
         },
@@ -78,7 +78,7 @@ export default function BookDetail() {
                     <Col xs={24} sm={6} md={5}>
                       <Avatar
                         shape="square"
-                        src={`https://bookhub-postgress.onrender.com${book.coverUrl}`}
+                        src={`http://localhost:8080${book.coverUrl}`}
                         icon={<BookOutlined />}
                         className="book-cover"
                       />

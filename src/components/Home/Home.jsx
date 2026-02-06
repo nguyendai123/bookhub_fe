@@ -67,7 +67,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const url =
-          "https://bookhub-postgress.onrender.com/api/posts/all-feeds"; // Replace with your API endpoint
+          "http://localhost:8080/api/posts/all-feeds"; // Replace with your API endpoint
         let res = await axios.get(url, { headers });
 
         let listPost = res && res.content ? res.content : [];
@@ -85,7 +85,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const url =
-          "https://bookhub-postgress.onrender.com/api/posts/all-feeds"; // Replace with your API endpoint
+          "http://localhost:8080/api/posts/all-feeds"; // Replace with your API endpoint
         let res = await axios.get(url, { headers });
 
         let data1 = res && res.data ? res.data : [];
@@ -105,7 +105,7 @@ const Home = () => {
       setTopRatedApiStatus(topRatedApiStatuses.inProgress);
 
       const topRatedBooksApi =
-        "https://bookhub-postgress.onrender.com/api/books/search?keyword=";
+        "http://localhost:8080/api/books/search?keyword=";
       let response = await axios.get(topRatedBooksApi, { headers });
       console.log("response", response);
       if (response.ok === true) {
