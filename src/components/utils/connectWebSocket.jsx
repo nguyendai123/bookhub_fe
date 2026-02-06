@@ -72,7 +72,7 @@ export const connectWebSocket = (userId, token, onMessage) => {
     heartbeatIncoming: 10000,
     heartbeatOutgoing: 10000,
 
-    debug: () => {}, // bật log nếu cần debug
+    debug: () => { }, // bật log nếu cần debug
 
     onConnect: () => {
       console.log("✅ WebSocket connected");

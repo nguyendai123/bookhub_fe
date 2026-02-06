@@ -692,9 +692,8 @@ const PostCardItem = ({
                   return (
                     <div
                       key={book.bookId}
-                      className={`book-carousel-item ${
-                        isSelected ? "selected" : ""
-                      }`}
+                      className={`book-carousel-item ${isSelected ? "selected" : ""
+                        }`}
                       onClick={() => handleSelectBook(book)}
                     >
                       <div className="book-image-wrapper">

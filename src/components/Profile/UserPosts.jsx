@@ -53,7 +53,7 @@ const UserPosts = ({ userId }) => {
         data={posts}
         item={post}
         load={null}
-        setLoad={() => {}}
+        setLoad={() => { }}
       />
     ));
   }, [posts]);

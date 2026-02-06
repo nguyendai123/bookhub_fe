@@ -73,9 +73,8 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`https://bookhub-postgress.onrender.com${
-                progress?.book?.image ?? item?.coverUrl
-              }`}
+              src={`https://bookhub-postgress.onrender.com${progress?.book?.image ?? item?.coverUrl
+                }`}
               fallback="/no-image.png"
               alt="book image"
               onClick={() => onClickBookItem(item.bookId)}
