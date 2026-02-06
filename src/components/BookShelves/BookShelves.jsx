@@ -58,7 +58,7 @@ const BookShelves = () => {
     setStatus(STATUS.LOADING);
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/books/search?keyword=",
+        "https://bookhub-postgress.onrender.com/api/books/search?keyword=",
         { headers },
       );
 
@@ -75,7 +75,7 @@ const BookShelves = () => {
     setStatus(STATUS.LOADING);
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/reading",
+        "https://bookhub-postgress.onrender.com/api/reading",
         {
           headers,
         },

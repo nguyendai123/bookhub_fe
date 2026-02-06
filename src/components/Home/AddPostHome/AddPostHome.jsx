@@ -60,7 +60,7 @@ const AddPostHome = ({ load, setLoad }) => {
   const [selectedBookId, setSelectedBookId] = useState(null);
 
   const username = Cookies.get("user_name");
-  const avatarUrl = `http://localhost:8080${localStorage.getItem(
+  const avatarUrl = `https://bookhub-postgress.onrender.com${localStorage.getItem(
     "data_avatar",
   )}`;
 
@@ -75,7 +75,7 @@ const AddPostHome = ({ load, setLoad }) => {
     isError: isErrorBooks,
     refetch,
   } = useFetch(
-    `http://localhost:8080/api/books/search?keyword=${keyword}`,
+    `https://bookhub-postgress.onrender.com/api/books/search?keyword=${keyword}`,
     false,
   );
 
@@ -120,7 +120,7 @@ const AddPostHome = ({ load, setLoad }) => {
     formData.append("file", imageFile);
 
     const res = await axios.post(
-      "http://localhost:8080/api/uploads/POST",
+      "https://bookhub-postgress.onrender.com/api/uploads/POST",
       formData,
       {
         headers: {
@@ -138,7 +138,7 @@ const AddPostHome = ({ load, setLoad }) => {
 
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/books/search`,
+        `https://bookhub-postgress.onrender.com/api/books/search`,
         {
           params: { keyword },
         },
@@ -165,7 +165,7 @@ const AddPostHome = ({ load, setLoad }) => {
       };
 
       await axios.post(
-        "http://localhost:8080/api/posts",
+        "https://bookhub-postgress.onrender.com/api/posts",
         payload,
         { headers },
       );
@@ -173,7 +173,7 @@ const AddPostHome = ({ load, setLoad }) => {
       // Nếu có book → update reading progress
       if (selectedBook) {
         const res = await axios.post(
-          "http://localhost:8080/api/reading/add",
+          "https://bookhub-postgress.onrender.com/api/reading/add",
           {
             bookId: selectedBook.bookId,
             status: readingStatus,
@@ -518,7 +518,7 @@ const AddPostHome = ({ load, setLoad }) => {
                             width={140}
                             height={200}
                             style={{ borderRadius: 12, objectFit: "cover" }}
-                            src={`http://localhost:8080${book.coverUrl}`}
+                            src={`https://bookhub-postgress.onrender.com${book.coverUrl}`}
                             preview={false}
                             fallback="/no-image.png"
                           />

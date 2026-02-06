@@ -8,7 +8,7 @@ const CommentPostItem = ({ comment }) => {
       {console.log("comment comment", comment)}
       <Avatar
         item={comment.user}
-        srcImage={`http://localhost:8080${comment.user.avatarUrl}`}
+        srcImage={`https://bookhub-postgress.onrender.com${comment.user.avatarUrl}`}
         alt="avatar"
         className="comment-image"
         style={{

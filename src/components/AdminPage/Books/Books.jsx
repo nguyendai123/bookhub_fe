@@ -11,7 +11,7 @@ const Books = () => {
     Authorization: `Bearer ${jwtToken}`,
   };
   useEffect(() => {
-    fetch("http://localhost:8080/api/books/search?keyword=", {
+    fetch("https://bookhub-postgress.onrender.com/api/books/search?keyword=", {
       headers,
     })
       .then((response) => response.json())
@@ -107,7 +107,7 @@ const Books = () => {
       console.log("formData", formData);
       if (editingbook) {
         const bookId = editingbook.bookID;
-        const urlBook = `http://localhost:8080/api/books/${bookId}`;
+        const urlBook = `https://bookhub-postgress.onrender.com/api/books/${bookId}`;
 
         const response = await axios.put(urlBook, formData, { headers });
         const data = response.data;
@@ -123,7 +123,7 @@ const Books = () => {
 
         setReloadData(true);
       } else {
-        const url = "http://localhost:8080/api/admin/books";
+        const url = "https://bookhub-postgress.onrender.com/api/admin/books";
         const response1 = await axios.post(url, formData, { headers });
         const data1 = response1.data;
         console.log("books dai api progress", data1);
@@ -205,7 +205,7 @@ const Books = () => {
   };
 
   const cancelbook = (book) => {
-    fetch(`http://localhost:8080/api/books/${book.bookId}`, {
+    fetch(`https://bookhub-postgress.onrender.com/api/books/${book.bookId}`, {
       method: "DELETE",
       headers: { ...headers },
     })

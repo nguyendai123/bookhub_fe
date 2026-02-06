@@ -23,13 +23,13 @@ const FollowButton = ({
   const handleFollowToggle = async () => {
     if (profileUser.following) {
       await axios.delete(
-        `http://localhost:8080/api/follow/${profileUser.userId}`,
+        `https://bookhub-postgress.onrender.com/api/follow/${profileUser.userId}`,
         { headers },
       );
       message.info(`Bạn đã bỏ theo dõi ${profileUser.username}`);
     } else {
       await axios.post(
-        `http://localhost:8080/api/follow/${profileUser.userId}`,
+        `https://bookhub-postgress.onrender.com/api/follow/${profileUser.userId}`,
         {},
         { headers },
       );
