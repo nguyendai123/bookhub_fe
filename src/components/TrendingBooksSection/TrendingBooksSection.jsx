@@ -9,10 +9,6 @@ function TrendingBooksSection() {
     isLoadingBooks,
     isErrorBooks,
   } = useFetch("http://localhost:8080/api/books/trending?limit=8", false);
-  const navigate = useNavigate();
-  const onClickBookItem = (id) => {
-    navigate(`/books/${id}`);
-  };
   return (
     <>
       {console.log("dataBooks111", dataBooks)}
@@ -28,7 +24,7 @@ function TrendingBooksSection() {
                     height: "200px",
                     borderRadius: "10px",
                   }}
-                  src={`http://localhost:8080${item?.coverUrl}`}
+                  src={`https://bookhub-postgress.onrender.com${item?.coverUrl}`}
                   alt="imageBook"
                   onClick={() => onClickBookItem(item.bookId)}
                   className="home-book-image-rating"

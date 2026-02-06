@@ -20,13 +20,13 @@
 
 //   useEffect(() => {
 //     axios
-//       .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
+//       .get(`https://bookhub-postgress.onrender.com/api/books/${bookId}/pdf`, {
 //         headers: {
 //           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
 //         },
 //       })
 //       .then((res) => {
-//         setPdfUrl(`http://localhost:8080${res.data.pdfUrl}`);
+//         setPdfUrl(`https://bookhub-postgress.onrender.com${res.data.pdfUrl}`);
 //         console.log("res pdf", res.data);
 //         setTotalPages(res.data.totalPages);
 //         setPage(res?.data?.currenPage);
@@ -37,7 +37,7 @@
 
 //   const saveProgress = (p) => {
 //     axios.post(
-//       "http://localhost:8080/api/reading/update",
+//       "https://bookhub-postgress.onrender.com/api/reading/update",
 //       { bookId, currentPage: p },
 //       {
 //         headers: {
@@ -137,24 +137,24 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   }, [bookId]);
   const saveProgress = (p) => {
     axios.post(
-      "http://localhost:8080/api/reading/update",
+      "https://bookhub-postgress.onrender.com/api/reading/update",
       { bookId, currentPage: p },
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
         },
-      }
+      },
     );
   };
   const fetchPdf = async () => {
     axios
-      .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
+      .get(`https://bookhub-postgress.onrender.com/api/books/${bookId}/pdf`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
         },
       })
       .then((res) => {
-        setPdfUrl(`http://localhost:8080${res.data.pdfUrl}`);
+        setPdfUrl(`https://bookhub-postgress.onrender.com${res.data.pdfUrl}`);
         console.log("res pdf", res.data);
         setTotalPages(res.data.totalPages);
         console.log("res pdfN", res?.data?.currentPage);
@@ -171,7 +171,7 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   };
 
   const filteredHighlights = highlights.filter(
-    (h) => (h.source === "AI" && showAI) || (h.source === "USER" && showUser)
+    (h) => (h.source === "AI" && showAI) || (h.source === "USER" && showUser),
   );
   const handleMouseUp = () => {
     const selection = window.getSelection();

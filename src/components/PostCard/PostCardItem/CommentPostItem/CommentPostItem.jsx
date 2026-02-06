@@ -8,7 +8,7 @@ const CommentPostItem = ({ comment }) => {
       {console.log("comment comment", comment)}
       <Avatar
         item={comment.user}
-        srcImage={`http://localhost:8080${comment.user.avatarUrl}`}
+        srcImage={`https://bookhub-postgress.onrender.com${comment.user.avatarUrl}`}
         alt="avatar"
         className="comment-image"
         style={{
@@ -20,17 +20,13 @@ const CommentPostItem = ({ comment }) => {
       {/* comment text */}
       <div className="comment-text comment__input">
         {/* comment menu of author */}
-        <div className="comment-author">
-        </div>
+        <div className="comment-author"></div>
 
         <div className="comment-des-body">
           <p className="comment-author-name">{comment.user.username}</p>
           <div>
             <div className="comment-des-body">
-              <div>
-                {comment.content}
-
-              </div>
+              <div>{comment.content}</div>
             </div>
           </div>
         </div>
@@ -38,12 +34,11 @@ const CommentPostItem = ({ comment }) => {
           style={{
             marginLeft: 4,
             fontSize: 12,
-            color: "#65676b"
+            color: "#65676b",
           }}
         >
           {moment(comment.createdAt).fromNow(true).replace("một", "1")}
         </div>
-
       </div>
     </div>
   );

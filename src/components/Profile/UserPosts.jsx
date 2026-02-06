@@ -19,12 +19,12 @@ const UserPosts = ({ userId }) => {
     loadingRef.current = true;
 
     const res = await axios.get(
-      `http://localhost:8080/api/users/${userId}/posts?page=${page}&size=5`,
+      `https://bookhub-postgress.onrender.com/api/users/${userId}/posts?page=${page}&size=5`,
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
         },
-      }
+      },
     );
 
     setPosts((prev) => [...prev, ...res.data.content]);

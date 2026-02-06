@@ -62,7 +62,7 @@ const BookPage = () => {
 
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/books/search?keyword=",
+        "https://bookhub-postgress.onrender.com/api/books/search?keyword=",
         { headers },
       );
       console.log("Top rated books data:", data?.content);
@@ -117,7 +117,7 @@ const BookPage = () => {
                 }}
                 cover={
                   <img
-                    src={`http://localhost:8080${coverPic}`}
+                    src={`https://bookhub-postgress.onrender.com${coverPic}`}
                     alt={title}
                     style={{
                       height: 300,

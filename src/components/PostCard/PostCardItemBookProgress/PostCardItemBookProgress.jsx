@@ -19,7 +19,7 @@ const PostCardItemBookProgress = ({
   onChangePage,
 }) => {
   const [pageNumber, setPageNumber] = useState(
-    progress?.readPage ?? item?.currentPage ?? 0
+    progress?.readPage ?? item?.currentPage ?? 0,
   );
   const totalPages = progress?.book?.totalPages ?? item?.totalPages;
   const handleChangeProgressPage = (e) => {
@@ -51,7 +51,7 @@ const PostCardItemBookProgress = ({
         "progress PostCardItemBookProgress",
         progress,
         " item",
-        item
+        item,
       )}
       <Row style={{ width: "100%" }} gutter={16}>
         {/* LEFT = 35% */}
@@ -73,8 +73,9 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`http://localhost:8080${progress?.book?.image ?? item?.coverUrl
-                }`}
+              src={`https://bookhub-postgress.onrender.com${
+                progress?.book?.image ?? item?.coverUrl
+              }`}
               fallback="/no-image.png"
               alt="book image"
               onClick={() => onClickBookItem(item.bookId)}

@@ -100,7 +100,7 @@ const PostCardItem = ({
     isError: isErrorBooks,
     refetch,
   } = useFetch(
-    `http://localhost:8080/api/books/search?keyword=${keyword}`,
+    `https://bookhub-postgress.onrender.com/api/books/search?keyword=${keyword}`,
     false,
   );
 
@@ -118,9 +118,12 @@ const PostCardItem = ({
     if (!keyword.trim()) return;
 
     try {
-      const res = await axios.get(`http://localhost:8080/api/books/search`, {
-        params: { keyword },
-      });
+      const res = await axios.get(
+        `https://bookhub-postgress.onrender.com/api/books/search`,
+        {
+          params: { keyword },
+        },
+      );
     } catch (e) {
       console.error("Search book failed", e);
     }
@@ -131,7 +134,9 @@ const PostCardItem = ({
   const editModal = (post) => {
     setEditPost(post);
     setEditContent(post?.content || "");
-    setEditImageUrl(`http://localhost:8080${post?.imageUrl}` || null);
+    setEditImageUrl(
+      `https://bookhub-postgress.onrender.com${post?.imageUrl}` || null,
+    );
     setOpenEdit(true);
   };
 
@@ -143,7 +148,7 @@ const PostCardItem = ({
     bookId: null,
   });
 
-  const avatarUrl = `http://localhost:8080${localStorage.getItem(
+  const avatarUrl = `https://bookhub-postgress.onrender.com${localStorage.getItem(
     "data_avatar",
   )}`;
   const jwtToken = Cookies.get("jwt_token");
@@ -169,7 +174,7 @@ const PostCardItem = ({
   const handleClickComment = async (postId) => {
     const _opencomment = !openComment;
     if (_opencomment) {
-      const urlComment = `http://localhost:8080/api/comments/post/${postId}`;
+      const urlComment = `https://bookhub-postgress.onrender.com/api/comments/post/${postId}`;
       // Get request using axios with error handling
       await axios
         .get(urlComment, { headers })
@@ -211,7 +216,7 @@ const PostCardItem = ({
     formData.append("file", imageFile);
 
     const res = await axios.post(
-      "http://localhost:8080/api/uploads/POST",
+      "https://bookhub-postgress.onrender.com/api/uploads/POST",
       formData,
       {
         headers: {
@@ -241,12 +246,16 @@ const PostCardItem = ({
         shareOf: editPost?.shareOf,
       };
 
-      await axios.post("http://localhost:8080/api/posts", payload, { headers });
+      await axios.post(
+        "https://bookhub-postgress.onrender.com/api/posts",
+        payload,
+        { headers },
+      );
 
       // Nếu có book → update reading progress
       if (selectedBook) {
         const res = await axios.post(
-          "http://localhost:8080/api/reading/add",
+          "https://bookhub-postgress.onrender.com/api/reading/add",
           {
             bookId: selectedBook.bookId,
             status: readingStatus,
@@ -258,7 +267,7 @@ const PostCardItem = ({
       }
 
       await axios.put(
-        `http://localhost:8080/api/posts/${editPost?.postId}`,
+        `https://bookhub-postgress.onrender.com/api/posts/${editPost?.postId}`,
         payload,
         { headers },
       );
@@ -288,9 +297,12 @@ const PostCardItem = ({
 
       onOk: async () => {
         try {
-          await axios.delete(`http://localhost:8080/api/posts/${postId}`, {
-            headers,
-          });
+          await axios.delete(
+            `https://bookhub-postgress.onrender.com/api/posts/${postId}`,
+            {
+              headers,
+            },
+          );
 
           notification.success({
             message: "Đã xóa bài viết",
@@ -319,7 +331,7 @@ const PostCardItem = ({
         return;
       }
       console.log("book id", item);
-      const url = `http://localhost:8080/api/reading/${item?.userId}/${item?.bookId}`;
+      const url = `https://bookhub-postgress.onrender.com/api/reading/${item?.userId}/${item?.bookId}`;
 
       await axios
         .get(url, { headers })
@@ -339,8 +351,8 @@ const PostCardItem = ({
     // UI update trước (tối ưu UX)
     setUserLike((prev) => !prev);
 
-    const likeUrl = `http://localhost:8080/api/like`;
-    const unlikeUrl = `http://localhost:8080/api/unlike`;
+    const likeUrl = `https://bookhub-postgress.onrender.com/api/like`;
+    const unlikeUrl = `https://bookhub-postgress.onrender.com/api/unlike`;
     const data = {
       targetType: "POST",
       targetId: postId,
@@ -387,7 +399,7 @@ const PostCardItem = ({
     formData.append("file", editImageFile);
 
     const res = await axios.post(
-      "http://localhost:8080/api/uploads/POST",
+      "https://bookhub-postgress.onrender.com/api/uploads/POST",
       formData,
       {
         headers: {
@@ -689,7 +701,7 @@ const PostCardItem = ({
                         <Image
                           width={140}
                           height={200}
-                          src={`http://localhost:8080${book.coverUrl}`}
+                          src={`https://bookhub-postgress.onrender.com${book.coverUrl}`}
                           preview={false}
                           fallback="/no-image.png"
                         />
@@ -727,7 +739,7 @@ const PostCardItem = ({
             {console.log("item avatar PostCardItem", item)}
             <Avatar
               item={item}
-              srcImage={`http://localhost:8080${item?.userAvatar}`}
+              srcImage={`https://bookhub-postgress.onrender.com${item?.userAvatar}`}
             />
             {isOwner && !isModal && (
               <Dropdown
@@ -759,7 +771,7 @@ const PostCardItem = ({
               >
                 <div className="original-post-header">
                   <img
-                    src={`http://localhost:8080${item?.originalPost?.userAvatar}`}
+                    src={`https://bookhub-postgress.onrender.com${item?.originalPost?.userAvatar}`}
                     className="avatar"
                   />
                   <span>{item?.originalPost?.userName}</span>
@@ -771,7 +783,7 @@ const PostCardItem = ({
 
                 {item?.originalPost?.imageUrl && (
                   <img
-                    src={`http://localhost:8080${item?.originalPost?.imageUrl}`}
+                    src={`https://bookhub-postgress.onrender.com${item?.originalPost?.imageUrl}`}
                     className="original-post-image"
                     alt="original post"
                   />
@@ -792,7 +804,7 @@ const PostCardItem = ({
 
               <div className="post-content-image-user-add">
                 <Image
-                  src={`http://localhost:8080${item?.imageUrl}`}
+                  src={`https://bookhub-postgress.onrender.com${item?.imageUrl}`}
                   fallback="/no-image.png"
                   alt="post image1"
                   className="post-content-image-user-add-1"
