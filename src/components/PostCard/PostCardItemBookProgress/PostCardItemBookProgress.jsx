@@ -73,7 +73,7 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`https://bookhub-postgress.onrender.com${
+              src={`http://localhost:8080${
                 progress?.book?.image ?? item?.coverUrl
               }`}
               fallback="/no-image.png"

@@ -43,7 +43,7 @@ const Register = () => {
   const onSubmitForm = async (event) => {
     event.preventDefault();
 
-    const apiUrl = "https://bookhub-postgress.onrender.com/api/auth/register";
+    const apiUrl = "http://localhost:8080/api/auth/register";
 
     const bodyData = {
       username: username,

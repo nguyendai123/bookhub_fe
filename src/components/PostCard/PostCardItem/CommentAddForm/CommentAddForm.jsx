@@ -19,7 +19,7 @@ const CommentAddForm = ({ postId, avatarUrl, onCommentAdded }) => {
       const token = localStorage.getItem("accessToken");
 
       const res = await axios.post(
-        `https://bookhub-postgress.onrender.com/api/comments/post/${postId}`,
+        `http://localhost:8080/api/comments/post/${postId}`,
         {
           content: content,
           parentId: null,

@@ -22,8 +22,7 @@ export const connectWebSocket = (userId, token, onMessage) => {
   }
 
   stompClient = new Client({
-    webSocketFactory: () =>
-      new SockJS("https://bookhub-postgress.onrender.com/ws"),
+    webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
 
     connectHeaders: {
       Authorization: `Bearer ${token}`, // nếu backend check JWT

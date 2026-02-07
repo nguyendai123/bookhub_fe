@@ -60,7 +60,7 @@ const AddPostHome = ({ load, setLoad }) => {
   const [selectedBookId, setSelectedBookId] = useState(null);
 
   const username = Cookies.get("user_name");
-  const avatarUrl = `https://bookhub-postgress.onrender.com${localStorage.getItem(
+  const avatarUrl = `http://localhost:8080${localStorage.getItem(
     "data_avatar",
   )}`;
 
@@ -75,7 +75,7 @@ const AddPostHome = ({ load, setLoad }) => {
     isError: isErrorBooks,
     refetch,
   } = useFetch(
-    `https://bookhub-postgress.onrender.com/api/books/search?keyword=${keyword}`,
+    `http://localhost:8080/api/books/search?keyword=${keyword}`,
     false,
   );
 
@@ -120,7 +120,7 @@ const AddPostHome = ({ load, setLoad }) => {
     formData.append("file", imageFile);
 
     const res = await axios.post(
-      "https://bookhub-postgress.onrender.com/api/uploads/POST",
+      "http://localhost:8080/api/uploads/POST",
       formData,
       {
         headers: {
@@ -137,12 +137,9 @@ const AddPostHome = ({ load, setLoad }) => {
     if (!keyword.trim()) return;
 
     try {
-      const res = await axios.get(
-        `https://bookhub-postgress.onrender.com/api/books/search`,
-        {
-          params: { keyword },
-        },
-      );
+      const res = await axios.get(`http://localhost:8080/api/books/search`, {
+        params: { keyword },
+      });
     } catch (e) {
       console.error("Search book failed", e);
     }
@@ -164,16 +161,12 @@ const AddPostHome = ({ load, setLoad }) => {
         shareOf: null,
       };
 
-      await axios.post(
-        "https://bookhub-postgress.onrender.com/api/posts",
-        payload,
-        { headers },
-      );
+      await axios.post("http://localhost:8080/api/posts", payload, { headers });
 
       // Nếu có book → update reading progress
       if (selectedBook) {
         const res = await axios.post(
-          "https://bookhub-postgress.onrender.com/api/reading/add",
+          "http://localhost:8080/api/reading/add",
           {
             bookId: selectedBook.bookId,
             status: readingStatus,
@@ -518,7 +511,7 @@ const AddPostHome = ({ load, setLoad }) => {
                             width={140}
                             height={200}
                             style={{ borderRadius: 12, objectFit: "cover" }}
-                            src={`https://bookhub-postgress.onrender.com${book.coverUrl}`}
+                            src={`http://localhost:8080${book.coverUrl}`}
                             preview={false}
                             fallback="/no-image.png"
                           />

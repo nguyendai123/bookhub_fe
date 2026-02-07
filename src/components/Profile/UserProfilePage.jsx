@@ -36,24 +36,15 @@ const UserProfilePage = ({ currentUser }) => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://bookhub-postgress.onrender.com/api/users/${userId}/profile`,
-        authHeader,
-      )
+      .get(`http://localhost:8080/api/users/${userId}/profile`, authHeader)
       .then((res) => setProfileUser(res.data));
 
     axios
-      .get(
-        `https://bookhub-postgress.onrender.com/api/follow/${userId}/followers`,
-        authHeader,
-      )
+      .get(`http://localhost:8080/api/follow/${userId}/followers`, authHeader)
       .then((res) => setFollowers(res.data));
 
     axios
-      .get(
-        `https://bookhub-postgress.onrender.com/api/follow/${userId}/following`,
-        authHeader,
-      )
+      .get(`http://localhost:8080/api/follow/${userId}/following`, authHeader)
       .then((res) => setFollowing(res.data));
   }, [userId]);
 
@@ -68,7 +59,7 @@ const UserProfilePage = ({ currentUser }) => {
       <List.Item.Meta
         avatar={
           <Avatar
-            src={`https://bookhub-postgress.onrender.com${user.avatarUrl}`}
+            src={`http://localhost:8080${user.avatarUrl}`}
             icon={<UserOutlined />}
           />
         }
@@ -90,7 +81,7 @@ const UserProfilePage = ({ currentUser }) => {
               <Col>
                 <Avatar
                   size={96}
-                  src={`https://bookhub-postgress.onrender.com${profileUser.avatar}`}
+                  src={`http://localhost:8080${profileUser.avatar}`}
                   icon={<UserOutlined />}
                 />
               </Col>
