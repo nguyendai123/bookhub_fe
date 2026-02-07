@@ -25,6 +25,7 @@ import { UserOutlined } from "@ant-design/icons";
 import NotificationListener from "./components/Notification/NotificationListener";
 import { NotificationProvider } from "./components/contexts/NotificationContext";
 import AIChatPage from "./components/AIChatPage/AIChatPage";
+import UserProfileWrapper from "./components/UserProfileWrapper/UserProfileWrapper";
 
 const App = () => {
   const token = Cookies.get("jwt_token");
@@ -52,10 +53,9 @@ const App = () => {
           <Route path="/ratings" element={<BookPage />} />
           <Route path="/shelf" element={<BookShelves />} />
           <Route path="/ai/chat/:bookId" element={<AIChatPage />} />
-          {/* ✅ route động */}
           <Route
             path="/profile/:userId"
-            element={<UserProfilePage currentUser={currentUser} />}
+            element={<UserProfileWrapper currentUser={currentUser} />}
           />
         </Routes>
       </NotificationProvider>

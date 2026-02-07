@@ -1,42 +1,3 @@
-// import SockJS from "sockjs-client";
-// import { Client } from "@stomp/stompjs";
-
-// let stompClient = null;
-
-// export const connectWebSocket = (userId, token, onNotification) => {
-//   stompClient = new Client({
-//     webSocketFactory: () => new SockJS("https://bookhub-postgress.onrender.com/ws"),
-
-//     connectHeaders: {
-//       Authorization: `Bearer ${token}`, // nếu backend có check JWT
-//     },
-//     reconnectDelay: 5000,
-
-//     onConnect: () => {
-//       console.log("✅ WebSocket connected");
-
-//       // 🔥 SUBSCRIBE ĐÚNG VỚI BACKEND
-//       stompClient.subscribe(`/topic/notifications/${userId}`, (message) => {
-//         const notification = JSON.parse(message.body);
-//         console.log("Received notification: ", notification);
-//         onNotification(notification);
-//       });
-//     },
-
-//     onStompError: (frame) => {
-//       console.error("❌ STOMP error:", frame);
-//     },
-//   });
-
-//   stompClient.activate();
-// };
-
-// export const disconnectWebSocket = () => {
-//   if (stompClient) {
-//     stompClient.deactivate();
-//     stompClient = null;
-//   }
-// };
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { mapNotification } from "../utils/mapNotification";
@@ -72,7 +33,7 @@ export const connectWebSocket = (userId, token, onMessage) => {
     heartbeatIncoming: 10000,
     heartbeatOutgoing: 10000,
 
-    debug: () => { }, // bật log nếu cần debug
+    debug: () => {}, // bật log nếu cần debug
 
     onConnect: () => {
       console.log("✅ WebSocket connected");

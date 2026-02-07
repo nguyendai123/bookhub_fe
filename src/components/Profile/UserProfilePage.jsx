@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   Card,
   Col,
   Divider,
@@ -8,9 +7,10 @@ import {
   Space,
   Tabs,
   Typography,
+  List,
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -24,29 +24,67 @@ const { Title, Text, Paragraph } = Typography;
 
 const UserProfilePage = ({ currentUser }) => {
   const { userId } = useParams();
+  const navigate = useNavigate();
+
   const [profileUser, setProfileUser] = useState(null);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+
+  const authHeader = {
+    headers: { Authorization: `Bearer ${Cookies.get("jwt_token")}` },
+  };
 
   useEffect(() => {
     axios
       .get(
         `https://bookhub-postgress.onrender.com/api/users/${userId}/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("jwt_token")}`,
-          },
-        },
+        authHeader,
       )
       .then((res) => setProfileUser(res.data));
+
+    axios
+      .get(
+        `https://bookhub-postgress.onrender.com/api/follow/${userId}/followers`,
+        authHeader,
+      )
+      .then((res) => setFollowers(res.data));
+
+    axios
+      .get(
+        `https://bookhub-postgress.onrender.com/api/follow/${userId}/following`,
+        authHeader,
+      )
+      .then((res) => setFollowing(res.data));
   }, [userId]);
 
   if (!profileUser) return null;
 
+  const renderUserItem = (user) => (
+    <List.Item
+      key={user.userId} // ⭐ thêm key tránh warning
+      onClick={() => navigate(`/profile/${user.userId}`)}
+      style={{ cursor: "pointer" }}
+    >
+      <List.Item.Meta
+        avatar={
+          <Avatar
+            src={`https://bookhub-postgress.onrender.com${user.avatarUrl}`}
+            icon={<UserOutlined />}
+          />
+        }
+        title={user.username}
+        description={user.bio || "Chưa có giới thiệu"}
+      />
+    </List.Item>
+  );
+
   return (
     <>
       <AppHeader />
+
       <Row justify="center">
         <Col span={16}>
-          {/* ===== HEADER ===== */}
+          {/* ===== PROFILE HEADER ===== */}
           <Card style={{ marginTop: 24 }}>
             <Row align="middle" gutter={16}>
               <Col>
@@ -64,10 +102,10 @@ const UserProfilePage = ({ currentUser }) => {
 
                 <Space size="large">
                   <Text>
-                    <b>{profileUser.followersCount}</b> Followers
+                    <b>{followers.length}</b> Followers
                   </Text>
                   <Text>
-                    <b>{profileUser.followingCount}</b> Following
+                    <b>{following.length}</b> Following
                   </Text>
                 </Space>
 
@@ -91,7 +129,7 @@ const UserProfilePage = ({ currentUser }) => {
 
           <Divider />
 
-          {/* ===== TABS ===== */}
+          {/* ===== MAIN CONTENT TABS ===== */}
           <Card>
             <Tabs
               defaultActiveKey="posts"
@@ -110,6 +148,28 @@ const UserProfilePage = ({ currentUser }) => {
                   key: "about",
                   label: "Giới thiệu",
                   children: <UserAbout profileUser={profileUser} />,
+                },
+                {
+                  key: "followers",
+                  label: `Followers (${followers.length})`,
+                  children: (
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={followers} // ✅ BỎ .map
+                      renderItem={renderUserItem}
+                    />
+                  ),
+                },
+                {
+                  key: "following",
+                  label: `Following (${following.length})`,
+                  children: (
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={following} // ✅ BỎ .map
+                      renderItem={renderUserItem}
+                    />
+                  ),
                 },
               ]}
             />

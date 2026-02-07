@@ -63,7 +63,7 @@ export const renderAIHighlightRects = (position, pageElement, remaining) => {
   // 👉 walker mới để đi tiếp từ startNode
   const forwardWalker = document.createTreeWalker(
     textLayer,
-    NodeFilter.SHOW_TEXT
+    NodeFilter.SHOW_TEXT,
   );
 
   forwardWalker.currentNode = startNode;

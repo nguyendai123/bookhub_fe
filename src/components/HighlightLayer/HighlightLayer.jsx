@@ -8,7 +8,7 @@ const HighlightLayer = ({ page, highlights }) => {
     let cancelled = false;
 
     const pageEl = document.querySelector(
-      `.react-pdf__Page[data-page-number="${page}"]`
+      `.react-pdf__Page[data-page-number="${page}"]`,
     );
 
     if (!pageEl) return;
@@ -32,7 +32,7 @@ const HighlightLayer = ({ page, highlights }) => {
                 ...userRects.map((r) => ({
                   ...r,
                   source: "USER",
-                }))
+                })),
               );
             } catch {}
           }
@@ -48,7 +48,7 @@ const HighlightLayer = ({ page, highlights }) => {
               const aiRects = renderAIHighlightRects(
                 position,
                 pageEl,
-                h.text.length
+                h.text.length,
               );
 
               if (aiRects?.length) {
@@ -56,7 +56,7 @@ const HighlightLayer = ({ page, highlights }) => {
                   ...aiRects.map((r) => ({
                     ...r,
                     source: "AI",
-                  }))
+                  })),
                 );
               }
             } catch {}

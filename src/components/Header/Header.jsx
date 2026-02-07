@@ -15,6 +15,7 @@ import {
   StarOutlined,
   BookOutlined,
   UserAddOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
@@ -36,7 +37,7 @@ const AppHeader = () => {
   const avatarUrl = `https://bookhub-postgress.onrender.com${localStorage.getItem(
     "data_avatar",
   )}`;
-
+  const currentUserId = Cookies.get("user_id");
   const menuItems = [
     {
       key: "/",
@@ -57,10 +58,10 @@ const AppHeader = () => {
       title: "Tủ sách của tôi",
     },
     {
-      key: "/follow",
-      icon: <UserAddOutlined />,
-      label: <Link to="/follow" />,
-      title: "Theo dõi",
+      key: `/profile/${currentUserId}`,
+      icon: <UserOutlined />,
+      label: <Link to={`/profile/${currentUserId}`} />,
+      title: "Trang cá nhân",
     },
   ];
 

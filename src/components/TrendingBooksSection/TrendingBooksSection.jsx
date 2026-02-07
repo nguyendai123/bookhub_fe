@@ -4,11 +4,18 @@ import { Rate, Space, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./TrendingBooksSection.css";
 function TrendingBooksSection() {
+  const navigate = useNavigate();
   const {
     data: dataBooks,
     isLoadingBooks,
     isErrorBooks,
-  } = useFetch("https://bookhub-postgress.onrender.com/api/books/trending?limit=8", false);
+  } = useFetch(
+    "https://bookhub-postgress.onrender.com/api/books/trending?limit=8",
+    false,
+  );
+  const onClickBookItem = (id) => {
+    navigate(`/books/${id}`);
+  };
   return (
     <>
       {console.log("dataBooks111", dataBooks)}

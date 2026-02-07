@@ -5,7 +5,7 @@ export const captureHighlight = (selection, pageNumber) => {
 
   // 🔥 lấy text layer container
   const textLayer = range.startContainer.parentElement.closest(
-    ".react-pdf__Page__textContent"
+    ".react-pdf__Page__textContent",
   );
 
   if (!textLayer) return null;

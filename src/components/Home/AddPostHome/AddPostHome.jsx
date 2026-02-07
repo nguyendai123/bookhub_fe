@@ -485,9 +485,9 @@ const AddPostHome = ({ load, setLoad }) => {
                           (e.currentTarget.style.transform = "scale(1.03)")
                         }
                         onMouseLeave={(e) =>
-                        (e.currentTarget.style.transform = isSelected
-                          ? "scale(1.05)"
-                          : "scale(1)")
+                          (e.currentTarget.style.transform = isSelected
+                            ? "scale(1.05)"
+                            : "scale(1)")
                         }
                         style={{
                           width: 150,
