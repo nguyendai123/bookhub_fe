@@ -22,7 +22,7 @@ export const mapNotification = (noti) => {
   // 🔹 replace placeholder
   const content = (noti.content || "Bạn có thông báo mới").replace(
     "{deviceInfo}",
-    deviceInfo
+    deviceInfo,
   );
 
   return {
@@ -32,7 +32,7 @@ export const mapNotification = (noti) => {
     // hiển thị
     title: noti.title || getDefaultTitleByType(noti.type),
 
-    content: noti.content ? content : "Bạn có thông báo mới",
+    content: content,
 
     // trạng thái
     type: noti.type,
@@ -41,6 +41,8 @@ export const mapNotification = (noti) => {
 
     // thời gian
     createdAt: noti.createdAt,
-    createdAtText: new Date(noti.createdAt).toLocaleString(),
+    createdAtText: noti.createdAt
+      ? new Date(noti.createdAt).toLocaleString()
+      : "",
   };
 };

@@ -1,31 +1,13 @@
-import React from "react";
+const LikeCount = ({ likesCount, userLike }) => {
+  if (likesCount === 0 && !userLike) return null;
+  if (likesCount === 0 && userLike) return " You ";
 
-const LikeCount = ({ item, userLike }) => {
-  console.log("LikeCount item", item, " userLike", userLike);
-  return (
-    <div
-      style={{
-        paddingBottom: 2,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      &nbsp;&nbsp;&nbsp;
-      {(() => {
-        const likes = item?.likesCount ?? 0;
+  if (userLike) {
+    const others = Math.max(likesCount - 1, 0);
+    return others > 0 ? ` You and ${others} others` : " You ";
+  }
 
-        if (likes === 0 && !userLike) return null;
-        if (likes === 0 && userLike) return "You";
-
-        if (userLike) {
-          return `You and ${likes} others`;
-        }
-
-        return `${likes}`;
-      })()}
-    </div>
-  );
+  return ` ${likesCount}`;
 };
 
 export default LikeCount;

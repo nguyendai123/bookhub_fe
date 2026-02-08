@@ -73,6 +73,7 @@ const PostCardItem = ({
   const [currentValue] = useState(2);
   const [openComment, setOpenComment] = useState(false);
   const [userLike, setUserLike] = useState(item?.isLiked);
+  const [likesCount, setLikesCount] = useState(item.likesCount);
   const [progress, setProgress] = useState({});
   const [dataCommentPost, setDataCommentPost] = useState([]);
   const [openShare, setOpenShare] = useState(false);
@@ -336,29 +337,34 @@ const PostCardItem = ({
     fetchData();
   }, [item?.bookId, item?.userId]);
   const handleClickLikePost = async (postId) => {
-    // UI update trước (tối ưu UX)
-    setUserLike((prev) => !prev);
+    const wasLiked = userLike;
+    const nextLiked = !wasLiked;
 
-    const likeUrl = `http://localhost:8080/api/like`;
-    const unlikeUrl = `http://localhost:8080/api/unlike`;
-    const data = {
-      targetType: "POST",
-      targetId: postId,
-    };
-    // Quyết định API theo trạng thái hiện tại (trước khi toggle)
-    const apiToCall = userLike ? unlikeUrl : likeUrl;
+    setUserLike(nextLiked);
+    setLikesCount((prev) => (nextLiked ? prev + 1 : prev - 1));
+
+    const apiToCall = wasLiked
+      ? "http://localhost:8080/api/unlike"
+      : "http://localhost:8080/api/like";
 
     try {
-      const res = await axios.post(apiToCall, data, { headers });
-
-      console.log("Server:", res.data); // Like thành công!
+      await axios.post(
+        apiToCall,
+        {
+          targetType: "POST",
+          targetId: postId,
+        },
+        { headers },
+      );
     } catch (error) {
       console.error("Error like/unlike:", error);
 
-      // rollback UI nếu fail
-      setUserLike((prev) => !prev);
+      // rollback
+      setUserLike(wasLiked);
+      setLikesCount((prev) => (wasLiked ? prev + 1 : prev - 1));
     }
   };
+
   useEffect(() => {
     if (open && post) {
       setEditContent(post?.content || "");
@@ -823,7 +829,7 @@ const PostCardItem = ({
                     preview={false}
                   />
 
-                  <LikeCount item={item} userLike={userLike} />
+                  <LikeCount likesCount={likesCount} userLike={userLike} />
                 </div>
                 <div
                   className="comment-number"

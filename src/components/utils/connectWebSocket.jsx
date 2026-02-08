@@ -44,11 +44,16 @@ export const connectWebSocket = (userId, token, onMessage) => {
           const raw = JSON.parse(message.body);
           console.log("📩 Notification received:", raw);
 
-          const notification = mapNotification(raw);
+          // ✅ Nếu server bọc trong notifications[]
+          const list = Array.isArray(raw.notifications)
+            ? raw.notifications
+            : [raw];
 
-          onMessage?.(notification);
-
-          console.log("✅ Notification processed:", notification);
+          list.forEach((noti) => {
+            const notification = mapNotification(noti);
+            onMessage?.(notification);
+            console.log("✅ Notification processed:", notification);
+          });
         } catch (e) {
           console.error("❌ Parse notification error", e);
         }
