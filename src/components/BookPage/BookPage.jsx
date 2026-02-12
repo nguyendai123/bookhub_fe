@@ -56,6 +56,9 @@ const BookPage = () => {
   const headers = {
     Authorization: `Bearer ${jwtToken}`,
   };
+  const onClickBookItem = (id) => {
+    navigate(`/books/${id}`);
+  };
 
   const getTopRatedBooks = async () => {
     setTopRatedApiStatus(topRatedApiStatuses.inProgress);
@@ -102,6 +105,7 @@ const BookPage = () => {
               <Card
                 className="book-card"
                 hoverable
+                onClick={() => onClickBookItem(id)}
                 style={{
                   width: 240,
                   height: 430,
