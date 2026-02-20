@@ -39,7 +39,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
   const handleClickEditSave = (postID) => {
     // Assuming the postID, updatedPost, and result are defined and available
 
-    const url = `http://localhost:8080/api/posts/${postID}`;
+    const url = `/api/posts/${postID}`;
 
     // Check for validation errors
     // The request payload and headers
@@ -60,7 +60,7 @@ function PostCard({ data, load, setLoad, isError, isLoading }) {
     setLoad(!load);
   };
   const handleDeletePost = (postID) => {
-    const url = `http://localhost:8080/api/posts/${postID}`;
+    const url = `/api/posts/${postID}`;
 
     // DELETE request using axios with error handling
     axios

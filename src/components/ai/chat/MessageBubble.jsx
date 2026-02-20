@@ -23,7 +23,7 @@ const formatTime = (time) => {
   const datePart = date.toLocaleDateString("vi-VN");
   return `${timePart} ${datePart}`;
 };
-const avatarUrl = `http://localhost:8080${localStorage.getItem("data_avatar")}`;
+const avatarUrl = `${localStorage.getItem("data_avatar")}`;
 console.log("avatarUrl", avatarUrl);
 const MessageBubble = ({ role, text, time }) => {
   const isUser = role === "user";

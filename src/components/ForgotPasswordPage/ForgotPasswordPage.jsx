@@ -24,7 +24,7 @@ const ForgotPasswordPage = () => {
     }
 
     axios
-      .post("http://localhost:8080/api/auth/reset-password", {
+      .post("/api/auth/reset-password", {
         usernameOrEmail: identifier,
       })
       .then((response) => {

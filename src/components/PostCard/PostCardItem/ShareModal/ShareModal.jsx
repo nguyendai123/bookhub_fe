@@ -12,7 +12,7 @@ const ShareModal = ({ open, onClose, post, onShared }) => {
   const handleShare = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/share",
+        "/api/share",
         {
           postId: post.postId,
           content: content,
@@ -45,7 +45,7 @@ const ShareModal = ({ open, onClose, post, onShared }) => {
 
         {post?.imageUrl && (
           <Image
-            src={`http://localhost:8080${post?.imageUrl}`}
+            src={`${post?.imageUrl}`}
             width={"100%"}
             style={{ borderRadius: 8 }}
           />

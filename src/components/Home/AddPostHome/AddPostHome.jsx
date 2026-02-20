@@ -60,9 +60,7 @@ const AddPostHome = ({ load, setLoad }) => {
   const [selectedBookId, setSelectedBookId] = useState(null);
 
   const username = Cookies.get("user_name");
-  const avatarUrl = `http://localhost:8080${localStorage.getItem(
-    "data_avatar",
-  )}`;
+  const avatarUrl = `${localStorage.getItem("data_avatar")}`;
 
   const jwtToken = Cookies.get("jwt_token");
 
@@ -74,10 +72,7 @@ const AddPostHome = ({ load, setLoad }) => {
     isLoading: isLoadingBooks,
     isError: isErrorBooks,
     refetch,
-  } = useFetch(
-    `http://localhost:8080/api/books/search?keyword=${keyword}`,
-    false,
-  );
+  } = useFetch(`/api/books/search?keyword=${keyword}`, false);
 
   console.log("dataBooks", dataBooks, isLoadingBooks, isErrorBooks);
   const chunkArray = (arr, size) => {
@@ -119,16 +114,12 @@ const AddPostHome = ({ load, setLoad }) => {
     const formData = new FormData();
     formData.append("file", imageFile);
 
-    const res = await axios.post(
-      "http://localhost:8080/api/uploads/POST",
-      formData,
-      {
-        headers: {
-          ...headers,
-          "Content-Type": "multipart/form-data",
-        },
+    const res = await axios.post("/api/uploads/POST", formData, {
+      headers: {
+        ...headers,
+        "Content-Type": "multipart/form-data",
       },
-    );
+    });
 
     return res.data.url;
   };
@@ -137,7 +128,7 @@ const AddPostHome = ({ load, setLoad }) => {
     if (!keyword.trim()) return;
 
     try {
-      const res = await axios.get(`http://localhost:8080/api/books/search`, {
+      const res = await axios.get(`/api/books/search`, {
         params: { keyword },
       });
     } catch (e) {
@@ -161,12 +152,12 @@ const AddPostHome = ({ load, setLoad }) => {
         shareOf: null,
       };
 
-      await axios.post("http://localhost:8080/api/posts", payload, { headers });
+      await axios.post("/api/posts", payload, { headers });
 
       // Nếu có book → update reading progress
       if (selectedBook) {
         const res = await axios.post(
-          "http://localhost:8080/api/reading/add",
+          "/api/reading/add",
           {
             bookId: selectedBook.bookId,
             status: readingStatus,
@@ -511,7 +502,7 @@ const AddPostHome = ({ load, setLoad }) => {
                             width={140}
                             height={200}
                             style={{ borderRadius: 12, objectFit: "cover" }}
-                            src={`http://localhost:8080${book.coverUrl}`}
+                            src={`${book.coverUrl}`}
                             preview={false}
                             fallback="/no-image.png"
                           />

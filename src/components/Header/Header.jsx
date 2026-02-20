@@ -34,9 +34,7 @@ const AppHeader = () => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [, setUser] = useState("");
 
-  const avatarUrl = `http://localhost:8080${localStorage.getItem(
-    "data_avatar",
-  )}`;
+  const avatarUrl = `${localStorage.getItem("data_avatar")}`;
   const currentUserId = Cookies.get("user_id");
   const menuItems = [
     {
@@ -79,7 +77,7 @@ const AppHeader = () => {
             <div className="fb-left">
               <Link to="/">
                 <img
-                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
+                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Bookhub.png"
                   className="fb-logo"
                 />
               </Link>

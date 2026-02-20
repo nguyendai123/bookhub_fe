@@ -25,7 +25,7 @@ const PostCardItemBookProgress = ({
   const handleChangeProgressPage = (e) => {
     const value = Number(e.target.value);
     setPageNumber(value);
-    onChangePage?.(value); // 👈 đẩy lên cha
+    onChangePage?.(value); // đẩy lên cha
   };
   const translateReadingStatus = (status) => {
     switch (status) {
@@ -73,9 +73,7 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`http://localhost:8080${
-                progress?.book?.image ?? item?.coverUrl
-              }`}
+              src={`${progress?.book?.image ?? item?.coverUrl}`}
               fallback="/no-image.png"
               alt="book image"
               onClick={() => onClickBookItem(item.bookId)}

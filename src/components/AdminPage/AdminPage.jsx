@@ -52,7 +52,7 @@ const AdminPage = () => {
     getItem(
       <Link to="/admin">Dashboard</Link>,
       "sub0",
-      <Icon icon="carbon:dashboard" />
+      <Icon icon="carbon:dashboard" />,
     ),
     getItem("Management", "sub2", <AppstoreOutlined />, [
       getItem(<Link to="/admin/books">Books</Link>, "1"),
@@ -95,13 +95,13 @@ const AdminPage = () => {
             <Space>
               {collapsed ? (
                 <Image
-                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
+                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Bookhub.png"
                   preview={false}
                 />
               ) : (
                 <Image
                   width={100}
-                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
+                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Bookhub.png"
                   preview={false}
                 />
               )}

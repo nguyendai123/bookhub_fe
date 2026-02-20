@@ -36,15 +36,15 @@ const UserProfilePage = ({ currentUser }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/users/${userId}/profile`, authHeader)
+      .get(`/api/users/${userId}/profile`, authHeader)
       .then((res) => setProfileUser(res.data));
 
     axios
-      .get(`http://localhost:8080/api/follow/${userId}/followers`, authHeader)
+      .get(`/api/follow/${userId}/followers`, authHeader)
       .then((res) => setFollowers(res.data));
 
     axios
-      .get(`http://localhost:8080/api/follow/${userId}/following`, authHeader)
+      .get(`/api/follow/${userId}/following`, authHeader)
       .then((res) => setFollowing(res.data));
   }, [userId]);
 
@@ -57,12 +57,7 @@ const UserProfilePage = ({ currentUser }) => {
       style={{ cursor: "pointer" }}
     >
       <List.Item.Meta
-        avatar={
-          <Avatar
-            src={`http://localhost:8080${user.avatarUrl}`}
-            icon={<UserOutlined />}
-          />
-        }
+        avatar={<Avatar src={`${user.avatarUrl}`} icon={<UserOutlined />} />}
         title={user.username}
         description={user.bio || "Chưa có giới thiệu"}
       />
@@ -81,7 +76,7 @@ const UserProfilePage = ({ currentUser }) => {
               <Col>
                 <Avatar
                   size={96}
-                  src={`http://localhost:8080${profileUser.avatar}`}
+                  src={`${profileUser.avatar}`}
                   icon={<UserOutlined />}
                 />
               </Col>

@@ -20,13 +20,13 @@
 
 //   useEffect(() => {
 //     axios
-//       .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
+//       .get(`/api/books/${bookId}/pdf`, {
 //         headers: {
 //           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
 //         },
 //       })
 //       .then((res) => {
-//         setPdfUrl(`http://localhost:8080${res.data.pdfUrl}`);
+//         setPdfUrl(`${res.data.pdfUrl}`);
 //         console.log("res pdf", res.data);
 //         setTotalPages(res.data.totalPages);
 //         setPage(res?.data?.currenPage);
@@ -37,7 +37,7 @@
 
 //   const saveProgress = (p) => {
 //     axios.post(
-//       "http://localhost:8080/api/reading/update",
+//       "/api/reading/update",
 //       { bookId, currentPage: p },
 //       {
 //         headers: {
@@ -137,7 +137,7 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   }, [bookId]);
   const saveProgress = (p) => {
     axios.post(
-      "http://localhost:8080/api/reading/update",
+      "/api/reading/update",
       { bookId, currentPage: p },
       {
         headers: {
@@ -148,13 +148,13 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   };
   const fetchPdf = async () => {
     axios
-      .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
+      .get(`/api/books/${bookId}/pdf`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
         },
       })
       .then((res) => {
-        setPdfUrl(`http://localhost:8080${res.data.pdfUrl}`);
+        setPdfUrl(`${res.data.pdfUrl}`);
         console.log("res pdf", res.data);
         setTotalPages(res.data.totalPages);
         console.log("res pdfN", res?.data?.currentPage);

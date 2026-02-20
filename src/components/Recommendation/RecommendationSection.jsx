@@ -46,7 +46,7 @@ const RecommendationSection = ({ setLoad }) => {
                     height: "200px",
                     borderRadius: "10px",
                   }}
-                  src={`http://localhost:8080${item?.coverUrl}`}
+                  src={`${item?.coverUrl}`}
                   alt="imageBook"
                   onClick={() => onClickBookItem(item.bookId)}
                   className="home-book-image-rating"

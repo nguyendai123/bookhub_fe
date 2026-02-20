@@ -22,7 +22,7 @@ export const connectWebSocket = (userId, token, onMessage) => {
   }
 
   stompClient = new Client({
-    webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+    webSocketFactory: () => new SockJS("/ws"),
 
     connectHeaders: {
       Authorization: `Bearer ${token}`, // nếu backend check JWT

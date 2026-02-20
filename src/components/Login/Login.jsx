@@ -61,7 +61,7 @@ const Login = () => {
     event.preventDefault();
 
     const userDetails = { username, password };
-    const apiUrl = "http://localhost:8080/api/auth/login";
+    const apiUrl = "/api/auth/login";
 
     const options = {
       method: "POST",
