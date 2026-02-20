@@ -95,13 +95,13 @@ const AdminPage = () => {
             <Space>
               {collapsed ? (
                 <Image
-                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Bookhub.png"
+                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
                   preview={false}
                 />
               ) : (
                 <Image
                   width={100}
-                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Bookhub.png"
+                  src="https://res.cloudinary.com/dkxxgpzd8/image/upload/v1647190320/Group_7731_v0p1nt_gjeokw.png"
                   preview={false}
                 />
               )}
