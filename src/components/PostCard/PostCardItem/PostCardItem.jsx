@@ -763,13 +763,10 @@ const PostCardItem = ({
                 className="shared-original-post"
                 onClick={() => setOpenOriginal(true)}
               >
-                <div className="original-post-header">
-                  <img
-                    src={`http://localhost:8080${item?.originalPost?.userAvatar}`}
-                    className="avatar"
-                  />
-                  <span>{item?.originalPost?.userName}</span>
-                </div>
+                <Avatar
+                  item={item?.originalPost}
+                  srcImage={`http://localhost:8080${item?.originalPost?.userAvatar}`}
+                />
 
                 <div className="original-post-content">
                   {item?.originalPost?.content}
