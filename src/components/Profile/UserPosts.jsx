@@ -65,14 +65,11 @@ const UserPosts = ({ userId }) => {
         posts.map(async (post) => {
           if (post.shareOf) {
             try {
-              const res = await axios.get(
-                `http://localhost:8080/api/posts/${post.shareOf}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${Cookies.get("jwt_token")}`,
-                  },
+              const res = await axios.get(`/api/posts/${post.shareOf}`, {
+                headers: {
+                  Authorization: `Bearer ${Cookies.get("jwt_token")}`,
                 },
-              );
+              });
               const data = await res.data;
 
               return {

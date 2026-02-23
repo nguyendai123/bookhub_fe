@@ -777,7 +777,7 @@ const PostCardItem = ({
               <div className="post-content-image-user-add">
                 {item?.imageUrl && (
                   <Image
-                    src={`http://localhost:8080${item.imageUrl}`}
+                    src={`${item.imageUrl}`}
                     fallback="/no-image.png"
                     alt="post image1"
                     className="post-content-image-user-add-1"
