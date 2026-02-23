@@ -20,7 +20,7 @@
 
 //   useEffect(() => {
 //     axios
-//       .get(`/api/books/${bookId}/pdf`, {
+//       .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
 //         headers: {
 //           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
 //         },
@@ -37,7 +37,7 @@
 
 //   const saveProgress = (p) => {
 //     axios.post(
-//       "/api/reading/update",
+//       "http://localhost:8080/api/reading/update",
 //       { bookId, currentPage: p },
 //       {
 //         headers: {
@@ -137,7 +137,7 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   }, [bookId]);
   const saveProgress = (p) => {
     axios.post(
-      "/api/reading/update",
+      "http://localhost:8080/api/reading/update",
       { bookId, currentPage: p },
       {
         headers: {
@@ -148,7 +148,7 @@ const BookPdfReader = ({ bookId, chapterId }) => {
   };
   const fetchPdf = async () => {
     axios
-      .get(`/api/books/${bookId}/pdf`, {
+      .get(`http://localhost:8080/api/books/${bookId}/pdf`, {
         headers: {
           Authorization: `Bearer ${Cookies.get("jwt_token")}`,
         },

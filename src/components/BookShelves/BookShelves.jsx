@@ -57,9 +57,12 @@ const BookShelves = () => {
   const getBooksApiData = async () => {
     setStatus(STATUS.LOADING);
     try {
-      const { data } = await axios.get("/api/books/search?keyword=", {
-        headers,
-      });
+      const { data } = await axios.get(
+        "http://localhost:8080/api/books/search?keyword=",
+        {
+          headers,
+        },
+      );
 
       setAllBooksRaw(data.content);
       setTotal(data.totalElements);
@@ -73,7 +76,7 @@ const BookShelves = () => {
   const getMyBookshelfList = async () => {
     setStatus(STATUS.LOADING);
     try {
-      const { data } = await axios.get("/api/reading", {
+      const { data } = await axios.get("http://localhost:8080/api/reading", {
         headers,
       });
 

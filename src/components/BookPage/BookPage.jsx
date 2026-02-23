@@ -64,9 +64,12 @@ const BookPage = () => {
     setTopRatedApiStatus(topRatedApiStatuses.inProgress);
 
     try {
-      const { data } = await axios.get("/api/books/search?keyword=", {
-        headers,
-      });
+      const { data } = await axios.get(
+        "http://localhost:8080/api/books/search?keyword=",
+        {
+          headers,
+        },
+      );
       console.log("Top rated books data:", data?.content);
 
       const updatedData = data?.content.map((eachBook) => ({
@@ -120,7 +123,7 @@ const BookPage = () => {
                 }}
                 cover={
                   <img
-                    src={`${coverPic}`}
+                    src={`http://localhost:8080${coverPic}`}
                     alt={title}
                     style={{
                       height: 300,

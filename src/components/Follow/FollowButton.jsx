@@ -22,10 +22,17 @@ const FollowButton = ({
 
   const handleFollowToggle = async () => {
     if (profileUser.following) {
-      await axios.delete(`/api/follow/${profileUser.userId}`, { headers });
+      await axios.delete(
+        `http://localhost:8080/api/follow/${profileUser.userId}`,
+        { headers },
+      );
       message.info(`Bạn đã bỏ theo dõi ${profileUser.username}`);
     } else {
-      await axios.post(`/api/follow/${profileUser.userId}`, {}, { headers });
+      await axios.post(
+        `http://localhost:8080/api/follow/${profileUser.userId}`,
+        {},
+        { headers },
+      );
       message.success(`Bạn đã theo dõi ${profileUser.username}`);
     }
 

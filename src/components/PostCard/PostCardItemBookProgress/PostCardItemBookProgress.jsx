@@ -73,7 +73,7 @@ const PostCardItemBookProgress = ({
             }}
           >
             <Image
-              src={`${progress?.book?.image ?? item?.coverUrl}`}
+              src={`http://localhost:8080${progress?.book?.image ?? item?.coverUrl}`}
               fallback="/no-image.png"
               alt="book image"
               onClick={() => onClickBookItem(item.bookId)}

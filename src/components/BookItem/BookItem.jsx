@@ -50,7 +50,7 @@ const BookItem = (props) => {
                   width={120}
                   height={170}
                   preview={false}
-                  src={`${coverPic}`}
+                  src={`http://localhost:8080${coverPic}`}
                   style={{ borderRadius: 10, objectFit: "cover" }}
                 />
 
