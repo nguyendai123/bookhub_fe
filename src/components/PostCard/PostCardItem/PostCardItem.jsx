@@ -748,6 +748,12 @@ const PostCardItem = ({
                   />
                   <span>{item?.originalPost?.userName}</span>
                 </div>
+=======
+                <Avatar
+                  item={item?.originalPost}
+                  srcImage={`http://localhost:8080${item?.originalPost?.userAvatar}`}
+                />
+>>>>>>> master
 
                 <div className="original-post-content">
                   {item?.originalPost?.content}
