@@ -22,10 +22,10 @@ const PostCardItemBookProgress = ({
     progress?.readPage ?? item?.currentPage ?? 0,
   );
   const totalPages = progress?.book?.totalPages ?? item?.totalPages;
-  const handleChangeProgressPage = (e) => {
-    const value = Number(e.target.value);
-    setPageNumber(value);
-    onChangePage?.(value); // 👈 đẩy lên cha
+  const handleChangeProgressPage = (value) => {
+    const numberValue = Number(value);
+    setPageNumber(numberValue);
+    onChangePage?.(numberValue);
   };
   const translateReadingStatus = (status) => {
     switch (status) {

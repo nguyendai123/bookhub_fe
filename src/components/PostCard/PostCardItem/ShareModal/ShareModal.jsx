@@ -17,7 +17,7 @@ const ShareModal = ({ open, onClose, post, onShared }) => {
           postId: post.postId,
           content: content,
           translatedText: null,
-          imageUrl: post?.imageUrl,
+          imageUrl: null,
           hashtags: [],
         },
         {
