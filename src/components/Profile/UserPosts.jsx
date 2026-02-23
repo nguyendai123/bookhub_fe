@@ -9,6 +9,7 @@ const UserPosts = ({ userId }) => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [processedPosts, setProcessedPosts] = useState([]);
 
   const loadingRef = useRef(false);
 
@@ -58,18 +59,55 @@ const UserPosts = ({ userId }) => {
     loadMore();
   }, [page, loadMore]);
 
+  useEffect(() => {
+    const fetchOriginalPosts = async () => {
+      const updatedPosts = await Promise.all(
+        posts.map(async (post) => {
+          if (post.shareOf) {
+            try {
+              const res = await axios.get(
+                `http://localhost:8080/api/posts/${post.shareOf}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${Cookies.get("jwt_token")}`,
+                  },
+                },
+              );
+              const data = await res.data;
+
+              return {
+                ...post,
+                originalPost: data,
+              };
+            } catch (err) {
+              console.error("Error fetching original post:", err);
+              return post;
+            }
+          }
+          return post;
+        }),
+      );
+
+      setProcessedPosts(updatedPosts);
+    };
+
+    if (posts?.length) {
+      fetchOriginalPosts();
+    }
+  }, [posts]);
+
   // ✅ useMemo cho render list
   const postList = useMemo(() => {
-    return posts.map((post) => (
+    return processedPosts.map((post) => (
       <PostCardItem
         key={post.postId}
-        data={posts}
+        data={processedPosts}
         item={post}
         load={null}
         setLoad={() => {}}
       />
     ));
-  }, [posts]);
+  }, [processedPosts]);
 
   return (
     <InfiniteScroll

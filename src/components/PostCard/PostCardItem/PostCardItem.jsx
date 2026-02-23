@@ -89,11 +89,13 @@ const PostCardItem = ({
   const [editImageFile, setEditImageFile] = useState(null);
   const [editImageUrl, setEditImageUrl] = useState(null);
   const [onChangePage, setOnChangePage] = useState(item?.currentPage || 0);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState();
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedBookId, setSelectedBookId] = useState(null);
 
   const [keyword, setKeyword] = useState("");
+  const [readingStatus, setReadingStatus] = useState("READING");
+  const [readingProgress, setReadingProgress] = useState();
 
   const {
     data: dataBooks,
@@ -229,11 +231,9 @@ const PostCardItem = ({
         translatedText: editPost.translatedText,
         imageUrl: uploadedImageUrl,
         hashtags: editPost.hashtags,
-        bookId: editPost.book?.bookId,
+        bookId: selectedBookId ?? item?.bookId,
         shareOf: editPost?.shareOf,
       };
-
-      await axios.post("/api/posts", payload, { headers });
 
       // Nếu có book → update reading progress
       if (selectedBook) {
@@ -259,6 +259,7 @@ const PostCardItem = ({
       setOpenEdit(false);
       setLoad(!load);
     } catch (err) {
+      console.error("Update post failed", err);
       notification.error({
         message: "Cập nhật thất bại",
         description: "Không thể cập nhật bài viết",
@@ -495,15 +496,14 @@ const PostCardItem = ({
         </Row>
 
         {/* Book – VIEW ONLY */}
-        {editPost?.book && (
+        <div className="book-post-create">
           <PostCardItemBookProgress
-            item={editPost.book}
-            progress={readingProgress}
-            mode="CREATE" // 👈 CREATE | VIEW
+            item={selectedBook || item}
+            progress={selectedBook ? readingProgress : progress}
+            mode="CREATE"
             onChangePage={(page) => setCurrentPage(page)}
           />
-        )}
-
+        </div>
         <Divider />
         <div className="model-content-active">
           <div className="model-content-add">
@@ -775,12 +775,14 @@ const PostCardItem = ({
               )}
 
               <div className="post-content-image-user-add">
-                <Image
-                  src={`${item?.imageUrl}`}
-                  fallback="/no-image.png"
-                  alt="post image1"
-                  className="post-content-image-user-add-1"
-                />
+                {item?.imageUrl && (
+                  <Image
+                    src={`http://localhost:8080${item.imageUrl}`}
+                    fallback="/no-image.png"
+                    alt="post image1"
+                    className="post-content-image-user-add-1"
+                  />
+                )}
               </div>
               <div className="post-content-body">
                 <PostCardItemBookProgress
